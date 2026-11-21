@@ -1,0 +1,282 @@
+/* ==========================================================================
+   STUDENT MANAGEMENT SYSTEM (EduMetrics SMS)
+   Student Management Stylesheet (students.css)
+   ========================================================================== */
+
+/* Filter & Action Bar */
+.filter-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  font-size: 0.95rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.6rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface-secondary);
+  color: var(--text-main);
+  outline: none;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.search-input:focus {
+  background-color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.2rem;
+  font-size: 0.85rem;
+  display: none;
+}
+
+.search-clear-btn.active {
+  display: block;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface-secondary);
+  color: var(--text-main);
+  outline: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-select:focus {
+  background-color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Active Filter Tags Bar */
+.active-filters-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.82rem;
+}
+
+.active-filters-label {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+
+.filter-tag-remove {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.filter-tag-remove:hover {
+  color: var(--danger);
+}
+
+.clear-all-filters-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.78rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  text-decoration: underline;
+}
+
+/* Table Toolbar (Summary + Page Size) */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: #ffffff;
+}
+
+.table-results-info {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.table-results-info strong {
+  color: var(--text-main);
+}
+
+.table-view-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.page-size-selector select {
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-main);
+  outline: none;
+  font-size: 0.82rem;
+}
+
+/* Pagination Footer */
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-surface-secondary);
+}
+
+.pagination-info {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pagination-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--secondary-light);
+  border-color: var(--border-color-dark);
+  color: var(--text-main);
+}
+
+.pagination-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.25);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+  padding: 0 0.4rem;
+  color: var(--text-muted);
+}
+
+/* Action button styles in tables */
+.btn-action-view {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.btn-action-view:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.btn-action-edit {
+  color: #d97706;
+  background: var(--warning-light);
+}
+
+.btn-action-edit:hover {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.btn-action-delete {
+  color: var(--danger);
+  background: var(--danger-light);
+}
+
+.btn-action-delete:hover {
+  background: var(--danger);
+  color: #ffffff;
+}

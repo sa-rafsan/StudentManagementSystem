@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration - EduMetrics SMS</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Fixed Left Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link active" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span id="navTextAddStudent">Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <!-- Top Navigation Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title" id="pageTitleHeading">Add New Student</h1>
+            <span class="breadcrumb-sub" id="pageSubtitle">Enter complete student personal, contact, and academic details</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="students.html" class="btn btn-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Directory</span>
+          </a>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-container">
+
+        <form id="studentRegistrationForm" class="form-layout" novalidate>
+
+          <!-- Section 1: Basic & Academic Identification -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <div>
+                <h2 class="form-section-title">
+                  <i class="fa-solid fa-id-card"></i> Student Identification &amp; Status
+                </h2>
+                <p class="form-section-desc">Unique university registration ID, department assignment, and active status.</p>
+              </div>
+            </div>
+
+            <div class="form-grid-3">
+              <!-- Student ID -->
+              <div class="form-group">
+                <label for="studentId" class="form-label">
+                  Student ID <span class="required">*</span>
+                  <span class="form-label-hint">Auto-generated</span>
+                </label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-hashtag"></i>
+                  <input type="text" id="studentId" class="form-control" placeholder="STU-2024-001" required>
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+
+              <!-- Department -->
+              <div class="form-group">
+                <label for="studentDepartment" class="form-label">
+                  Department <span class="required">*</span>
+                </label>
+                <select id="studentDepartment" class="form-control" required>
+                  <option value="">Select Department...</option>
+                  <!-- Dynamically populated from LocalStorage -->
+                </select>
+                <div class="invalid-feedback"></div>
+              </div>
+
+              <!-- Semester -->
+              <div class="form-group">
+                <label for="studentSemester" class="form-label">
+                  Current Semester <span class="required">*</span>
+                </label>
+                <select id="studentSemester" class="form-control" required>
+                  <option value="">Select Semester...</option>
+                  <option value="1st">1st Semester</option>
+                  <option value="2nd">2nd Semester</option>
+                  <option value="3rd">3rd Semester</option>
+                  <option value="4th">4th Semester</option>
+                  <option value="5th">5th Semester</option>
+                  <option value="6th">6th Semester</option>
+                  <option value="7th">7th Semester</option>
+                  <option value="8th">8th Semester</option>
+                </select>
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="margin-top: 1.25rem;">
+              <!-- Enrollment Date -->
+              <div class="form-group">
+                <label for="studentEnrollmentDate" class="form-label">
+                  Enrollment Date <span class="required">*</span>
+                </label>
+                <div class="input-with-icon">
+                  <i class="fa-regular fa-calendar"></i>
+                  <input type="date" id="studentEnrollmentDate" class="form-control" required>
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+
+              <!-- Student Status -->
+              <div class="form-group">
+                <label class="form-label">Student Status <span class="required">*</span></label>
+                <div class="radio-pill-group">
+                  <div class="radio-pill-item">
+                    <input type="radio" name="studentStatus" id="statusActive" value="Active" class="radio-pill-input" checked>
+                    <label for="statusActive" class="radio-pill-label">
+                      <i class="fa-solid fa-circle-check" style="color:var(--success)"></i> Active Student
+                    </label>
+                  </div>
+                  <div class="radio-pill-item">
+                    <input type="radio" name="studentStatus" id="statusInactive" value="Inactive" class="radio-pill-input">
+                    <label for="statusInactive" class="radio-pill-label">
+                      <i class="fa-solid fa-circle-pause" style="color:var(--warning)"></i> Inactive / Leave
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Personal Profile & Photo -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <div>
+                <h2 class="form-section-title">
+                  <i class="fa-solid fa-user"></i> Personal Information &amp; Photo
+                </h2>
+                <p class="form-section-desc">Personal identity, date of birth, gender, and student profile picture.</p>
+              </div>
+            </div>
+
+            <!-- Profile Photo Upload -->
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+              <label class="form-label">Profile Photo (Optional)</label>
+              <div class="photo-upload-container">
+                <div class="photo-preview-wrapper" id="photoPreviewBox">
+                  <i class="fa-solid fa-user photo-preview-placeholder" id="photoPlaceholderIcon"></i>
+                  <img id="photoPreviewImg" class="photo-preview-img" alt="Student Avatar Preview">
+                </div>
+                <div class="photo-upload-controls">
+                  <div class="photo-action-btns">
+                    <button type="button" class="btn btn-secondary btn-sm" id="selectPhotoBtn">
+                      <i class="fa-solid fa-upload"></i> Upload Image
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" id="removePhotoBtn" style="display: none;">
+                      <i class="fa-solid fa-trash-can"></i> Remove Photo
+                    </button>
+                  </div>
+                  <input type="file" id="photoFileInput" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                  <p>Accepts PNG, JPG, or WEBP. Stored securely as Base64 in LocalStorage.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-grid-3">
+              <!-- Full Name -->
+              <div class="form-group">
+                <label for="studentFullName" class="form-label">
+                  Full Name <span class="required">*</span>
+                </label>
+                <div class="input-with-icon">
+                  <i class="fa-regular fa-user"></i>
+                  <input type="text" id="studentFullName" class="form-control" placeholder="e.g. Sarah Jenkins" required>
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+
+              <!-- Date of Birth -->
+              <div class="form-group">
+                <label for="studentDob" class="form-label">
+                  Date of Birth <span class="required">*</span>
+                  <span class="form-label-hint">Min age 14</span>
+                </label>
+                <div class="input-with-icon">
+                  <i class="fa-regular fa-calendar"></i>
+                  <input type="date" id="studentDob" class="form-control" required>
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+
+              <!-- Gender -->
+              <div class="form-group">
+                <label class="form-label">Gender <span class="required">*</span></label>
+                <div class="radio-pill-group">
+                  <div class="radio-pill-item">
+                    <input type="radio" name="studentGender" id="genderFemale" value="Female" class="radio-pill-input">
+                    <label for="genderFemale" class="radio-pill-label">Female</label>
+                  </div>
+                  <div class="radio-pill-item">
+                    <input type="radio" name="studentGender" id="genderMale" value="Male" class="radio-pill-input">
+                    <label for="genderMale" class="radio-pill-label">Male</label>
+                  </div>
+                  <div class="radio-pill-item">
+                    <input type="radio" name="studentGender" id="genderOther" value="Other" class="radio-pill-input">
+                    <label for="genderOther" class="radio-pill-label">Other</label>
+                  </div>
+                </div>
+                <div class="invalid-feedback" id="genderFeedback" style="display: none;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Contact & Address Information -->
+          <div class="form-section">
+            <div class="form-section-header">
+              <div>
+                <h2 class="form-section-title">
+                  <i class="fa-solid fa-address-book"></i> Contact Details &amp; Address
+                </h2>
+                <p class="form-section-desc">Email address, phone number, and residential location.</p>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <!-- Email Address -->
+              <div class="form-group">
+                <label for="studentEmail" class="form-label">
+                  Email Address <span class="required">*</span>
+                  <span class="form-label-hint">Must be unique</span>
+                </label>
+                <div class="input-with-icon">
+                  <i class="fa-regular fa-envelope"></i>
+                  <input type="email" id="studentEmail" class="form-control" placeholder="student@example.com" required>
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+
+              <!-- Phone Number -->
+              <div class="form-group">
+                <label for="studentPhone" class="form-label">
+                  Phone Number <span class="required">*</span>
+                </label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-phone"></i>
+                  <input type="tel" id="studentPhone" class="form-control" placeholder="+1 (555) 000-0000" required>
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+
+            <div class="form-grid-1" style="margin-top: 1.25rem;">
+              <!-- Present Address -->
+              <div class="form-group">
+                <label for="studentAddress" class="form-label">
+                  Present Residential Address
+                  <span class="form-label-hint">Street, City, State, ZIP code</span>
+                </label>
+                <textarea id="studentAddress" class="form-control" placeholder="123 University Campus Way, Apt 4B, City, Country..."></textarea>
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Action Buttons Bar -->
+          <div class="form-actions-bar">
+            <a href="students.html" class="btn btn-secondary">
+              <i class="fa-solid fa-xmark"></i> Cancel
+            </a>
+            <button type="button" class="btn btn-secondary" id="formResetBtn">
+              <i class="fa-solid fa-rotate-left"></i> Reset Form
+            </button>
+            <button type="submit" class="btn btn-primary" id="formSubmitBtn">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span id="submitBtnText">Save Student Record</span>
+            </button>
+          </div>
+
+        </form>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let isEditMode = false;
+      let editingStudentId = null;
+      let photoBase64 = '';
+
+      const form = document.getElementById('studentRegistrationForm');
+      const studentIdInput = document.getElementById('studentId');
+      const deptSelect = document.getElementById('studentDepartment');
+      const semesterSelect = document.getElementById('studentSemester');
+      const enrollDateInput = document.getElementById('studentEnrollmentDate');
+      const nameInput = document.getElementById('studentFullName');
+      const dobInput = document.getElementById('studentDob');
+      const emailInput = document.getElementById('studentEmail');
+      const phoneInput = document.getElementById('studentPhone');
+      const addressInput = document.getElementById('studentAddress');
+      const submitBtn = document.getElementById('formSubmitBtn');
+      const submitBtnText = document.getElementById('submitBtnText');
+      const resetBtn = document.getElementById('formResetBtn');
+
+      // Photo upload elements
+      const photoFileInput = document.getElementById('photoFileInput');
+      const selectPhotoBtn = document.getElementById('selectPhotoBtn');
+      const removePhotoBtn = document.getElementById('removePhotoBtn');
+      const photoPreviewImg = document.getElementById('photoPreviewImg');
+      const photoPlaceholderIcon = document.getElementById('photoPlaceholderIcon');
+
+      // 1. Populate Department Dropdown
+      const departments = SMS.Storage.getItem(SMS.Storage.KEYS.DEPARTMENTS, []);
+      departments.forEach(dept => {
+        const opt = document.createElement('option');
+        opt.value = dept.id;
+        opt.textContent = `${dept.code} - ${dept.name}`;
+        deptSelect.appendChild(opt);
+      });
+
+      // 2. Determine Add vs Edit Mode from URL param (?id=...)
+      const urlId = SMS.Utils.getUrlParam('id');
+      if (urlId) {
+        const student = SMS.StudentService.getById(urlId);
+        if (student) {
+          isEditMode = true;
+          editingStudentId = student.id;
+
+          // Update Titles
+          document.getElementById('pageTitleHeading').textContent = `Edit Student: ${student.fullName}`;
+          document.getElementById('pageSubtitle').textContent = `Update student details for ID: ${student.id}`;
+          submitBtnText.textContent = 'Update Student Record';
+
+          // Fill Fields
+          studentIdInput.value = student.id;
+          studentIdInput.readOnly = true; // Protect ID in edit mode
+          deptSelect.value = student.departmentId;
+          semesterSelect.value = student.semester;
+          enrollDateInput.value = student.enrollmentDate;
+          nameInput.value = student.fullName;
+          dobInput.value = student.dob;
+          emailInput.value = student.email;
+          phoneInput.value = student.phone;
+          addressInput.value = student.address || '';
+
+          // Status radio
+          if (student.status === 'Inactive') {
+            document.getElementById('statusInactive').checked = true;
+          } else {
+            document.getElementById('statusActive').checked = true;
+          }
+
+          // Gender radio
+          if (student.gender === 'Female') document.getElementById('genderFemale').checked = true;
+          else if (student.gender === 'Male') document.getElementById('genderMale').checked = true;
+          else if (student.gender === 'Other') document.getElementById('genderOther').checked = true;
+
+          // Photo
+          if (student.photo) {
+            photoBase64 = student.photo;
+            photoPreviewImg.src = student.photo;
+            photoPreviewImg.style.display = 'block';
+            photoPlaceholderIcon.style.display = 'none';
+            removePhotoBtn.style.display = 'inline-flex';
+          }
+        } else {
+          SMS.Utils.showToast('error', 'Student Not Found', `No student with ID "${urlId}" found.`);
+        }
+      }
+
+      // If Add Mode: Auto-generate Student ID & default today's date
+      if (!isEditMode) {
+        const students = SMS.Storage.getItem(SMS.Storage.KEYS.STUDENTS, []);
+        studentIdInput.value = SMS.Utils.generateStudentID(students);
+        enrollDateInput.value = new Date().toISOString().split('T')[0];
+      }
+
+      // 3. Photo Handling
+      selectPhotoBtn.addEventListener('click', () => photoFileInput.click());
+
+      photoFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Size check (max 1.5MB for local storage efficiency)
+        if (file.size > 1.5 * 1024 * 1024) {
+          SMS.Utils.showToast('warning', 'Image Too Large', 'Please upload an image smaller than 1.5MB.');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          photoBase64 = event.target.result;
+          photoPreviewImg.src = photoBase64;
+          photoPreviewImg.style.display = 'block';
+          photoPlaceholderIcon.style.display = 'none';
+          removePhotoBtn.style.display = 'inline-flex';
+        };
+        reader.readAsDataURL(file);
+      });
+
+      removePhotoBtn.addEventListener('click', () => {
+        photoBase64 = '';
+        photoFileInput.value = '';
+        photoPreviewImg.src = '';
+        photoPreviewImg.style.display = 'none';
+        photoPlaceholderIcon.style.display = 'flex';
+        removePhotoBtn.style.display = 'none';
+      });
+
+      // 4. Form Reset
+      resetBtn.addEventListener('click', () => {
+        if (!isEditMode) {
+          form.reset();
+          const students = SMS.Storage.getItem(SMS.Storage.KEYS.STUDENTS, []);
+          studentIdInput.value = SMS.Utils.generateStudentID(students);
+          enrollDateInput.value = new Date().toISOString().split('T')[0];
+          document.getElementById('statusActive').checked = true;
+          removePhotoBtn.click();
+          SMS.Validation.clearFieldState(nameInput);
+          SMS.Validation.clearFieldState(emailInput);
+          SMS.Validation.clearFieldState(phoneInput);
+          SMS.Validation.clearFieldState(dobInput);
+          SMS.Validation.clearFieldState(deptSelect);
+          SMS.Validation.clearFieldState(semesterSelect);
+        } else {
+          window.location.reload();
+        }
+      });
+
+      // 5. Form Submission with Validation
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const selectedGender = document.querySelector('input[name="studentGender"]:checked')?.value || '';
+        const selectedStatus = document.querySelector('input[name="studentStatus"]:checked')?.value || 'Active';
+
+        const formData = {
+          id: studentIdInput.value.trim(),
+          fullName: nameInput.value.trim(),
+          email: emailInput.value.trim(),
+          phone: phoneInput.value.trim(),
+          dob: dobInput.value,
+          gender: selectedGender,
+          departmentId: deptSelect.value,
+          semester: semesterSelect.value,
+          address: addressInput.value.trim(),
+          photo: photoBase64,
+          enrollmentDate: enrollDateInput.value,
+          status: selectedStatus
+        };
+
+        const validation = SMS.Validation.validateStudentForm(formData, editingStudentId);
+
+        // Apply visual feedback to inputs
+        SMS.Validation.setFieldState(studentIdInput, !validation.errors.id, validation.errors.id);
+        SMS.Validation.setFieldState(nameInput, !validation.errors.fullName, validation.errors.fullName);
+        SMS.Validation.setFieldState(emailInput, !validation.errors.email, validation.errors.email);
+        SMS.Validation.setFieldState(phoneInput, !validation.errors.phone, validation.errors.phone);
+        SMS.Validation.setFieldState(dobInput, !validation.errors.dob, validation.errors.dob);
+        SMS.Validation.setFieldState(deptSelect, !validation.errors.departmentId, validation.errors.departmentId);
+        SMS.Validation.setFieldState(semesterSelect, !validation.errors.semester, validation.errors.semester);
+
+        const genderFeedback = document.getElementById('genderFeedback');
+        if (validation.errors.gender) {
+          genderFeedback.style.display = 'flex';
+          genderFeedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${validation.errors.gender}`;
+        } else {
+          genderFeedback.style.display = 'none';
+        }
+
+        if (!validation.isValid) {
+          SMS.Utils.showToast('error', 'Form Validation Error', 'Please correct the highlighted fields before saving.');
+          return;
+        }
+
+        try {
+          if (isEditMode) {
+            SMS.StudentService.update(editingStudentId, formData);
+            SMS.Utils.showToast('success', 'Student Updated', `Student record ${formData.id} has been updated successfully.`);
+          } else {
+            SMS.StudentService.create(formData);
+            SMS.Utils.showToast('success', 'Student Registered', `New student ${formData.fullName} (${formData.id}) registered.`);
+          }
+
+          setTimeout(() => {
+            window.location.href = `student-details.html?id=${encodeURIComponent(formData.id)}`;
+          }, 900);
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Save Failed', err.message);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

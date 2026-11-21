@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings &amp; Data Management - EduMetrics SMS</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .data-mgmt-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .data-card {
+      background: var(--bg-surface-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .data-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .data-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .data-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .data-card-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Fixed Left Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link active" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <!-- Top Navigation Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title">Settings &amp; Data Operations</h1>
+            <span class="breadcrumb-sub">Manage academic departments, JSON backup, and database integrity</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-container">
+
+        <div class="settings-grid">
+
+          <!-- 1. Department Management Module -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">
+                  <i class="fa-solid fa-building-columns" style="color: var(--primary);"></i>
+                  Department Management
+                </h2>
+                <p class="card-subtitle">
+                  Maintain university faculties. Foreign key constraints enforce referential integrity: departments cannot be deleted if active students reference them.
+                </p>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" id="addDeptBtn">
+                <i class="fa-solid fa-plus"></i> Add Department
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Department Name &amp; Description</th>
+                    <th>Head of Department</th>
+                    <th>Enrollment Status</th>
+                    <th style="text-align: right; padding-right: 1.5rem;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="departmentsTbody">
+                  <!-- Dynamically populated via settings.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Data Management & LocalStorage Persistence -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">
+                  <i class="fa-solid fa-database" style="color: var(--info);"></i>
+                  Data Management &amp; Persistence
+                </h2>
+                <p class="card-subtitle">Export, import, reset, or purge LocalStorage browser records</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="data-mgmt-cards-grid">
+
+                <!-- Export Data -->
+                <div class="data-card">
+                  <div class="data-card-header">
+                    <div class="data-card-icon" style="background: var(--primary-light); color: var(--primary);">
+                      <i class="fa-solid fa-file-arrow-down"></i>
+                    </div>
+                    <div>
+                      <h3 class="data-card-title">Export All Data (JSON)</h3>
+                      <p class="data-card-desc">Download a complete structured JSON snapshot of all student and department records.</p>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm" id="exportJsonBtn">
+                    <i class="fa-solid fa-download"></i> Download Backup JSON
+                  </button>
+                </div>
+
+                <!-- Import Data -->
+                <div class="data-card">
+                  <div class="data-card-header">
+                    <div class="data-card-icon" style="background: var(--success-light); color: var(--success);">
+                      <i class="fa-solid fa-file-arrow-up"></i>
+                    </div>
+                    <div>
+                      <h3 class="data-card-title">Import Student Records</h3>
+                      <p class="data-card-desc">Restore or bulk-upload student profiles from a validated JSON backup file.</p>
+                    </div>
+                  </div>
+                  <div>
+                    <input type="file" id="importJsonInput" accept=".json,application/json" style="display: none;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('importJsonInput').click();">
+                      <i class="fa-solid fa-folder-open"></i> Select JSON File
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Reset Demo Data -->
+                <div class="data-card">
+                  <div class="data-card-header">
+                    <div class="data-card-icon" style="background: var(--warning-light); color: var(--warning);">
+                      <i class="fa-solid fa-arrow-rotate-left"></i>
+                    </div>
+                    <div>
+                      <h3 class="data-card-title">Reset Demo Dataset</h3>
+                      <p class="data-card-desc">Restore default demo accounts, 5 departments, and 10 sample students.</p>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-secondary btn-sm" id="resetDemoBtn" style="border-color: #f59e0b; color: #b45309;">
+                    <i class="fa-solid fa-rotate-left"></i> Reset to Demo Data
+                  </button>
+                </div>
+
+                <!-- Clear All Data -->
+                <div class="data-card">
+                  <div class="data-card-header">
+                    <div class="data-card-icon" style="background: var(--danger-light); color: var(--danger);">
+                      <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                      <h3 class="data-card-title">Clear All Storage Data</h3>
+                      <p class="data-card-desc">Purge all records and user sessions from LocalStorage. Irreversible action.</p>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-outline-danger btn-sm" id="clearAllBtn">
+                    <i class="fa-regular fa-trash-can"></i> Purge All Records
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. System Architecture & Academic Specification Card -->
+          <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-circle-nodes" style="color: var(--primary);"></i>
+                  Technical Architecture &amp; Semester Specification
+                </h3>
+                <p class="card-subtitle">Details on client-side relational modeling and Web Crypto cryptography</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                <p style="margin-bottom: 0.75rem;">
+                  <strong>Client-Side Storage Engine:</strong> This application executes entirely within browser sandbox memory and persistent LocalStorage keys (<code>sms_users</code>, <code>sms_students</code>, <code>sms_departments</code>, <code>sms_settings</code>).
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                  <strong>Referential Integrity:</strong> Department deletion is guarded by foreign key verification in JavaScript logic. If any student record contains a matching <code>departmentId</code>, the system rejects the deletion and alerts the administrator.
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                  <strong>Web Crypto PBKDF2 Hashing:</strong> Passwords are never stored as plaintext. Passwords undergo 100,000 iterations of SHA-256 derivation with unique 16-byte cryptographic salts via <code>window.crypto.subtle</code>.
+                </p>
+                <p style="font-size: 0.82rem; color: #92400e; background: #fffbeb; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid #fde68a;">
+                  <i class="fa-solid fa-circle-info"></i> <strong>Academic Disclaimer:</strong> Browser-based authentication and role checks are designed for semester project and educational demonstration only. They are not equivalent to production server-side sessions, secure HTTP cookies, or prepared statements (PDO/MySQLi). A formal relational MySQL schema is provided in <code>database/schema.sql</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Department Modal Dialog (Add / Edit) -->
+  <div class="modal-backdrop" id="deptModalBackdrop">
+    <div class="modal-dialog">
+      <form id="deptForm" novalidate>
+        <div class="modal-header">
+          <h3 class="modal-title" id="deptModalTitle">
+            <i class="fa-solid fa-building-columns" style="color: var(--primary);"></i>
+            Add Department
+          </h3>
+          <button type="button" class="modal-close-btn" id="deptModalCloseX" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1.1rem;">
+            <label for="deptCode" class="form-label">
+              Department Code <span class="required">*</span>
+              <span class="form-label-hint">e.g. CSE, EEE, BBA</span>
+            </label>
+            <input type="text" id="deptCode" name="deptCode" class="form-control" placeholder="CSE" required maxlength="10">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.1rem;">
+            <label for="deptName" class="form-label">
+              Department Full Name <span class="required">*</span>
+            </label>
+            <input type="text" id="deptName" name="deptName" class="form-control" placeholder="Computer Science & Engineering" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1.1rem;">
+            <label for="deptHead" class="form-label">Head of Department (Dean / Chair)</label>
+            <input type="text" id="deptHead" name="deptHead" class="form-control" placeholder="Dr. Alan Turing">
+          </div>
+
+          <div class="form-group">
+            <label for="deptDesc" class="form-label">Description / Scope</label>
+            <textarea id="deptDesc" name="deptDesc" class="form-control" placeholder="Brief outline of curriculum and academic discipline..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="deptModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="deptModalSaveBtn">Save Department</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

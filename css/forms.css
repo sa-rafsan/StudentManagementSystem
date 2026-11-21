@@ -1,0 +1,309 @@
+/* ==========================================================================
+   STUDENT MANAGEMENT SYSTEM (EduMetrics SMS)
+   Form Stylesheet (forms.css)
+   ========================================================================== */
+
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-section-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.form-section-title i {
+  color: var(--primary);
+  font-size: 1.15rem;
+}
+
+.form-section-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* Grid Layouts for Fields */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.form-grid-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+/* Form Groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  position: relative;
+}
+
+.form-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-label .required {
+  color: var(--danger);
+  margin-left: 0.25rem;
+  font-weight: 700;
+}
+
+.form-label-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Inputs, Selects, Textareas */
+.form-control {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 0.92rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.form-control:hover {
+  border-color: var(--border-color-dark);
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-control:disabled, .form-control[readonly] {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  color: var(--text-muted);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* Input with icon prefix */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  font-size: 0.95rem;
+}
+
+.input-with-icon .form-control {
+  padding-left: 2.6rem;
+}
+
+/* Validation States */
+.form-control.is-invalid {
+  border-color: var(--danger) !important;
+  background-color: #fef2f2;
+}
+
+.form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.form-control.is-valid {
+  border-color: var(--success) !important;
+}
+
+.form-control.is-valid:focus {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.invalid-feedback {
+  display: none;
+  color: var(--danger);
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.form-control.is-invalid ~ .invalid-feedback {
+  display: flex;
+}
+
+.valid-feedback {
+  display: none;
+  color: var(--success);
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.form-control.is-valid ~ .valid-feedback {
+  display: flex;
+}
+
+/* Photo Upload Widget */
+.photo-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  background: var(--bg-surface-secondary);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-color-dark);
+}
+
+.photo-preview-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: var(--radius-full);
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 3px solid #ffffff;
+  flex-shrink: 0;
+}
+
+.photo-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.photo-preview-placeholder {
+  color: var(--text-muted);
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-upload-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.photo-upload-controls p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.photo-action-btns {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Custom Radio Card Groups (e.g., Status, Gender) */
+.radio-pill-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.radio-pill-item {
+  flex: 1;
+}
+
+.radio-pill-input {
+  display: none;
+}
+
+.radio-pill-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.radio-pill-input:checked + .radio-pill-label {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.radio-pill-label:hover {
+  background: var(--bg-surface-secondary);
+  border-color: var(--border-color-dark);
+}
+
+/* Form Actions Bar */
+.form-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}

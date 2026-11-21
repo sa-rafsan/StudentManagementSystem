@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - EduMetrics Student Management System</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="auth-page">
+
+  <div class="auth-container">
+    <!-- Left Brand Showcase -->
+    <div class="auth-brand-panel">
+      <div class="auth-brand-top">
+        <div class="auth-brand-logo">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics SMS</span>
+        </div>
+        <h2 class="auth-brand-headline">Join the Academic Administration Portal</h2>
+        <p class="auth-brand-desc">
+          Register an administrative or student demonstration account to access university metrics, student records, and departmental tools.
+        </p>
+
+        <ul class="auth-feature-list">
+          <li class="auth-feature-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Salted PBKDF2 Web Crypto Password Protection</span>
+          </li>
+          <li class="auth-feature-item">
+            <i class="fa-solid fa-user-gear"></i>
+            <span>Role-Based Access Control (Admin vs Student)</span>
+          </li>
+          <li class="auth-feature-item">
+            <i class="fa-solid fa-database"></i>
+            <span>Seamless LocalStorage Data Integrity</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="auth-brand-footer">
+        <p>&copy; 2026 EduMetrics University Architecture &bull; Semester Project</p>
+      </div>
+    </div>
+
+    <!-- Right Registration Form Panel -->
+    <div class="auth-form-panel">
+      <div class="auth-form-header">
+        <h1 class="auth-form-title">Create Account</h1>
+        <p class="auth-form-subtitle">Register a new demonstration account.</p>
+      </div>
+
+      <!-- Registration Form -->
+      <form id="registerForm" novalidate>
+        <div class="form-group" style="margin-bottom: 1.1rem;">
+          <label for="regName" class="form-label">
+            Full Name <span class="required">*</span>
+          </label>
+          <div class="input-with-icon">
+            <i class="fa-regular fa-user"></i>
+            <input type="text" id="regName" class="form-control" placeholder="e.g. John Doe" required>
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.1rem;">
+          <label for="regEmail" class="form-label">
+            Email Address <span class="required">*</span>
+          </label>
+          <div class="input-with-icon">
+            <i class="fa-regular fa-envelope"></i>
+            <input type="email" id="regEmail" class="form-control" placeholder="name@example.com" required autocomplete="email">
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <!-- Role Selection -->
+        <div class="form-group" style="margin-bottom: 1.1rem;">
+          <label class="form-label">Account Role <span class="required">*</span></label>
+          <div class="radio-pill-group">
+            <div class="radio-pill-item">
+              <input type="radio" name="regRole" id="roleAdmin" value="Admin" class="radio-pill-input">
+              <label for="roleAdmin" class="radio-pill-label">
+                <i class="fa-solid fa-shield-halved"></i> Administrator
+              </label>
+            </div>
+            <div class="radio-pill-item">
+              <input type="radio" name="regRole" id="roleStudent" value="Student" class="radio-pill-input" checked>
+              <label for="roleStudent" class="radio-pill-label">
+                <i class="fa-solid fa-user-graduate"></i> Student
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student ID Link (Visible for student role) -->
+        <div class="form-group" id="studentIdFieldGroup" style="margin-bottom: 1.1rem;">
+          <label for="regStudentId" class="form-label">
+            Associated Student ID
+            <span class="form-label-hint">e.g. STU-2024-001 (optional)</span>
+          </label>
+          <div class="input-with-icon">
+            <i class="fa-solid fa-id-card"></i>
+            <input type="text" id="regStudentId" class="form-control" placeholder="STU-2024-001">
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.1rem;">
+          <label for="regPassword" class="form-label">
+            Password <span class="required">*</span>
+            <span class="form-label-hint">Min 6 characters</span>
+          </label>
+          <div class="password-input-wrapper">
+            <div class="input-with-icon" style="width: 100%;">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="regPassword" class="form-control" placeholder="Create a strong password" required autocomplete="new-password">
+            </div>
+            <button type="button" class="password-toggle-btn" id="toggleRegPasswordBtn" aria-label="Toggle password visibility">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="regConfirmPassword" class="form-label">
+            Confirm Password <span class="required">*</span>
+          </label>
+          <div class="password-input-wrapper">
+            <div class="input-with-icon" style="width: 100%;">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="regConfirmPassword" class="form-control" placeholder="Re-type password" required autocomplete="new-password">
+            </div>
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="regSubmitBtn" style="width: 100%; padding: 0.85rem;">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Complete Registration</span>
+        </button>
+      </form>
+
+      <div class="auth-form-footer">
+        Already registered? <a href="login.html">Sign In Here</a>
+      </div>
+
+      <!-- Educational Disclaimer -->
+      <div class="auth-disclaimer">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+          <strong>Educational Demonstration:</strong> Browser-based authentication with Web Crypto PBKDF2 hashing is implemented for local client demonstration. It is not equivalent to server-side authentication.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/validation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      SMS.Storage.initStorage();
+
+      const form = document.getElementById('registerForm');
+      const nameInput = document.getElementById('regName');
+      const emailInput = document.getElementById('regEmail');
+      const passwordInput = document.getElementById('regPassword');
+      const confirmInput = document.getElementById('regConfirmPassword');
+      const studentIdInput = document.getElementById('regStudentId');
+      const studentIdGroup = document.getElementById('studentIdFieldGroup');
+      const togglePassBtn = document.getElementById('toggleRegPasswordBtn');
+      const submitBtn = document.getElementById('regSubmitBtn');
+
+      // Toggle student ID visibility on role change
+      document.querySelectorAll('input[name="regRole"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          if (e.target.value === 'Student') {
+            studentIdGroup.style.display = 'flex';
+          } else {
+            studentIdGroup.style.display = 'none';
+          }
+        });
+      });
+
+      // Show/Hide password
+      togglePassBtn.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        confirmInput.setAttribute('type', type);
+        togglePassBtn.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye"></i>' : '<i class="fa-regular fa-eye-slash"></i>';
+      });
+
+      // Form Submission
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const role = document.querySelector('input[name="regRole"]:checked').value;
+        const studentId = studentIdInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmInput.value;
+
+        let hasError = false;
+
+        // Name Validation
+        if (!name || name.length < 2) {
+          SMS.Validation.setFieldState(nameInput, false, 'Please enter a valid full name.');
+          hasError = true;
+        } else {
+          SMS.Validation.clearFieldState(nameInput);
+        }
+
+        // Email Validation
+        if (!email) {
+          SMS.Validation.setFieldState(emailInput, false, 'Email address is required.');
+          hasError = true;
+        } else if (!SMS.Validation.isValidEmail(email)) {
+          SMS.Validation.setFieldState(emailInput, false, 'Please enter a valid email format.');
+          hasError = true;
+        } else {
+          SMS.Validation.clearFieldState(emailInput);
+        }
+
+        // Password Validation
+        if (!password || password.length < 6) {
+          SMS.Validation.setFieldState(passwordInput, false, 'Password must be at least 6 characters long.');
+          hasError = true;
+        } else {
+          SMS.Validation.clearFieldState(passwordInput);
+        }
+
+        // Confirm Password
+        if (password !== confirmPassword) {
+          SMS.Validation.setFieldState(confirmInput, false, 'Passwords do not match.');
+          hasError = true;
+        } else {
+          SMS.Validation.clearFieldState(confirmInput);
+        }
+
+        if (hasError) return;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating Account...';
+
+        try {
+          const result = await SMS.Auth.register({
+            name,
+            email,
+            password,
+            role,
+            studentId: role === 'Student' && studentId ? studentId : null
+          });
+
+          if (result.success) {
+            SMS.Utils.showToast('success', 'Registration Complete', `Account created! Welcome, ${result.user.name}.`);
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1000);
+          } else {
+            SMS.Utils.showToast('error', 'Registration Failed', result.message);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Complete Registration';
+          }
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Complete Registration';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

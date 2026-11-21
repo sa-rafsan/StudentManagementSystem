@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile Details - EduMetrics SMS</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    /* Student Details Custom Styles */
+    .student-profile-header-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .student-profile-header-card::after {
+      content: '';
+      position: absolute;
+      right: -30px;
+      top: -30px;
+      width: 180px;
+      height: 180px;
+      border-radius: var(--radius-full);
+      background: rgba(37, 99, 235, 0.15);
+      pointer-events: none;
+    }
+
+    .student-avatar-large {
+      width: 110px;
+      height: 110px;
+      border-radius: var(--radius-full);
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .detail-avatar-fallback {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .student-profile-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .student-profile-name {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .student-profile-id-tag {
+      font-family: monospace;
+      font-size: 0.95rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .student-profile-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .header-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Details Grid Layout */
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.92rem;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-label {
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-label i {
+      width: 18px;
+      color: var(--primary);
+    }
+
+    .info-value {
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: right;
+      max-width: 60%;
+      word-break: break-word;
+    }
+
+    @media (max-width: 768px) {
+      .student-profile-header-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem;
+      }
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Fixed Left Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link active">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <!-- Top Navigation Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title">Student Profile</h1>
+            <span class="breadcrumb-sub">Comprehensive individual student academic &amp; contact dossier</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="students.html" class="btn btn-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Directory</span>
+          </a>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-container">
+
+        <!-- Error State if Student Not Found -->
+        <div class="empty-state" id="studentDetailsError" style="display: none; background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border-color); padding: 4rem 2rem;">
+          <div class="empty-state-icon">
+            <i class="fa-solid fa-user-xmark"></i>
+          </div>
+          <h2 class="empty-state-title">Student Record Not Found</h2>
+          <p class="empty-state-desc">The requested student ID is missing from the URL or does not exist in LocalStorage.</p>
+          <a href="students.html" class="btn btn-primary" style="margin-top: 1rem;">
+            <i class="fa-solid fa-users"></i> Return to Student Directory
+          </a>
+        </div>
+
+        <!-- Student Details Content Container -->
+        <div id="studentDetailsContent">
+
+          <!-- Header Hero Card -->
+          <div class="student-profile-header-card">
+            <div class="student-avatar-large" id="detailAvatarContainer">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="student-profile-meta">
+              <h2 class="student-profile-name" id="detailFullName">Loading Student...</h2>
+              <div class="student-profile-id-tag">
+                <i class="fa-solid fa-id-card"></i>
+                <span id="detailStudentId">STU-0000-000</span>
+              </div>
+              <div class="student-profile-pills">
+                <span class="badge badge-primary" id="detailDeptPill">Department</span>
+                <span class="badge badge-active" id="detailStatusPill">Active</span>
+              </div>
+            </div>
+
+            <div class="header-actions-row">
+              <button type="button" class="btn btn-secondary btn-sm" id="printStudentBtn" title="Print Profile Dossier">
+                <i class="fa-solid fa-print"></i> Print
+              </button>
+              <a href="#" class="btn btn-primary btn-sm" id="editStudentBtn">
+                <i class="fa-solid fa-user-pen"></i> Edit Profile
+              </a>
+              <button type="button" class="btn btn-outline-danger btn-sm" id="deleteStudentBtn" style="color: #fca5a5; border-color: rgba(255,255,255,0.2);">
+                <i class="fa-regular fa-trash-can"></i> Delete
+              </button>
+            </div>
+          </div>
+
+          <!-- Academic & Personal Grid -->
+          <div class="details-grid">
+            <!-- Academic Information Card -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i>
+                  Academic Details
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="info-list">
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-solid fa-building-columns"></i> Department</span>
+                    <span class="info-value" id="infoDeptName">-</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-solid fa-tag"></i> Department Code</span>
+                    <span class="info-value" id="infoDeptCode">-</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-solid fa-calendar-week"></i> Semester</span>
+                    <span class="info-value" id="infoSemester">-</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-regular fa-calendar-check"></i> Enrollment Date</span>
+                    <span class="info-value" id="infoEnrollDate">-</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-regular fa-clock"></i> Record Created</span>
+                    <span class="info-value" id="infoCreatedAt">-</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-solid fa-pen-nib"></i> Last Modified</span>
+                    <span class="info-value" id="infoUpdatedAt">-</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Personal Information Card -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fa-solid fa-user" style="color: var(--info);"></i>
+                  Personal Demographics
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="info-list">
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-regular fa-calendar"></i> Date of Birth</span>
+                    <span class="info-value" id="infoDob">-</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-solid fa-hourglass-half"></i> Current Age</span>
+                    <span class="info-value" id="infoAge">-</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label"><i class="fa-solid fa-venus-mars"></i> Gender</span>
+                    <span class="info-value" id="infoGender">-</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Information Full Width Card -->
+          <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fa-solid fa-address-book" style="color: var(--success);"></i>
+                Contact &amp; Residence Information
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="info-list">
+                <div class="info-row">
+                  <span class="info-label"><i class="fa-regular fa-envelope"></i> Email Address</span>
+                  <a href="#" class="info-value" id="infoEmail" style="color: var(--primary); text-decoration: underline;">-</a>
+                </div>
+                <div class="info-row">
+                  <span class="info-label"><i class="fa-solid fa-phone"></i> Telephone / Mobile</span>
+                  <a href="#" class="info-value" id="infoPhone" style="color: var(--primary);">-</a>
+                </div>
+                <div class="info-row">
+                  <span class="info-label"><i class="fa-solid fa-location-dot"></i> Residential Address</span>
+                  <span class="info-value" id="infoAddress">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/student-details.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

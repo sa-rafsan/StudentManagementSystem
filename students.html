@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Directory - EduMetrics SMS</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/students.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Fixed Left Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link active">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <!-- Top Navigation Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title">Student Directory</h1>
+            <span class="breadcrumb-sub">Manage student records, perform searches, and filter by attributes</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="add-student.html" class="btn btn-primary btn-sm" id="addStudentTopBtn">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Add Student</span>
+          </a>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-container">
+
+        <!-- Search and Multi-Filter Card -->
+        <div class="filter-card">
+          <div class="filter-grid">
+            <!-- Search Input -->
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" id="searchInput" class="search-input" placeholder="Search by name, student ID, or email...">
+              <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear Search">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <!-- Department Filter -->
+            <div>
+              <select id="filterDepartment" class="filter-select" aria-label="Filter by Department">
+                <option value="ALL">All Departments</option>
+                <!-- Dynamically populated from LocalStorage -->
+              </select>
+            </div>
+
+            <!-- Semester Filter -->
+            <div>
+              <select id="filterSemester" class="filter-select" aria-label="Filter by Semester">
+                <option value="ALL">All Semesters</option>
+                <option value="1st">1st Semester</option>
+                <option value="2nd">2nd Semester</option>
+                <option value="3rd">3rd Semester</option>
+                <option value="4th">4th Semester</option>
+                <option value="5th">5th Semester</option>
+                <option value="6th">6th Semester</option>
+                <option value="7th">7th Semester</option>
+                <option value="8th">8th Semester</option>
+              </select>
+            </div>
+
+            <!-- Status Filter -->
+            <div>
+              <select id="filterStatus" class="filter-select" aria-label="Filter by Status">
+                <option value="ALL">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+
+            <!-- Filter Reset Action -->
+            <div class="filter-actions">
+              <button type="button" class="btn btn-secondary" id="clearAllFiltersBtn" title="Reset all search criteria">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Filter Tags Bar -->
+          <div class="active-filters-bar" id="activeFiltersBar" style="display: none;">
+            <span class="active-filters-label">Active Filters:</span>
+            <div id="activeFilterTags" style="display: flex; gap: 0.4rem; flex-wrap: wrap;"></div>
+          </div>
+        </div>
+
+        <!-- Student Data Table Card -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <!-- Table Toolbar -->
+          <div class="table-toolbar">
+            <div class="table-results-info">
+              Total Records: <strong id="tableResultsCount">0</strong> students
+            </div>
+            <div class="table-view-controls">
+              <div class="page-size-selector">
+                <label for="pageSizeSelect">Show:</label>
+                <select id="pageSizeSelect">
+                  <option value="5">5 per page</option>
+                  <option value="10" selected>10 per page</option>
+                  <option value="25">25 per page</option>
+                  <option value="50">50 per page</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Responsive Table Container -->
+          <div class="table-responsive" id="studentsTableContainer">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="sortable" data-sort="fullName">
+                    Student Details <i class="fa-solid fa-arrow-up-down sort-icon"></i>
+                  </th>
+                  <th class="sortable" data-sort="departmentId">
+                    Department <i class="fa-solid fa-arrow-up-down sort-icon"></i>
+                  </th>
+                  <th class="sortable" data-sort="semester">
+                    Semester <i class="fa-solid fa-arrow-up-down sort-icon"></i>
+                  </th>
+                  <th>Contact Info</th>
+                  <th class="sortable" data-sort="status">
+                    Status <i class="fa-solid fa-arrow-up-down sort-icon"></i>
+                  </th>
+                  <th class="sortable" data-sort="enrollmentDate">
+                    Enrollment Date <i class="fa-solid fa-arrow-up-down sort-icon"></i>
+                  </th>
+                  <th style="text-align: right; padding-right: 1.5rem;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTbody">
+                <!-- Dynamically populated via students.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" id="studentsEmptyState" style="display: none;">
+            <div class="empty-state-icon">
+              <i class="fa-solid fa-user-slash"></i>
+            </div>
+            <h3 class="empty-state-title">No Students Found</h3>
+            <p class="empty-state-desc">No records matched your search or filter settings.</p>
+            <a href="add-student.html" class="btn btn-primary btn-sm">
+              <i class="fa-solid fa-user-plus"></i> Add New Student
+            </a>
+          </div>
+
+          <!-- Pagination Controls -->
+          <div class="pagination-wrapper" id="paginationWrapper">
+            <div class="pagination-info" id="paginationInfo">
+              <!-- Dynamically populated -->
+            </div>
+            <div class="pagination-controls" id="paginationControls">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/students.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

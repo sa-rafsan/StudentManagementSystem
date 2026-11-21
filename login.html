@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - EduMetrics Student Management System</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="auth-page">
+
+  <div class="auth-container">
+    <!-- Left Brand Showcase -->
+    <div class="auth-brand-panel">
+      <div class="auth-brand-top">
+        <div class="auth-brand-logo">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics SMS</span>
+        </div>
+        <h2 class="auth-brand-headline">Modern Academic Record &amp; Student Operations</h2>
+        <p class="auth-brand-desc">
+          A high-performance, modular Student Management System crafted with Vanilla JavaScript, plain CSS3, and persistent LocalStorage.
+        </p>
+
+        <ul class="auth-feature-list">
+          <li class="auth-feature-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Complete Student CRUD &amp; Dynamic Relational Lookups</span>
+          </li>
+          <li class="auth-feature-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Real-time Multi-Filter, Sorting &amp; Pagination</span>
+          </li>
+          <li class="auth-feature-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Web Crypto PBKDF2 Client Password Hashing</span>
+          </li>
+          <li class="auth-feature-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Full JSON Backup &amp; Foreign Key Department Controls</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="auth-brand-footer">
+        <p>&copy; 2026 EduMetrics University Architecture &bull; Semester Project</p>
+      </div>
+    </div>
+
+    <!-- Right Login Form Panel -->
+    <div class="auth-form-panel">
+      <div class="auth-form-header">
+        <h1 class="auth-form-title">Welcome back</h1>
+        <p class="auth-form-subtitle">Please enter your credentials to access the portal.</p>
+      </div>
+
+      <!-- Quick Demo Credentials Box -->
+      <div class="demo-accounts-box">
+        <div class="demo-accounts-header">
+          <span class="demo-accounts-title">
+            <i class="fa-solid fa-bolt"></i> Quick Demo Access
+          </span>
+          <span style="font-size: 0.72rem; color: var(--text-muted);">One-Click Autofill</span>
+        </div>
+        <div class="demo-buttons-row">
+          <button type="button" class="btn-demo-fill" id="fillAdminBtn">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Admin Account</span>
+          </button>
+          <button type="button" class="btn-demo-fill" id="fillStudentBtn">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Student Account</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" novalidate>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label for="loginEmail" class="form-label">
+            Email Address <span class="required">*</span>
+          </label>
+          <div class="input-with-icon">
+            <i class="fa-regular fa-envelope"></i>
+            <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" required autocomplete="email">
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="loginPassword" class="form-label">
+            Password <span class="required">*</span>
+          </label>
+          <div class="password-input-wrapper">
+            <div class="input-with-icon" style="width: 100%;">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+            </div>
+            <button type="button" class="password-toggle-btn" id="togglePasswordBtn" aria-label="Toggle password visibility">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; padding: 0.85rem;">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Sign In to Dashboard</span>
+        </button>
+      </form>
+
+      <div class="auth-form-footer">
+        Don't have an account yet? <a href="register.html">Create an Account</a>
+      </div>
+
+      <!-- Educational Disclaimer -->
+      <div class="auth-disclaimer">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+          <strong>Educational Demonstration:</strong> Browser-based authentication with Web Crypto PBKDF2 hashing is implemented for local client demonstration. It is not equivalent to server-side authentication.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/validation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize demo data
+      SMS.Storage.initStorage();
+
+      // If already logged in, redirect to index.html
+      if (SMS.Auth.isLoggedIn()) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const emailInput = document.getElementById('loginEmail');
+      const passInput = document.getElementById('loginPassword');
+      const togglePassBtn = document.getElementById('togglePasswordBtn');
+      const form = document.getElementById('loginForm');
+      const submitBtn = document.getElementById('loginSubmitBtn');
+
+      // Demo auto-fill buttons
+      document.getElementById('fillAdminBtn').addEventListener('click', () => {
+        emailInput.value = 'admin@example.com';
+        passInput.value = 'Admin@123';
+        SMS.Validation.clearFieldState(emailInput);
+        SMS.Validation.clearFieldState(passInput);
+      });
+
+      document.getElementById('fillStudentBtn').addEventListener('click', () => {
+        emailInput.value = 'student@example.com';
+        passInput.value = 'Student@123';
+        SMS.Validation.clearFieldState(emailInput);
+        SMS.Validation.clearFieldState(passInput);
+      });
+
+      // Show/Hide password
+      togglePassBtn.addEventListener('click', () => {
+        const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passInput.setAttribute('type', type);
+        togglePassBtn.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye"></i>' : '<i class="fa-regular fa-eye-slash"></i>';
+      });
+
+      // Form Submission
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        const password = passInput.value;
+
+        let hasError = false;
+
+        if (!email) {
+          SMS.Validation.setFieldState(emailInput, false, 'Email is required.');
+          hasError = true;
+        } else if (!SMS.Validation.isValidEmail(email)) {
+          SMS.Validation.setFieldState(emailInput, false, 'Invalid email format.');
+          hasError = true;
+        } else {
+          SMS.Validation.clearFieldState(emailInput);
+        }
+
+        if (!password) {
+          SMS.Validation.setFieldState(passInput, false, 'Password is required.');
+          hasError = true;
+        } else {
+          SMS.Validation.clearFieldState(passInput);
+        }
+
+        if (hasError) return;
+
+        // Visual loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+
+        try {
+          const result = await SMS.Auth.login(email, password);
+          if (result.success) {
+            SMS.Utils.showToast('success', 'Login Successful', `Welcome back, ${result.user.name}!`);
+            const redirectParam = SMS.Utils.getUrlParam('redirect');
+            setTimeout(() => {
+              window.location.href = redirectParam ? decodeURIComponent(redirectParam) : 'index.html';
+            }, 800);
+          } else {
+            SMS.Utils.showToast('error', 'Login Failed', result.message);
+            SMS.Validation.setFieldState(passInput, false, result.message);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In to Dashboard';
+          }
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Authentication Error', err.message);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In to Dashboard';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
