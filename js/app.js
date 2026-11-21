@@ -76,11 +76,20 @@ SMS.App = (() => {
       });
     });
 
-    // Hide or disable administrative nav items if Student role
+    // Hide or disable administrative nav items based on role
     if (user.role === 'Student') {
       const addStudentLink = SMS.Utils.$('#navLinkAddStudent');
       const settingsLink = SMS.Utils.$('#navLinkSettings');
 
+      if (addStudentLink) {
+        addStudentLink.parentElement.style.display = 'none';
+      }
+      if (settingsLink) {
+        settingsLink.parentElement.style.display = 'none';
+      }
+    } else if (user.role === 'Teacher') {
+      const addStudentLink = SMS.Utils.$('#navLinkAddStudent');
+      const settingsLink = SMS.Utils.$('#navLinkSettings');
       if (addStudentLink) {
         addStudentLink.parentElement.style.display = 'none';
       }
@@ -119,18 +128,20 @@ SMS.App = (() => {
     if (!isAuthPage) {
       // Pages restricted to Admin role only
       const adminOnlyPages = ['settings.html'];
-      const allowedRoles = adminOnlyPages.includes(currentPage) ? ['Admin'] : ['Admin', 'Student'];
+      const allowedRoles = adminOnlyPages.includes(currentPage) ? ['Admin'] : ['Admin', 'Teacher', 'Student'];
 
       const isAuthorized = SMS.Auth.requireAuth(allowedRoles);
       if (!isAuthorized) return; // Stopped by guard redirect
 
-      // If on add-student.html and is student without permission
-      if (currentPage === 'add-student.html' && SMS.Auth.isStudent()) {
+      // If on add-student.html and not an administrator
+      if (currentPage === 'add-student.html' && !SMS.Auth.isAdmin()) {
         const studentIdParam = SMS.Utils.getUrlParam('id');
         const currentUser = SMS.Auth.getCurrentUser();
         // Allow student to edit ONLY their own linked record, otherwise block
-        if (!studentIdParam || studentIdParam !== currentUser.studentId) {
-          SMS.Utils.showToast('error', 'Access Restricted', 'Students cannot register new students or edit other profiles.');
+        if (SMS.Auth.isStudent() && studentIdParam && currentUser && studentIdParam === currentUser.studentId) {
+          // Allow student to view/edit their own linked profile
+        } else {
+          SMS.Utils.showToast('error', 'Access Restricted', 'Only Administrators have permission to register students.');
           setTimeout(() => {
             window.location.href = 'index.html';
           }, 1200);

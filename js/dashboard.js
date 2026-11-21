@@ -96,6 +96,12 @@ SMS.Dashboard = (() => {
     if (activeEl) activeEl.textContent = stats.activeStudents;
     if (inactiveEl) inactiveEl.textContent = stats.inactiveStudents;
     if (deptEl) deptEl.textContent = stats.totalDepartments;
+
+    const attEl = SMS.Utils.$('#statAttendanceRate');
+    if (attEl && window.SMS.Attendance) {
+      const overall = SMS.Attendance.getOverallStats();
+      attEl.textContent = `${overall.averageRate}%`;
+    }
   };
 
   /**

@@ -72,11 +72,15 @@
         <div class="demo-buttons-row">
           <button type="button" class="btn-demo-fill" id="fillAdminBtn">
             <i class="fa-solid fa-shield-halved"></i>
-            <span>Admin Account</span>
+            <span>Admin</span>
+          </button>
+          <button type="button" class="btn-demo-fill" id="fillTeacherBtn">
+            <i class="fa-solid fa-chalkboard-user"></i>
+            <span>Teacher</span>
           </button>
           <button type="button" class="btn-demo-fill" id="fillStudentBtn">
             <i class="fa-solid fa-user-graduate"></i>
-            <span>Student Account</span>
+            <span>Student</span>
           </button>
         </div>
       </div>
@@ -134,8 +138,11 @@
       // Initialize demo data
       SMS.Storage.initStorage();
 
-      // If already logged in, redirect to index.html
-      if (SMS.Auth.isLoggedIn()) {
+      // If logout param is present, force clear session
+      if (SMS.Utils.getUrlParam('logout') === 'true') {
+        sessionStorage.clear();
+        localStorage.removeItem('sms_session');
+      } else if (SMS.Auth.isLoggedIn()) {
         window.location.href = 'index.html';
         return;
       }
@@ -150,6 +157,13 @@
       document.getElementById('fillAdminBtn').addEventListener('click', () => {
         emailInput.value = 'admin@example.com';
         passInput.value = 'Admin@123';
+        SMS.Validation.clearFieldState(emailInput);
+        SMS.Validation.clearFieldState(passInput);
+      });
+
+      document.getElementById('fillTeacherBtn').addEventListener('click', () => {
+        emailInput.value = 'teacher@example.com';
+        passInput.value = 'Teacher@123';
         SMS.Validation.clearFieldState(emailInput);
         SMS.Validation.clearFieldState(passInput);
       });

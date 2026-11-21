@@ -13,7 +13,8 @@ SMS.Storage = (() => {
     STUDENTS: 'sms_students',
     DEPARTMENTS: 'sms_departments',
     SETTINGS: 'sms_settings',
-    SESSION: 'sms_session'
+    SESSION: 'sms_session',
+    ATTENDANCE: 'sms_attendance'
   };
 
   /**
@@ -41,6 +42,16 @@ SMS.Storage = (() => {
       passwordHash: '73cdb97880fa64b56ef5887c7173fce65697e416a3ef64d2a7bc52122138c9f4',
       studentId: 'STU-2024-001',
       createdAt: '2024-01-05T09:30:00.000Z'
+    },
+    {
+      id: 'USR-003',
+      name: 'Prof. Alan Turing',
+      email: 'teacher@example.com',
+      role: 'Teacher',
+      salt: '746561636865725f73616c745f313233',
+      passwordHash: '150e52b3689ce8cd5731294c68fcff03fb40bf43b0efb8e0d0514a0ad0e5cf0f',
+      studentId: null,
+      createdAt: '2024-01-02T10:00:00.000Z'
     }
   ];
 
@@ -269,6 +280,215 @@ SMS.Storage = (() => {
   };
 
   /**
+   * Demo Attendance Sessions
+   */
+  const DEMO_ATTENDANCE = [
+    {
+      id: 'ATT-20261105-001',
+      date: '2026-11-05',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Software Engineering (CSE-301)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Present', notes: 'Active in class' },
+        { studentId: 'STU-2024-005', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-05T09:00:00.000Z',
+      updatedAt: '2026-11-05T09:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261107-001',
+      date: '2026-11-07',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Database Systems (CSE-303)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Present', notes: '' },
+        { studentId: 'STU-2024-005', status: 'Absent', notes: 'Unexcused absence' }
+      ],
+      createdAt: '2026-11-07T11:00:00.000Z',
+      updatedAt: '2026-11-07T11:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261110-001',
+      date: '2026-11-10',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Operating Systems (CSE-305)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Present', notes: '' },
+        { studentId: 'STU-2024-005', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-10T10:00:00.000Z',
+      updatedAt: '2026-11-10T10:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261112-001',
+      date: '2026-11-12',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Software Engineering (CSE-301)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Late', notes: '15 min transit delay' },
+        { studentId: 'STU-2024-005', status: 'Absent', notes: 'Medical leave submitted' }
+      ],
+      createdAt: '2026-11-12T09:00:00.000Z',
+      updatedAt: '2026-11-12T09:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261114-001',
+      date: '2026-11-14',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Computer Networks (CSE-307)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Present', notes: '' },
+        { studentId: 'STU-2024-005', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-14T13:00:00.000Z',
+      updatedAt: '2026-11-14T13:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261117-001',
+      date: '2026-11-17',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Operating Systems (CSE-305)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Present', notes: '' },
+        { studentId: 'STU-2024-005', status: 'Absent', notes: 'No notice' }
+      ],
+      createdAt: '2026-11-17T10:00:00.000Z',
+      updatedAt: '2026-11-17T10:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261119-001',
+      date: '2026-11-19',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Database Systems (CSE-303)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Present', notes: '' },
+        { studentId: 'STU-2024-005', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-19T11:00:00.000Z',
+      updatedAt: '2026-11-19T11:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261121-001',
+      date: '2026-11-21',
+      departmentId: 'DEP-001',
+      semester: '5th',
+      subject: 'Software Engineering (CSE-301)',
+      teacherName: 'Prof. Alan Turing',
+      records: [
+        { studentId: 'STU-2024-001', status: 'Present', notes: '' },
+        { studentId: 'STU-2024-005', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-21T09:00:00.000Z',
+      updatedAt: '2026-11-21T09:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261110-002',
+      date: '2026-11-10',
+      departmentId: 'DEP-003',
+      semester: '4th',
+      subject: 'Financial Accounting (BBA-201)',
+      teacherName: 'Dr. Peter Drucker',
+      records: [
+        { studentId: 'STU-2024-004', status: 'Absent', notes: 'Unexcused' }
+      ],
+      createdAt: '2026-11-10T11:00:00.000Z',
+      updatedAt: '2026-11-10T11:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261112-002',
+      date: '2026-11-12',
+      departmentId: 'DEP-003',
+      semester: '4th',
+      subject: 'Principles of Marketing (BBA-203)',
+      teacherName: 'Dr. Peter Drucker',
+      records: [
+        { studentId: 'STU-2024-004', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-12T13:00:00.000Z',
+      updatedAt: '2026-11-12T13:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261117-002',
+      date: '2026-11-17',
+      departmentId: 'DEP-003',
+      semester: '4th',
+      subject: 'Financial Accounting (BBA-201)',
+      teacherName: 'Dr. Peter Drucker',
+      records: [
+        { studentId: 'STU-2024-004', status: 'Absent', notes: 'Missed class' }
+      ],
+      createdAt: '2026-11-17T11:00:00.000Z',
+      updatedAt: '2026-11-17T11:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261119-002',
+      date: '2026-11-19',
+      departmentId: 'DEP-003',
+      semester: '4th',
+      subject: 'Organizational Behavior (BBA-205)',
+      teacherName: 'Dr. Peter Drucker',
+      records: [
+        { studentId: 'STU-2024-004', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-19T09:00:00.000Z',
+      updatedAt: '2026-11-19T09:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261114-002',
+      date: '2026-11-14',
+      departmentId: 'DEP-002',
+      semester: '7th',
+      subject: 'Power Systems Engineering (EEE-401)',
+      teacherName: 'Dr. Nikola Tesla',
+      records: [
+        { studentId: 'STU-2024-003', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-14T10:00:00.000Z',
+      updatedAt: '2026-11-14T10:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261118-001',
+      date: '2026-11-18',
+      departmentId: 'DEP-002',
+      semester: '7th',
+      subject: 'Telecommunication Networks (EEE-403)',
+      teacherName: 'Dr. Nikola Tesla',
+      records: [
+        { studentId: 'STU-2024-003', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-18T14:00:00.000Z',
+      updatedAt: '2026-11-18T14:00:00.000Z'
+    },
+    {
+      id: 'ATT-20261120-001',
+      date: '2026-11-20',
+      departmentId: 'DEP-002',
+      semester: '7th',
+      subject: 'Power Systems Engineering (EEE-401)',
+      teacherName: 'Dr. Nikola Tesla',
+      records: [
+        { studentId: 'STU-2024-003', status: 'Present', notes: '' }
+      ],
+      createdAt: '2026-11-20T10:00:00.000Z',
+      updatedAt: '2026-11-20T10:00:00.000Z'
+    }
+  ];
+
+  /**
    * Safe getter from LocalStorage
    */
   const getItem = (key, fallback = null) => {
@@ -327,6 +547,9 @@ SMS.Storage = (() => {
     if (forceReset || !localStorage.getItem(KEYS.SETTINGS)) {
       setItem(KEYS.SETTINGS, DEMO_SETTINGS);
     }
+    if (forceReset || !localStorage.getItem(KEYS.ATTENDANCE)) {
+      setItem(KEYS.ATTENDANCE, DEMO_ATTENDANCE);
+    }
   };
 
   /**
@@ -356,6 +579,7 @@ SMS.Storage = (() => {
       institution: getItem(KEYS.SETTINGS)?.institutionName || 'University',
       students: getItem(KEYS.STUDENTS, []),
       departments: getItem(KEYS.DEPARTMENTS, []),
+      attendance: getItem(KEYS.ATTENDANCE, []),
       settings: getItem(KEYS.SETTINGS, {})
     };
     return data;
@@ -434,6 +658,11 @@ SMS.Storage = (() => {
 
     // Save imported students
     setItem(KEYS.STUDENTS, validStudents);
+
+    // Optionally import attendance if present
+    if (importedJson.attendance && Array.isArray(importedJson.attendance)) {
+      setItem(KEYS.ATTENDANCE, importedJson.attendance);
+    }
     return validStudents.length;
   };
 
@@ -450,6 +679,7 @@ SMS.Storage = (() => {
     DEMO_USERS,
     DEMO_DEPARTMENTS,
     DEMO_STUDENTS,
-    DEMO_SETTINGS
+    DEMO_SETTINGS,
+    DEMO_ATTENDANCE
   };
 })();

@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/attendance.css">
   <link rel="stylesheet" href="css/responsive.css">
   <style>
     /* Student Details Custom Styles */
@@ -197,6 +198,12 @@
               <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
                 <i class="fa-solid fa-user-plus"></i>
                 <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="attendance.html" class="sidebar-link" id="navLinkAttendance">
+                <i class="fa-solid fa-clipboard-user"></i>
+                <span>Attendance</span>
               </a>
             </li>
             <li>
@@ -392,6 +399,75 @@
             </div>
           </div>
 
+          <!-- Classroom Attendance & Exam Eligibility Card -->
+          <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+              <h3 class="card-title">
+                <i class="fa-solid fa-clipboard-user" style="color: var(--primary);"></i>
+                Classroom Attendance &amp; Exam Eligibility
+              </h3>
+              <a href="attendance.html?tab=report" class="btn btn-outline btn-sm">
+                <i class="fa-solid fa-chart-line"></i> Full Attendance Module
+              </a>
+            </div>
+            <div class="card-body">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="padding: 1rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); text-align: center;">
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Attendance Rate</div>
+                  <div id="detailAttendanceRate" style="font-size: 1.75rem; font-weight: 700; color: var(--primary);">0%</div>
+                  <div id="detailAttendanceBarWrapper" style="margin-top: 0.5rem; height: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden;">
+                    <div id="detailAttendanceBar" style="height: 100%; width: 0%; background: #16a34a; border-radius: 99px;"></div>
+                  </div>
+                </div>
+
+                <div style="padding: 1rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); text-align: center;">
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Exam Status</div>
+                  <div id="detailAttendanceEligibility" style="margin-top: 0.5rem;">
+                    <span class="badge badge-eligible">Eligible</span>
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.5rem;">Requires &ge; 75% attendance</div>
+                </div>
+
+                <div style="padding: 1rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); text-align: center;">
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Total Lectures</div>
+                  <div id="detailTotalClasses" style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">0</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.35rem;">Conducted to date</div>
+                </div>
+
+                <div style="padding: 1rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); text-align: center;">
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Breakdown</div>
+                  <div style="font-size: 0.82rem; font-weight: 600; margin-top: 0.4rem; display: flex; justify-content: center; gap: 0.75rem;">
+                    <span style="color: #15803d;">P: <span id="detailPresentCount">0</span></span>
+                    <span style="color: #b45309;">L: <span id="detailLateCount">0</span></span>
+                    <span style="color: #b91c1c;">A: <span id="detailAbsentCount">0</span></span>
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.35rem;">Present / Late / Absent</div>
+                </div>
+              </div>
+
+              <!-- Recent 5 Classroom Sessions Table -->
+              <h4 style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">
+                Recent Classroom Sessions
+              </h4>
+              <div class="table-responsive">
+                <table class="data-table" style="font-size: 0.85rem;">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Subject / Course</th>
+                      <th>Instructor</th>
+                      <th>Status</th>
+                      <th>Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody id="detailAttendanceTableBody">
+                    <!-- Injected via JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </main>
@@ -404,6 +480,7 @@
   <script src="js/auth.js"></script>
   <script src="js/validation.js"></script>
   <script src="js/student.js"></script>
+  <script src="js/attendance.js"></script>
   <script src="js/student-details.js"></script>
   <script src="js/app.js"></script>
 </body>

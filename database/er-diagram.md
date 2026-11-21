@@ -12,6 +12,9 @@
 erDiagram
     DEPARTMENTS ||--o{ STUDENTS : "enrolls"
     USERS ||--o| STUDENTS : "authenticates as"
+    DEPARTMENTS ||--o{ ATTENDANCE_SESSIONS : "conducts"
+    ATTENDANCE_SESSIONS ||--o{ ATTENDANCE_RECORDS : "contains"
+    STUDENTS ||--o{ ATTENDANCE_RECORDS : "participates in"
 
     DEPARTMENTS {
         string department_id PK "DEP-001"
@@ -43,11 +46,29 @@ erDiagram
         string user_id PK "USR-001"
         string name "Display name"
         string email UK "Login email"
-        enum role "Admin, Student"
+        enum role "Admin, Teacher, Student"
         string salt "16-byte hex cryptographic salt"
         string password_hash "PBKDF2 SHA-256 derived hash"
         string student_id FK "References STUDENTS (optional)"
         datetime created_at "Account creation timestamp"
+    }
+
+    ATTENDANCE_SESSIONS {
+        string session_id PK "ATT-20261121-001"
+        date session_date "Lecture date"
+        string department_id FK "References DEPARTMENTS"
+        enum semester "1st through 8th"
+        string subject_name "Course title"
+        string teacher_name "Instructor name"
+        datetime created_at "Session created"
+    }
+
+    ATTENDANCE_RECORDS {
+        bigint record_id PK "Auto increment"
+        string session_id FK "References ATTENDANCE_SESSIONS"
+        string student_id FK "References STUDENTS"
+        enum status "Present, Late, Absent, Excused"
+        string notes "Remarks / reasons"
     }
 ```
 

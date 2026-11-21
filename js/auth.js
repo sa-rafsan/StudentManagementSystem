@@ -121,6 +121,22 @@ SMS.Auth = (() => {
   };
 
   /**
+   * Check if current user is Teacher
+   */
+  const isTeacher = () => {
+    const user = getCurrentUser();
+    return user && user.role === 'Teacher';
+  };
+
+  /**
+   * Check if current user can mark attendance (Admin or Teacher)
+   */
+  const canMarkAttendance = () => {
+    const user = getCurrentUser();
+    return user && (user.role === 'Admin' || user.role === 'Teacher');
+  };
+
+  /**
    * Set user session
    */
   const setSession = (user) => {
@@ -196,7 +212,7 @@ SMS.Auth = (() => {
       id: `USR-${Date.now().toString().slice(-4)}`,
       name: String(name).trim(),
       email: cleanEmail,
-      role: role === 'Admin' ? 'Admin' : 'Student',
+      role: ['Admin', 'Teacher', 'Student'].includes(role) ? role : 'Student',
       salt,
       passwordHash: hash,
       studentId: role === 'Student' ? studentId : null,
@@ -222,7 +238,7 @@ SMS.Auth = (() => {
   /**
    * Route Guard: Protect pages by authentication and role
    */
-  const requireAuth = (allowedRoles = ['Admin', 'Student']) => {
+  const requireAuth = (allowedRoles = ['Admin', 'Teacher', 'Student']) => {
     const user = getCurrentUser();
 
     if (!user) {
@@ -249,6 +265,8 @@ SMS.Auth = (() => {
     isLoggedIn,
     isAdmin,
     isStudent,
+    isTeacher,
+    canMarkAttendance,
     login,
     register,
     logout,

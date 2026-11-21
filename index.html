@@ -54,6 +54,12 @@
               </a>
             </li>
             <li>
+              <a href="attendance.html" class="sidebar-link" id="navLinkAttendance">
+                <i class="fa-solid fa-clipboard-user"></i>
+                <span>Attendance</span>
+              </a>
+            </li>
+            <li>
               <a href="settings.html" class="sidebar-link" id="navLinkSettings">
                 <i class="fa-solid fa-gear"></i>
                 <span>Settings &amp; Data</span>
@@ -203,6 +209,20 @@
               <i class="fa-solid fa-sitemap"></i>
             </div>
           </div>
+
+          <!-- Class Attendance Rate -->
+          <div class="stat-card">
+            <div class="stat-info">
+              <span class="stat-label">Class Attendance</span>
+              <span class="stat-value" id="statAttendanceRate">0%</span>
+              <span class="stat-subtext">
+                <span class="stat-trend-up"><i class="fa-solid fa-clipboard-check"></i> Overall average</span>
+              </span>
+            </div>
+            <div class="stat-icon green" style="background:#dcfce7;color:#16a34a;">
+              <i class="fa-solid fa-clipboard-user"></i>
+            </div>
+          </div>
         </div>
 
         <!-- Charts Grid (Enrollment Trends & Gender Distribution) -->
@@ -342,6 +362,7 @@
   <script src="js/auth.js"></script>
   <script src="js/validation.js"></script>
   <script src="js/student.js"></script>
+  <script src="js/attendance.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/app.js"></script>
 </body>

@@ -83,7 +83,7 @@ CREATE TABLE `users` (
   `user_id` VARCHAR(24) NOT NULL COMMENT 'Internal user account ID (e.g. USR-001)',
   `name` VARCHAR(100) NOT NULL COMMENT 'Display username',
   `email` VARCHAR(128) NOT NULL COMMENT 'Login email identifier',
-  `role` ENUM('Admin', 'Student') NOT NULL DEFAULT 'Student' COMMENT 'RBAC access authorization',
+  `role` ENUM('Admin', 'Teacher', 'Student') NOT NULL DEFAULT 'Student' COMMENT 'RBAC access authorization',
   `salt` VARCHAR(64) NOT NULL COMMENT 'Cryptographic salt (hex string for PBKDF2 derivation)',
   `password_hash` VARCHAR(128) NOT NULL COMMENT 'PBKDF2 SHA-256 derived key (hex string)',
   `student_id` VARCHAR(24) DEFAULT NULL COMMENT 'Foreign key to student profile if role=Student',
@@ -96,6 +96,53 @@ CREATE TABLE `users` (
     REFERENCES `students` (`student_id`)
     ON UPDATE CASCADE
     ON DELETE SET NULL -- If student is removed, keep the user account but nullify reference
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
+-- Table 4: attendance_sessions
+-- Maps to LocalStorage Key: `sms_attendance`
+-- -----------------------------------------------------------------------------
+DROP TABLE IF EXISTS `attendance_sessions`;
+CREATE TABLE `attendance_sessions` (
+  `session_id` VARCHAR(32) NOT NULL COMMENT 'Primary key (e.g. ATT-20261121-001)',
+  `session_date` DATE NOT NULL COMMENT 'Lecture date',
+  `department_id` VARCHAR(16) NOT NULL COMMENT 'Foreign key to departments',
+  `semester` ENUM('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th') NOT NULL COMMENT 'Target semester',
+  `subject_name` VARCHAR(128) NOT NULL COMMENT 'Subject / Course title',
+  `teacher_name` VARCHAR(100) NOT NULL COMMENT 'Instructor who marked attendance',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`session_id`),
+  KEY `idx_attendance_dept_sem` (`department_id`, `semester`),
+  KEY `idx_attendance_date` (`session_date`),
+  CONSTRAINT `fk_attendance_department`
+    FOREIGN KEY (`department_id`)
+    REFERENCES `departments` (`department_id`)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
+-- Table 5: attendance_records
+-- Maps to student attendance records in each session
+-- -----------------------------------------------------------------------------
+DROP TABLE IF EXISTS `attendance_records`;
+CREATE TABLE `attendance_records` (
+  `record_id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `session_id` VARCHAR(32) NOT NULL COMMENT 'Foreign key to attendance_sessions',
+  `student_id` VARCHAR(24) NOT NULL COMMENT 'Foreign key to students',
+  `status` ENUM('Present', 'Late', 'Absent', 'Excused') NOT NULL DEFAULT 'Present',
+  `notes` VARCHAR(255) DEFAULT NULL COMMENT 'Optional remarks',
+  UNIQUE KEY `uk_session_student` (`session_id`, `student_id`),
+  KEY `idx_record_student` (`student_id`),
+  CONSTRAINT `fk_att_session`
+    FOREIGN KEY (`session_id`)
+    REFERENCES `attendance_sessions` (`session_id`)
+    ON DELETE CASCADE,
+  CONSTRAINT `fk_att_student`
+    FOREIGN KEY (`student_id`)
+    REFERENCES `students` (`student_id`)
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
@@ -125,4 +172,5 @@ INSERT INTO `students` (`student_id`, `full_name`, `email`, `phone`, `date_of_bi
 -- -----------------------------------------------------------------------------
 INSERT INTO `users` (`user_id`, `name`, `email`, `role`, `salt`, `password_hash`, `student_id`, `created_at`) VALUES
 ('USR-001', 'System Administrator', 'admin@example.com', 'Admin', '31323334353637383930616263646566', 'fb5c4ed67d45bce75dbe754b33a4e614f7636c407edd376fdd85439bd5803ac4', NULL, '2024-01-01 08:00:00'),
-('USR-002', 'Sarah Jenkins', 'student@example.com', 'Student', '66656463626130393837363534333231', '73cdb97880fa64b56ef5887c7173fce65697e416a3ef64d2a7bc52122138c9f4', 'STU-2024-001', '2024-01-05 09:30:00');
+('USR-002', 'Sarah Jenkins', 'student@example.com', 'Student', '66656463626130393837363534333231', '73cdb97880fa64b56ef5887c7173fce65697e416a3ef64d2a7bc52122138c9f4', 'STU-2024-001', '2024-01-05 09:30:00'),
+('USR-003', 'Prof. Alan Turing', 'teacher@example.com', 'Teacher', '746561636865725f73616c745f313233', '150e52b3689ce8cd5731294c68fcff03fb40bf43b0efb8e0d0514a0ad0e5cf0f', NULL, '2024-01-02 10:00:00');

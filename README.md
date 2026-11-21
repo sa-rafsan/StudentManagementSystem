@@ -22,6 +22,7 @@ python -m http.server 5500
 Open browser and visit: **[http://localhost:5500/login.html](http://localhost:5500/login.html)**
 
 - **Admin:** `admin@example.com` / `Admin@123`
+- **Teacher:** `teacher@example.com` / `Teacher@123`
 - **Student:** `student@example.com` / `Student@123`
   _(One-click autofill buttons are also available on the login page)._
 
@@ -46,8 +47,9 @@ StudentManagementSystem/
 ├── register.html            # User Registration (Role selection: Admin / Student)
 ├── students.html            # Page 2: Student Directory (CRUD, Search, Filter, Sort, Pagination)
 ├── add-student.html         # Page 3: Student Registration & Profile Editor Form
-├── student-details.html     # Page 4: Student Dossier Profile (Loaded via ?id=STU-...)
-├── settings.html            # Page 5: Department Management & JSON Data Operations
+├── attendance.html          # Page 4: Classroom Attendance (Marking, Reports, Analytics)
+├── student-details.html     # Page 5: Student Dossier Profile (Loaded via ?id=STU-...)
+├── settings.html            # Page 6: Department Management & JSON Data Operations
 │
 ├── assets/
 │   ├── images/              # Image placeholders & assets
@@ -57,8 +59,9 @@ StudentManagementSystem/
 │   ├── style.css            # Base styles, CSS variables, layout, modals, toasts
 │   ├── dashboard.css        # Stat metric cards, charts container, department bars
 │   ├── students.css         # Data table, filter toolbar, pagination, tags
+│   ├── attendance.css       # Attendance tabs, roster pills, percentage meters
 │   ├── forms.css            # Form grids, photo upload widget, validation feedback
-│   ├── auth.css             # Authentication split-card layout & disclaimer banner
+│   ├── auth.css             # Authentication split-card layout
 │   └── responsive.css       # Mobile drawer, tablet grids, print stylesheet
 │
 ├── js/
@@ -67,6 +70,7 @@ StudentManagementSystem/
 │   ├── auth.js              # Web Crypto PBKDF2 hashing, sessions, route guard
 │   ├── validation.js        # Form regular expressions, uniqueness checks
 │   ├── student.js           # Student service: CRUD, search, filter, sort, paginate
+│   ├── attendance.js        # Classroom Attendance: marking, calculations, reports
 │   ├── dashboard.js         # Metric calculators, Chart.js & canvas fallbacks
 │   ├── students.js          # Table controller, debounce search, pagination
 │   ├── student-details.js   # Student dossier view from URL query param
@@ -111,9 +115,23 @@ StudentManagementSystem/
 ### 4. Student Dossier (`student-details.html`)
 
 - Displays student profile photo, academic records, contact details, and dates.
+- **Embedded Attendance Overview:** Live percentage meter, exam eligibility badge (`>= 75%`), class breakdown, and recent lecture logs.
 - Dedicated **Print Dossier** button styled via print CSS media rules.
 
-### 5. Settings & Referential Integrity (`settings.html`)
+### 5. Classroom Attendance System (`attendance.html`)
+
+- **Teacher Marking Mode:** Select Department, Semester, Date, and Subject to populate student roster.
+- **Interactive Multi-Status Pills:** One-click toggles for `Present`, `Late`, `Absent`, and `Excused` with custom remarks.
+- **Bulk Quick Actions:** "Mark All Present", "Mark All Absent", and live attendance percentage counters.
+- **Student Reports & Analytics:** Automatic attendance rate calculation (`Present + Late / Total Sessions * 100%`).
+- **Exam Eligibility Alerts:** Color-coded status badges:
+  - 🟢 **Eligible** (`>= 75%`)
+  - 🟡 **Warning** (`60% - 74%`)
+  - 🔴 **Critical Shortage** (`< 60%`)
+- **Detailed Lecture History Modal:** Date-by-date student timeline with teacher names and notes.
+- **Session History Log:** Review, edit, or delete past lecture attendance sessions.
+
+### 6. Settings & Data Operations (`settings.html`)
 
 - **Department CRUD:** Create and edit departments with code and title.
 - **Foreign Key Protection:** Prevents deleting a department if active students are assigned to it.

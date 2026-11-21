@@ -84,6 +84,67 @@ SMS.StudentDetails = (() => {
     if (acadCreatedAt) acadCreatedAt.textContent = SMS.Utils.formatDate(student.createdAt);
     if (acadUpdatedAt) acadUpdatedAt.textContent = SMS.Utils.formatDate(student.updatedAt);
 
+    // Render Classroom Attendance & Exam Eligibility
+    if (window.SMS.Attendance) {
+      const stats = SMS.Attendance.calculateStudentStats(student.id);
+
+      const rateEl = SMS.Utils.$('#detailAttendanceRate');
+      const barEl = SMS.Utils.$('#detailAttendanceBar');
+      const eligEl = SMS.Utils.$('#detailAttendanceEligibility');
+      const totalEl = SMS.Utils.$('#detailTotalClasses');
+      const presentEl = SMS.Utils.$('#detailPresentCount');
+      const lateEl = SMS.Utils.$('#detailLateCount');
+      const absentEl = SMS.Utils.$('#detailAbsentCount');
+      const tableBody = SMS.Utils.$('#detailAttendanceTableBody');
+
+      if (rateEl) {
+        rateEl.textContent = `${stats.percentage}%`;
+        rateEl.className = stats.statusInfo.textClass;
+      }
+
+      if (barEl) {
+        barEl.style.width = `${Math.min(stats.percentage, 100)}%`;
+        let barColor = '#16a34a';
+        if (stats.percentage < 60) barColor = '#dc2626';
+        else if (stats.percentage < 75) barColor = '#d97706';
+        barEl.style.backgroundColor = barColor;
+      }
+
+      if (eligEl) {
+        eligEl.innerHTML = `<span class="badge ${stats.statusInfo.badgeClass}" style="font-size:0.85rem;padding:0.35rem 0.75rem;">${stats.statusInfo.label}</span>`;
+      }
+
+      if (totalEl) totalEl.textContent = stats.totalSessions;
+      if (presentEl) presentEl.textContent = stats.presentCount;
+      if (lateEl) lateEl.textContent = stats.lateCount;
+      if (absentEl) absentEl.textContent = stats.absentCount;
+
+      if (tableBody) {
+        if (stats.history.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-secondary);padding:1.5rem;">No classroom attendance recorded for this student yet.</td></tr>';
+        } else {
+          // Show recent 5 sessions
+          const recentSessions = stats.history.slice(0, 5);
+          tableBody.innerHTML = recentSessions.map(sess => {
+            let badgeClass = 'badge-active';
+            if (sess.status === 'Absent') badgeClass = 'badge-critical-att';
+            else if (sess.status === 'Late') badgeClass = 'badge-warning-att';
+            else if (sess.status === 'Excused') badgeClass = 'badge-dept';
+
+            return `
+              <tr>
+                <td style="font-weight:600;">${SMS.Utils.formatDate(sess.date)}</td>
+                <td>${SMS.Utils.escapeHTML(sess.subject)}</td>
+                <td>${SMS.Utils.escapeHTML(sess.teacherName)}</td>
+                <td><span class="badge ${badgeClass}">${sess.status}</span></td>
+                <td style="color:var(--text-secondary);font-size:0.82rem;">${SMS.Utils.escapeHTML(sess.notes || '-')}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+    }
+
     // Dynamic Edit Link
     const editBtn = SMS.Utils.$('#editStudentBtn');
     if (editBtn) {
