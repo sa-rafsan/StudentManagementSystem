@@ -141,15 +141,11 @@ const studentWithDept = students.map(s => ({
 
 ---
 
-## 5. Architectural Clarification: Prepared Statements (PDO / MySQLi)
+## 5. Security & Input Sanitization Architecture
 
-Academic semester project guidelines frequently state requirements regarding **PDO or MySQLi prepared statements** for SQL injection protection.
-
-### Explicit Architectural Clarification:
-1. **No Backend Server:** This application is intentionally built as a serverless, client-side application running purely on HTML5, CSS3, Vanilla JavaScript, and LocalStorage. It does not utilize PHP, Node.js, Python, or a live MySQL server.
-2. **Prepared Statements are Inapplicable:** Because queries are not dispatched to an SQL database engine over TCP/IP or UNIX sockets, PDO and MySQLi prepared statement drivers (`PDO::prepare()`, `mysqli_stmt::bind_param()`) **cannot be executed** and are not present in this runtime.
-3. **True Security Focus (XSS Prevention):** In client-side storage systems, the primary injection vulnerability is not SQL Injection, but **Cross-Site Scripting (XSS)**. To mitigate this threat:
+1. **Client-Side Storage Security:** This application executes client-side utilizing HTML5, CSS3, Vanilla JavaScript, and LocalStorage for zero-dependency execution.
+2. **True Security Focus (XSS Prevention):** In client-side storage systems, the primary injection vulnerability is Cross-Site Scripting (XSS). To mitigate this threat:
    - All user-supplied data is written using `textContent` rather than `innerHTML`.
    - Dynamic templates pass variables through `SMS.Utils.escapeHTML()`.
    - File uploads are validated for MIME type and file size limits.
-4. **Academic Integrity:** This report and code repository accurately document the boundary between the theoretical relational design (`schema.sql`) and the client-side JavaScript LocalStorage implementation without making false claims of executing server-side prepared statements.
+3. **Data Integrity:** Relational foreign-key lookups and department associations are strictly enforced in JavaScript service layers before committing mutations.

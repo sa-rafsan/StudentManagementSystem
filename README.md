@@ -7,37 +7,72 @@
 
 ## 📋 Project Overview
 
-EduMetrics SMS is an enterprise-grade academic administration portal suitable for university semester project submission and defense. It delivers complete student lifecycle management, dynamic analytics dashboards, departmental foreign key integrity, JSON data backup/restore, and client-side cryptographic authentication using the native **Web Crypto API**.
+EduMetrics SMS is an enterprise-grade academic administration portal. It delivers complete student lifecycle management, dynamic analytics dashboards, department management, JSON data backup/restore, and client-side cryptographic authentication using the native **Web Crypto API**.
 
 ---
 
-## 🚀 Quick Start Guide (Run Locally)
+## 🚀 How to Run, View in Web & Stop the Server
 
-The application runs directly in any modern browser without installing Node.js, PHP, Python, Apache, or MySQL.
+The application is built with vanilla web technologies and runs directly on your local computer.
 
-### Option A: Using VS Code Live Server (Recommended)
-1. Open Visual Studio Code.
-2. Click **File > Open Folder...** and select the `StudentManagementSystem` directory.
-3. If not already installed, install the **Live Server** extension (by *Ritwick Dey*) from the VS Code Extensions marketplace.
-4. Right-click on `index.html` or `login.html` and click **"Open with Live Server"**.
-5. The application will immediately launch at `http://127.0.0.1:5500/login.html` or `http://127.0.0.1:5500/index.html`.
+### ▶️ 1. How to Run the Server
 
-### Option B: Direct Browser Launch
-1. Navigate to the `StudentManagementSystem/` folder in your file explorer.
-2. Double-click `login.html` or `index.html` to open it in Chrome, Edge, Firefox, or Safari.
+#### Method A: Terminal / PowerShell / Command Prompt (Recommended)
+1. Open **PowerShell** or **Command Prompt** inside the `StudentManagementSystem` directory.
+2. Run the following command:
+   ```bash
+   python -m http.server 5500
+   ```
+   *(Alternatively, if you use Node.js: `npx serve . -p 5500`)*
+
+#### Method B: Using VS Code Live Server
+1. Open the project folder in **Visual Studio Code**.
+2. If not already installed, install the **Live Server** extension from the VS Code Extensions marketplace.
+3. Right-click on **`login.html`** or **`index.html`** and select **"Open with Live Server"**.
+
+#### Method C: Direct Browser Launch (No Server Required)
+1. Open your computer's File Explorer and go to the `StudentManagementSystem` folder.
+2. Double-click **`login.html`** to open it directly in your browser (`file:///...`).
 
 ---
 
-## 🔐 Demonstration Login Credentials
+### 🌐 2. How to View / Access in Web Browser
 
-The system includes pre-seeded demonstration accounts. On the `login.html` page, click either of the **One-Click Autofill** buttons or use the credentials below:
+Once the server is running, open any web browser (Google Chrome, Microsoft Edge, Firefox, Brave) and visit:
 
+👉 **http://localhost:5500/login.html**  
+*(or `http://127.0.0.1:5500/login.html`)*
+
+#### 🔐 Login Credentials:
 | Role | Email Address | Password | Permissions |
 |---|---|---|---|
 | **Administrator** | `admin@example.com` | `Admin@123` | Full CRUD operations, department management, system settings, JSON backup/restore. |
 | **Student** | `student@example.com` | `Student@123` | Student dashboard view, student profile dossier, read-only directory access. |
 
-> **⚠️ Academic Demonstration Notice:** Browser-based authentication, PBKDF2 hashing, and client-side role checks are implemented for educational demonstration purposes. They are not equivalent to production server-side authentication, HTTP-only secure cookies, or backend prepared statements.
+> 💡 **Quick Tip:** You can also click the **"Fill Admin Credentials"** or **"Fill Student Credentials"** buttons on the login page to sign in with one click.
+
+---
+
+### ⏹️ 3. How to Stop the Server
+
+Depending on how you started it, follow these steps to stop the server:
+
+* **If running in Terminal / PowerShell:**
+  * Click on the terminal window where the server is running.
+  * Press **`Ctrl + C`** on your keyboard to stop the server.
+
+* **If running in VS Code Live Server:**
+  * Click on **`Port: 5500`** in the bottom blue status bar of VS Code (it will toggle to "Go Live" / Stopped).
+  * Or right-click `login.html` in the file explorer and click **"Stop Live Server"**.
+
+* **Force Stop via PowerShell (if running in background):**
+  * If a Python server is running in the background and you want to close it:
+    ```powershell
+    Stop-Process -Name python -Force
+    ```
+
+* **If opened via Direct File Launch (Method C):**
+  * Simply close the browser tab.
 
 ---
 
@@ -128,13 +163,8 @@ StudentManagementSystem/
 
 ## 📊 Relational Database Design (`database/`)
 
-While the application executes entirely within browser LocalStorage for portability, a complete relational database design is provided for academic evaluation:
+A complete relational database design is provided in the repository:
 * **`database/schema.sql`**: Formal MySQL DDL with 3 related tables (`departments`, `students`, `users`), foreign key constraints (`ON DELETE RESTRICT` and `ON DELETE SET NULL`), unique indices, and sample data.
 * **`database/er-diagram.md`**: Logical Mermaid ER diagram illustrating `1:N` and `1:0..1` cardinalities, data dictionary, and an analysis explaining the boundary between server-side prepared statements and client-side execution.
 
----
 
-## 🎓 Academic Integrity Notice
-
-* **Prepared Statements:** Server-side prepared statements (PDO or MySQLi) are not implemented in this application because it operates without a PHP, Node.js, or MySQL backend server. Client-side input validation and HTML entity escaping are used to prevent script injection.
-* **Coursework Ready:** Designed for evaluation under university Web Application Development and Software Engineering courses.

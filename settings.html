@@ -168,7 +168,7 @@
                   Department Management
                 </h2>
                 <p class="card-subtitle">
-                  Maintain university faculties. Foreign key constraints enforce referential integrity: departments cannot be deleted if active students reference them.
+                  Maintain and manage university academic departments and faculties.
                 </p>
               </div>
               <button type="button" class="btn btn-primary btn-sm" id="addDeptBtn">
@@ -279,34 +279,7 @@
             </div>
           </div>
 
-          <!-- 3. System Architecture & Academic Specification Card -->
-          <div class="card" style="margin-bottom: 2rem;">
-            <div class="card-header">
-              <div>
-                <h3 class="card-title">
-                  <i class="fa-solid fa-circle-nodes" style="color: var(--primary);"></i>
-                  Technical Architecture &amp; Semester Specification
-                </h3>
-                <p class="card-subtitle">Details on client-side relational modeling and Web Crypto cryptography</p>
-              </div>
-            </div>
-            <div class="card-body">
-              <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
-                <p style="margin-bottom: 0.75rem;">
-                  <strong>Client-Side Storage Engine:</strong> This application executes entirely within browser sandbox memory and persistent LocalStorage keys (<code>sms_users</code>, <code>sms_students</code>, <code>sms_departments</code>, <code>sms_settings</code>).
-                </p>
-                <p style="margin-bottom: 0.75rem;">
-                  <strong>Referential Integrity:</strong> Department deletion is guarded by foreign key verification in JavaScript logic. If any student record contains a matching <code>departmentId</code>, the system rejects the deletion and alerts the administrator.
-                </p>
-                <p style="margin-bottom: 0.75rem;">
-                  <strong>Web Crypto PBKDF2 Hashing:</strong> Passwords are never stored as plaintext. Passwords undergo 100,000 iterations of SHA-256 derivation with unique 16-byte cryptographic salts via <code>window.crypto.subtle</code>.
-                </p>
-                <p style="font-size: 0.82rem; color: #92400e; background: #fffbeb; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid #fde68a;">
-                  <i class="fa-solid fa-circle-info"></i> <strong>Academic Disclaimer:</strong> Browser-based authentication and role checks are designed for semester project and educational demonstration only. They are not equivalent to production server-side sessions, secure HTTP cookies, or prepared statements (PDO/MySQLi). A formal relational MySQL schema is provided in <code>database/schema.sql</code>.
-                </p>
-              </div>
-            </div>
-          </div>
+
 
         </div>
 

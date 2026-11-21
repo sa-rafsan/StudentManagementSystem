@@ -3,10 +3,6 @@
  * Authentication Module (auth.js)
  * Implements Web Crypto API PBKDF2 password hashing, salt generation,
  * session management, role-based access control, and route guards.
- *
- * NOTE FOR ACADEMIC EVALUATION:
- * Browser-based authentication and role checks are for educational demonstration only.
- * They are not equivalent to server-side sessions, secure cookies, and backend authorization.
  */
 
 window.SMS = window.SMS || {};

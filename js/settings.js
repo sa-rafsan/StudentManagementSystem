@@ -185,7 +185,7 @@ SMS.Settings = (() => {
       SMS.Utils.showToast(
         'error',
         'Cannot Delete Department',
-        `Referential Integrity Error: ${studentCount} students are currently enrolled in ${deptName}. Reassign or remove these students before deleting the department.`
+        `Cannot delete department: ${studentCount} students are currently enrolled in ${deptName}. Reassign or remove these students before deleting the department.`
       );
       return;
     }
