@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignments &amp; Quizzes - EduMetrics SMS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/courses.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="semesters.html" class="sidebar-link" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link active" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="attendance.html" class="sidebar-link" id="navLinkAttendance">
+                <i class="fa-solid fa-clipboard-user"></i>
+                <span>Attendance</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title">Assessment Management</h1>
+            <span class="breadcrumb-sub">Phase 1 to 4: Assignments &amp; Quizzes Conducted Every 3 Weeks</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-meta-pill">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>4 Phases Per Course</span>
+          </div>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="page-container">
+        <!-- Course Selection Filter & Assessment Actions -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <label for="selectAssessmentCourse" style="font-weight: 700; font-size: 0.9rem; color: var(--text-secondary);">Select Course:</label>
+            <select id="selectAssessmentCourse" class="form-control" style="width: auto; min-width: 260px;">
+              <!-- Populated dynamically -->
+            </select>
+
+            <label for="selectPhaseFilter" style="font-weight: 700; font-size: 0.9rem; color: var(--text-secondary); margin-left: 0.5rem;">Phase:</label>
+            <select id="selectPhaseFilter" class="form-control" style="width: auto; min-width: 140px;">
+              <option value="all">All Phases</option>
+              <option value="1">Phase 01 (W1–3)</option>
+              <option value="2">Phase 02 (W4–6)</option>
+              <option value="3">Phase 03 (W7–9)</option>
+              <option value="4">Phase 04 (W10–12)</option>
+            </select>
+          </div>
+
+          <div id="teacherAssessmentActions" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" id="btnCreateAssignment">
+              <i class="fa-solid fa-file-circle-plus"></i> Create Assignment
+            </button>
+            <button type="button" class="btn btn-secondary" id="btnCreateQuiz">
+              <i class="fa-solid fa-circle-question"></i> Create Quiz
+            </button>
+          </div>
+        </div>
+
+        <!-- Attendance Requirement Notification Banner -->
+        <div id="assessmentAttendanceNotice">
+          <!-- Dynamically filled with student eligibility status or teacher summary -->
+        </div>
+
+        <!-- 4 Assessment Phases Schedule Bar -->
+        <div class="assessment-phase-banner">
+          <div class="phase-summary-card phase-1">
+            <span class="phase-title">Phase 01 (Weeks 1–3)</span>
+            <span class="phase-sub">Assignment 01 + Quiz 01</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">25 Marks each (50 Marks total)</span>
+          </div>
+          <div class="phase-summary-card phase-2">
+            <span class="phase-title">Phase 02 (Weeks 4–6)</span>
+            <span class="phase-sub">Assignment 02 + Quiz 02</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">25 Marks each (50 Marks total)</span>
+          </div>
+          <div class="phase-summary-card phase-3">
+            <span class="phase-title">Phase 03 (Weeks 7–9)</span>
+            <span class="phase-sub">Assignment 03 + Quiz 03</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">25 Marks each (50 Marks total)</span>
+          </div>
+          <div class="phase-summary-card phase-4">
+            <span class="phase-title">Phase 04 (Weeks 10–12)</span>
+            <span class="phase-sub">Assignment 04 + Quiz 04</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">25 Marks each (50 Marks total)</span>
+          </div>
+        </div>
+
+        <!-- Assessment Tabs: Assignments vs Quizzes -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
+          <button type="button" class="btn btn-sm btn-primary active-tab-btn" id="tabBtnAssignments">
+            <i class="fa-solid fa-file-lines"></i> Assignments (Course Tasks)
+          </button>
+          <button type="button" class="btn btn-sm btn-secondary" id="tabBtnQuizzes">
+            <i class="fa-solid fa-clock"></i> Quizzes (Timed Tests)
+          </button>
+        </div>
+
+        <!-- Assignments Container -->
+        <div id="assignmentsSection">
+          <div id="assignmentsList" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Quizzes Container -->
+        <div id="quizzesSection" style="display: none;">
+          <div id="quizzesList" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Assignment Modal -->
+  <div class="modal-backdrop" id="assignmentModal">
+    <div class="modal-dialog" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="assignmentModalTitle">Create Assignment</h3>
+        <button type="button" class="modal-close-btn" id="assignmentModalCloseBtn">&times;</button>
+      </div>
+      <form id="assignmentForm" novalidate>
+        <input type="hidden" id="assignmentIdInput">
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="asnCourseSelect">Course <span class="required">*</span></label>
+              <select id="asnCourseSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="asnPhaseSelect">Assessment Phase <span class="required">*</span></label>
+              <select id="asnPhaseSelect" class="form-control" required>
+                <option value="1">Phase 01 (Weeks 1–3) - Assignment 01</option>
+                <option value="2">Phase 02 (Weeks 4–6) - Assignment 02</option>
+                <option value="3">Phase 03 (Weeks 7–9) - Assignment 03</option>
+                <option value="4">Phase 04 (Weeks 10–12) - Assignment 04</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="asnTitleInput">Assignment Title <span class="required">*</span></label>
+            <input type="text" id="asnTitleInput" class="form-control" placeholder="e.g. Assignment 01: Complexity Analysis" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="asnDescInput">Description &amp; Problem Statement</label>
+            <textarea id="asnDescInput" class="form-control" rows="4" placeholder="Enter full problem statement, guidelines, and submission expectations..."></textarea>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="asnMarksInput">Total Marks <span class="required">*</span></label>
+              <input type="number" id="asnMarksInput" class="form-control" value="25" min="1" max="100" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="asnDeadlineInput">Submission Deadline <span class="required">*</span></label>
+              <input type="datetime-local" id="asnDeadlineInput" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="assignmentModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveAssignment">Save Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Quiz Modal -->
+  <div class="modal-backdrop" id="quizModal">
+    <div class="modal-dialog" style="max-width: 750px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="quizModalTitle">Create Quiz</h3>
+        <button type="button" class="modal-close-btn" id="quizModalCloseBtn">&times;</button>
+      </div>
+      <form id="quizForm" novalidate>
+        <input type="hidden" id="quizIdInput">
+        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr 0.8fr; gap: 0.75rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="quizCourseSelect">Course <span class="required">*</span></label>
+              <select id="quizCourseSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="quizPhaseSelect">Assessment Phase <span class="required">*</span></label>
+              <select id="quizPhaseSelect" class="form-control" required>
+                <option value="1">Phase 01 (Weeks 1–3) - Quiz 01</option>
+                <option value="2">Phase 02 (Weeks 4–6) - Quiz 02</option>
+                <option value="3">Phase 03 (Weeks 7–9) - Quiz 03</option>
+                <option value="4">Phase 04 (Weeks 10–12) - Quiz 04</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="quizDurationInput">Duration (Mins)</label>
+              <input type="number" id="quizDurationInput" class="form-control" value="20" min="5" max="180" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="quizTitleInput">Quiz Title <span class="required">*</span></label>
+            <input type="text" id="quizTitleInput" class="form-control" placeholder="e.g. Quiz 01: Computational Complexity" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+            <div class="form-group">
+              <label class="form-label" for="quizMarksInput">Total Marks <span class="required">*</span></label>
+              <input type="number" id="quizMarksInput" class="form-control" value="25" min="1" max="100" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="quizDeadlineInput">Deadline <span class="required">*</span></label>
+              <input type="datetime-local" id="quizDeadlineInput" class="form-control" required>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin: 0;">Quiz Questions (Direct In-Platform 4 Options)</h4>
+                <span class="badge badge-info" id="quizQuestionCountBadge">0 Qs</span>
+                <span class="badge badge-success" id="quizMarksSumBadge">0 Marks</span>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnToggleAddQForm">
+                <i class="fa-solid fa-plus"></i> Add Question
+              </button>
+            </div>
+
+            <!-- Inline 4-Option Question Builder Form -->
+            <div id="newQuestionFormBox" style="display: none; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1rem;">
+              <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--primary);">New 4-Option Question</div>
+              <div class="form-group" style="margin-bottom: 0.75rem;">
+                <label class="form-label" style="font-size: 0.82rem;">Question Statement <span class="required">*</span></label>
+                <input type="text" id="qTextInput" class="form-control form-control-sm" placeholder="e.g. What is the time complexity of binary search?">
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.8rem;">Option A <span class="required">*</span></label>
+                  <input type="text" id="qOptA" class="form-control form-control-sm" placeholder="e.g. O(1)">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.8rem;">Option B <span class="required">*</span></label>
+                  <input type="text" id="qOptB" class="form-control form-control-sm" placeholder="e.g. O(log n)">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.8rem;">Option C <span class="required">*</span></label>
+                  <input type="text" id="qOptC" class="form-control form-control-sm" placeholder="e.g. O(n)">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.8rem;">Option D <span class="required">*</span></label>
+                  <input type="text" id="qOptD" class="form-control form-control-sm" placeholder="e.g. O(n log n)">
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.75rem; align-items: flex-end;">
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.8rem;">Correct Answer <span class="required">*</span></label>
+                  <select id="qCorrectSelect" class="form-control form-control-sm">
+                    <option value="A">Option A</option>
+                    <option value="B">Option B</option>
+                    <option value="C">Option C</option>
+                    <option value="D">Option D</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" style="font-size: 0.8rem;">Marks</label>
+                  <input type="number" id="qMarksInput" class="form-control form-control-sm" value="5" min="1" max="50">
+                </div>
+              </div>
+              <div style="margin-top: 0.75rem; text-align: right; display: flex; justify-content: flex-end; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-sm btn-secondary" id="btnCancelAddQ">Cancel</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="btnConfirmAddAndNextQ"><i class="fa-solid fa-plus"></i> Add &amp; Next Question</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnConfirmAddQ"><i class="fa-solid fa-check"></i> Add to Quiz</button>
+              </div>
+            </div>
+
+            <div id="questionsBuilderContainer" style="display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Questions added dynamically -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="quizModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Quiz</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Student Assignment Submission Modal -->
+  <div class="modal-backdrop" id="submitAssignmentModal">
+    <div class="modal-dialog" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Submit Assignment Solution</h3>
+        <button type="button" class="modal-close-btn" id="submitAsnCloseBtn">&times;</button>
+      </div>
+      <form id="submitAsnForm">
+        <input type="hidden" id="submitAsnIdInput">
+        <input type="hidden" id="submitAsnImageBase64">
+        <div class="modal-body">
+          <h4 id="submitAsnTitle" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main);"></h4>
+          <p id="submitAsnDesc" style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.45;"></p>
+          
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label class="form-label" for="submissionTextInput">Notes / Description / Comments</label>
+            <textarea id="submissionTextInput" class="form-control" rows="3" placeholder="Enter explanation, observations or summary of your work..."></textarea>
+          </div>
+
+          <!-- Single Image Upload Section -->
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fa-regular fa-image" style="color: var(--primary);"></i> Assignment Work Image <span class="required">*</span>
+              <span class="form-label-hint">Upload 1 single image of your homework / diagram</span>
+            </label>
+            <input type="file" id="assignmentImageInput" class="form-control" accept="image/*" style="padding: 0.5rem;">
+            <div id="asnImagePreviewContainer" style="display: none; margin-top: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.5rem; text-align: center; background: #f8fafc;">
+              <img id="asnImagePreview" src="" alt="Assignment Preview" style="max-height: 220px; max-width: 100%; border-radius: var(--radius-sm); object-fit: contain;">
+              <div style="margin-top: 0.5rem;">
+                <button type="button" class="btn btn-sm btn-secondary" id="btnRemoveAsnImage" style="color: var(--danger); font-size: 0.78rem;">
+                  <i class="fa-solid fa-trash-can"></i> Remove Image
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="submitAsnCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnConfirmSubmitAsn">Confirm &amp; Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Student Take Quiz Modal -->
+  <div class="modal-backdrop" id="takeQuizModal">
+    <div class="modal-dialog" style="max-width: 750px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="takeQuizTitle">Take Quiz</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="takeQuizMeta"></span>
+        </div>
+        <button type="button" class="modal-close-btn" id="takeQuizCloseBtn">&times;</button>
+      </div>
+      <form id="takeQuizForm">
+        <input type="hidden" id="takeQuizIdInput">
+        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+          <div id="takeQuizQuestionsContainer">
+            <!-- Questions to answer -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="takeQuizCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="takeQuizSubmitBtn">Submit Quiz Answers</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Teacher Submissions & Grading Review Modal -->
+  <div class="modal-backdrop" id="gradeReviewModal">
+    <div class="modal-dialog" style="max-width: 850px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="gradeReviewTitle">Student Submissions &amp; Evaluation</h3>
+        <button type="button" class="modal-close-btn" id="gradeReviewCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <div id="gradeReviewContent">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="gradeReviewDoneBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/course-service.js"></script>
+  <script src="js/assessment-service.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = SMS.Auth.getCurrentUser();
+      const selectCourse = SMS.Utils.$('#selectAssessmentCourse');
+      const selectPhase = SMS.Utils.$('#selectPhaseFilter');
+      const assignmentsList = SMS.Utils.$('#assignmentsList');
+      const quizzesList = SMS.Utils.$('#quizzesList');
+      const tabAsn = SMS.Utils.$('#tabBtnAssignments');
+      const tabQz = SMS.Utils.$('#tabBtnQuizzes');
+      const secAsn = SMS.Utils.$('#assignmentsSection');
+      const secQz = SMS.Utils.$('#quizzesSection');
+      const teacherActions = SMS.Utils.$('#teacherAssessmentActions');
+      const noticeBox = SMS.Utils.$('#assessmentAttendanceNotice');
+
+      let currentActiveCourseId = SMS.Utils.getUrlParam('course') || 'CRS-001';
+
+      // Populate courses dropdown
+      let allCourses = SMS.CourseService.getAllCourses();
+      if (SMS.Auth.isTeacher() && user.teacherId) {
+        allCourses = allCourses.filter(c => c.teacherId === user.teacherId);
+      } else if (SMS.Auth.isStudent() && user.studentId) {
+        const enrolled = SMS.CourseService.getStudentEnrolledCourses(user.studentId).map(e => e.course.id);
+        allCourses = allCourses.filter(c => enrolled.includes(c.id));
+      }
+
+      selectCourse.innerHTML = allCourses.map(c => `
+        <option value="${c.id}" ${c.id === currentActiveCourseId ? 'selected' : ''}>${SMS.Utils.escapeHTML(c.code)}: ${SMS.Utils.escapeHTML(c.name)}</option>
+      `).join('');
+
+      if (allCourses.length > 0 && !allCourses.some(c => c.id === currentActiveCourseId)) {
+        currentActiveCourseId = allCourses[0].id;
+        selectCourse.value = currentActiveCourseId;
+      }
+
+      // Restrict teacher action buttons if student
+      if (SMS.Auth.isStudent() && teacherActions) {
+        teacherActions.style.display = 'none';
+      }
+
+      // Modal Open/Close Helpers
+      const openModal = (modalEl) => {
+        if (!modalEl) return;
+        modalEl.style.display = 'flex';
+        modalEl.classList.add('show');
+        modalEl.style.opacity = '1';
+        modalEl.style.visibility = 'visible';
+      };
+
+      const closeModal = (modalEl) => {
+        if (!modalEl) return;
+        modalEl.classList.remove('show');
+        modalEl.style.opacity = '0';
+        modalEl.style.visibility = 'hidden';
+        modalEl.style.display = 'none';
+      };
+
+      // Close modal on backdrop click
+      SMS.Utils.$$('.modal-backdrop').forEach(bd => {
+        bd.addEventListener('click', (e) => {
+          if (e.target === bd) {
+            closeModal(bd);
+          }
+        });
+      });
+
+      // Tab Switching
+      tabAsn.addEventListener('click', () => {
+        tabAsn.classList.replace('btn-secondary', 'btn-primary');
+        tabQz.classList.replace('btn-primary', 'btn-secondary');
+        secAsn.style.display = 'block';
+        secQz.style.display = 'none';
+      });
+
+      tabQz.addEventListener('click', () => {
+        tabQz.classList.replace('btn-secondary', 'btn-primary');
+        tabAsn.classList.replace('btn-primary', 'btn-secondary');
+        secQz.style.display = 'block';
+        secAsn.style.display = 'none';
+      });
+
+      // Update Attendance Notice
+      const updateNotice = () => {
+        if (!currentActiveCourseId) return;
+        if (SMS.Auth.isStudent() && user.studentId) {
+          const stats = SMS.AssessmentService.getCourseAttendanceStats(currentActiveCourseId, user.studentId);
+          if (stats.isRestricted) {
+            noticeBox.innerHTML = `
+              <div class="eligibility-callout restricted">
+                <i class="fa-solid fa-triangle-exclamation eligibility-icon"></i>
+                <div>
+                  <h4 style="font-weight: 700; margin-bottom: 0.25rem;">Assessment Submissions &amp; Quizzes Locked</h4>
+                  <p style="font-size: 0.88rem; margin: 0;">${stats.restrictionReason} (Current attendance: <strong>${stats.percentage}%</strong> across ${stats.totalClasses} scheduled lecture classes).</p>
+                </div>
+              </div>
+            `;
+          } else {
+            noticeBox.innerHTML = `
+              <div class="eligibility-callout eligible">
+                <i class="fa-solid fa-circle-check eligibility-icon"></i>
+                <div>
+                  <h4 style="font-weight: 700; margin-bottom: 0.25rem;">Assessment Status: Eligible (${stats.percentage}%)</h4>
+                  <p style="font-size: 0.88rem; margin: 0;">You satisfy the mandatory 70% course attendance policy. You may submit assignments and attempt quizzes.</p>
+                </div>
+              </div>
+            `;
+          }
+        } else {
+          noticeBox.innerHTML = '';
+        }
+      };
+
+      // Render Assignments and Quizzes
+      const renderAssessments = () => {
+        updateNotice();
+        const selectedPhase = selectPhase.value;
+
+        // --- ASSIGNMENTS ---
+        let assignments = SMS.AssessmentService.getAssignmentsByCourse(currentActiveCourseId);
+        if (selectedPhase !== 'all') {
+          assignments = assignments.filter(a => a.phaseNumber === parseInt(selectedPhase, 10));
+        }
+
+        const allSubmissions = SMS.Storage.getCollection(SMS.Storage.KEYS.SUBMISSIONS);
+
+        if (assignments.length === 0) {
+          assignmentsList.innerHTML = `<div style="text-align: center; padding: 2.5rem; background: #fff; border-radius: var(--radius-md); border: 1px dashed var(--border-color); color: var(--text-muted);">No assignments available for this course / phase selection.</div>`;
+        } else {
+          assignmentsList.innerHTML = assignments.map(asn => {
+            const courseSubs = allSubmissions.filter(s => s.assignmentId === asn.id);
+            let studentSub = null;
+            if (SMS.Auth.isStudent() && user.studentId) {
+              studentSub = courseSubs.find(s => s.studentId === user.studentId);
+            }
+
+            const attStats = SMS.Auth.isStudent() && user.studentId ? SMS.AssessmentService.getCourseAttendanceStats(currentActiveCourseId, user.studentId) : null;
+            const isRestricted = attStats ? attStats.isRestricted : false;
+
+            return `
+              <div class="card" style="border-left: 4px solid var(--primary);">
+                <div class="card-body" style="padding: 1.25rem 1.5rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem;">
+                    <div>
+                      <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.35rem;">
+                        <span class="badge badge-primary">${asn.phase}</span>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-regular fa-clock"></i> Deadline: ${SMS.Utils.formatDate(asn.deadline)}</span>
+                      </div>
+                      <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">${SMS.Utils.escapeHTML(asn.title)}</h3>
+                      <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.45;">${SMS.Utils.escapeHTML(asn.description || 'No description provided.')}</p>
+                    </div>
+                    <div style="text-align: right;">
+                      <span style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">${asn.totalMarks}</span>
+                      <span style="font-size: 0.8rem; color: var(--text-muted);">Marks</span>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                    <div>
+                      ${SMS.Auth.isStudent() ? (
+                        studentSub ? `
+                          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="badge ${studentSub.status === 'Graded' ? 'badge-success' : 'badge-warning'}">
+                              ${studentSub.status === 'Graded' ? `Graded: ${studentSub.marksAwarded} / ${asn.totalMarks}` : 'Submitted - Pending Review'}
+                            </span>
+                            ${studentSub.submissionImage ? `<span class="badge badge-primary" style="font-size: 0.72rem;"><i class="fa-regular fa-image"></i> Image Uploaded</span>` : ''}
+                            ${studentSub.feedback ? `<span style="font-size: 0.82rem; color: var(--text-muted); margin-left: 0.25rem;"><strong>Feedback:</strong> ${SMS.Utils.escapeHTML(studentSub.feedback)}</span>` : ''}
+                          </div>
+                        ` : '<span class="badge badge-secondary">Not Submitted Yet</span>'
+                      ) : `
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);"><i class="fa-solid fa-users"></i> <strong>${courseSubs.length}</strong> Student Submissions</span>
+                      `}
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                      ${SMS.Auth.isStudent() ? `
+                        <button type="button" class="btn btn-sm btn-primary btn-submit-asn" data-id="${asn.id}" ${isRestricted ? 'disabled title="Restricted due to < 70% attendance"' : ''}>
+                          <i class="fa-solid fa-upload"></i> ${studentSub ? 'Update / Resubmit Work' : 'Submit Assignment'}
+                        </button>
+                      ` : `
+                        <button type="button" class="btn btn-sm btn-primary btn-submit-asn" data-id="${asn.id}">
+                          <i class="fa-solid fa-upload"></i> Submit Solution
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary btn-review-asn" data-id="${asn.id}">
+                          <i class="fa-solid fa-clipboard-check"></i> Evaluate (${courseSubs.length})
+                        </button>
+                        ${(SMS.Auth.isAdmin() || SMS.Auth.isTeacher()) ? `
+                          <button type="button" class="btn btn-icon btn-sm btn-edit-asn" data-id="${asn.id}" style="color: var(--primary);" title="Edit Assignment">
+                            <i class="fa-solid fa-pen"></i>
+                          </button>
+                          <button type="button" class="btn btn-icon btn-sm btn-delete-asn" data-id="${asn.id}" style="color: var(--danger);" title="Delete">
+                            <i class="fa-solid fa-trash-can"></i>
+                          </button>
+                        ` : ''}
+                      `}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        // --- QUIZZES ---
+        let quizzes = SMS.AssessmentService.getQuizzesByCourse(currentActiveCourseId);
+        if (selectedPhase !== 'all') {
+          quizzes = quizzes.filter(q => q.phaseNumber === parseInt(selectedPhase, 10));
+        }
+
+        const allAttempts = SMS.Storage.getCollection(SMS.Storage.KEYS.QUIZ_ATTEMPTS);
+
+        if (quizzes.length === 0) {
+          quizzesList.innerHTML = `<div style="text-align: center; padding: 2.5rem; background: #fff; border-radius: var(--radius-md); border: 1px dashed var(--border-color); color: var(--text-muted);">No quizzes available for this course / phase selection.</div>`;
+        } else {
+          quizzesList.innerHTML = quizzes.map(qz => {
+            const courseAttempts = allAttempts.filter(a => a.quizId === qz.id);
+            let studentAttempt = null;
+            if (SMS.Auth.isStudent() && user.studentId) {
+              studentAttempt = courseAttempts.find(a => a.studentId === user.studentId);
+            }
+
+            const attStats = SMS.Auth.isStudent() && user.studentId ? SMS.AssessmentService.getCourseAttendanceStats(currentActiveCourseId, user.studentId) : null;
+            const isRestricted = attStats ? attStats.isRestricted : false;
+            const qCount = Array.isArray(qz.questions) ? qz.questions.length : 0;
+
+            return `
+              <div class="card" style="border-left: 4px solid var(--info);">
+                <div class="card-body" style="padding: 1.25rem 1.5rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem;">
+                    <div>
+                      <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.35rem;">
+                        <span class="badge badge-info">${qz.phase}</span>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-stopwatch"></i> ${qz.durationMinutes} Mins</span>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-regular fa-calendar"></i> Deadline: ${SMS.Utils.formatDate(qz.deadline)}</span>
+                      </div>
+                      <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">${SMS.Utils.escapeHTML(qz.title)}</h3>
+                      <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.45;">${SMS.Utils.escapeHTML(qz.description || 'Timed quiz assessment.')}</p>
+                    </div>
+                    <div style="text-align: right;">
+                      <span style="font-size: 1.25rem; font-weight: 800; color: var(--info);">${qz.totalMarks}</span>
+                      <span style="font-size: 0.8rem; color: var(--text-muted);">Marks (${qCount} Qs)</span>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                    <div>
+                      ${SMS.Auth.isStudent() ? (
+                        studentAttempt ? `
+                          <span class="badge badge-success">
+                            Score: ${studentAttempt.totalScore} / ${qz.totalMarks} ${studentAttempt.evaluated ? '(Completed)' : '(Pending Short-Answer Grading)'}
+                          </span>
+                          ${studentAttempt.teacherFeedback ? `<span style="font-size: 0.82rem; color: var(--text-muted); margin-left: 0.5rem;"><strong>Feedback:</strong> ${SMS.Utils.escapeHTML(studentAttempt.teacherFeedback)}</span>` : ''}
+                        ` : '<span class="badge badge-secondary">Not Attempted</span>'
+                      ) : `
+                        <span style="font-size: 0.85rem; color: var(--text-secondary);"><i class="fa-solid fa-users"></i> <strong>${courseAttempts.length}</strong> Student Attempts</span>
+                      `}
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                      ${SMS.Auth.isStudent() ? (
+                        studentAttempt ? `
+                          <button type="button" class="btn btn-sm btn-secondary" disabled style="opacity: 0.85; cursor: not-allowed; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;" title="You have already completed this quiz (1 attempt maximum)">
+                            <i class="fa-solid fa-circle-check" style="color: var(--success);"></i> Attempted (1 of 1 Max)
+                          </button>
+                        ` : `
+                          <button type="button" class="btn btn-sm btn-primary btn-take-quiz" data-id="${qz.id}" ${isRestricted ? 'disabled title="Restricted due to < 70% attendance"' : ''}>
+                            <i class="fa-solid fa-pen-to-square"></i> Attempt Quiz
+                          </button>
+                        `
+                      ) : `
+                        <button type="button" class="btn btn-sm btn-primary btn-take-quiz" data-id="${qz.id}">
+                          <i class="fa-solid fa-play"></i> Attempt Quiz
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary btn-review-quiz" data-id="${qz.id}">
+                          <i class="fa-solid fa-clipboard-check"></i> Evaluate (${courseAttempts.length})
+                        </button>
+                        ${(SMS.Auth.isAdmin() || SMS.Auth.isTeacher()) ? `
+                          <button type="button" class="btn btn-icon btn-sm btn-edit-quiz" data-id="${qz.id}" style="color: var(--primary);" title="Edit Quiz & 4-Choice Questions">
+                            <i class="fa-solid fa-pen"></i>
+                          </button>
+                          <button type="button" class="btn btn-icon btn-sm btn-delete-quiz" data-id="${qz.id}" style="color: var(--danger);" title="Delete">
+                            <i class="fa-solid fa-trash-can"></i>
+                          </button>
+                        ` : ''}
+                      `}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        attachListeners();
+      };
+
+      // Event handlers attachment
+      const attachListeners = () => {
+        // Submit Assignment Click
+        SMS.Utils.$$('.btn-submit-asn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const asn = SMS.AssessmentService.getAssignmentById(btn.dataset.id);
+            if (!asn) return;
+            SMS.Utils.$('#submitAsnIdInput').value = asn.id;
+            SMS.Utils.$('#submitAsnTitle').textContent = asn.title;
+            SMS.Utils.$('#submitAsnDesc').textContent = asn.description || '';
+            const allSubs = SMS.Storage.getCollection(SMS.Storage.KEYS.SUBMISSIONS);
+            const myStudentId = (user && user.studentId) ? user.studentId : 'STU-2024-001';
+            const mySub = allSubs.find(s => s.assignmentId === asn.id && s.studentId === myStudentId);
+            SMS.Utils.$('#submissionTextInput').value = mySub ? mySub.submissionText : '';
+
+            // Restore preview if previous image was uploaded
+            const hiddenImg = SMS.Utils.$('#submitAsnImageBase64');
+            const previewBox = SMS.Utils.$('#asnImagePreviewContainer');
+            const previewImg = SMS.Utils.$('#asnImagePreview');
+            if (mySub && mySub.submissionImage) {
+              hiddenImg.value = mySub.submissionImage;
+              previewImg.src = mySub.submissionImage;
+              previewBox.style.display = 'block';
+            } else {
+              hiddenImg.value = '';
+              previewImg.src = '';
+              previewBox.style.display = 'none';
+            }
+
+            openModal(SMS.Utils.$('#submitAssignmentModal'));
+          });
+        });
+
+        // Review Assignment Submissions
+        SMS.Utils.$$('.btn-review-asn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const asn = SMS.AssessmentService.getAssignmentById(btn.dataset.id);
+            if (!asn) return;
+            openGradeReviewModal('assignment', asn);
+          });
+        });
+
+        // Review Quiz Attempts
+        SMS.Utils.$$('.btn-review-quiz').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const qz = SMS.AssessmentService.getQuizById(btn.dataset.id);
+            if (!qz) return;
+            openGradeReviewModal('quiz', qz);
+          });
+        });
+
+        // Take Quiz Click
+        SMS.Utils.$$('.btn-take-quiz').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const qz = SMS.AssessmentService.getQuizById(btn.dataset.id);
+            if (!qz) return;
+            openTakeQuizModal(qz);
+          });
+        });
+
+        // Edit Assignment Click
+        SMS.Utils.$$('.btn-edit-asn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const asn = SMS.AssessmentService.getAssignmentById(btn.dataset.id);
+            if (!asn) return;
+            populateModalCourses();
+            SMS.Utils.$('#assignmentModalTitle').textContent = 'Edit Assignment';
+            SMS.Utils.$('#assignmentIdInput').value = asn.id;
+            SMS.Utils.$('#asnCourseSelect').value = asn.courseId || currentActiveCourseId;
+            SMS.Utils.$('#asnPhaseSelect').value = asn.phaseNumber;
+            SMS.Utils.$('#asnTitleInput').value = asn.title;
+            SMS.Utils.$('#asnDescInput').value = asn.description || '';
+            SMS.Utils.$('#asnMarksInput').value = asn.totalMarks;
+            SMS.Utils.$('#asnDeadlineInput').value = toDatetimeLocal(asn.deadline);
+            openModal(asnModal);
+          });
+        });
+
+        // Edit Quiz Click (Teacher can customize questions and answers)
+        SMS.Utils.$$('.btn-edit-quiz').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const qz = SMS.AssessmentService.getQuizById(btn.dataset.id);
+            if (!qz) return;
+            populateModalCourses();
+            SMS.Utils.$('#quizModalTitle').textContent = 'Edit Quiz & 4-Choice Questions';
+            SMS.Utils.$('#quizIdInput').value = qz.id;
+            SMS.Utils.$('#quizCourseSelect').value = qz.courseId || currentActiveCourseId;
+            SMS.Utils.$('#quizPhaseSelect').value = qz.phaseNumber;
+            SMS.Utils.$('#quizTitleInput').value = qz.title;
+            SMS.Utils.$('#quizDurationInput').value = qz.durationMinutes;
+            SMS.Utils.$('#quizMarksInput').value = qz.totalMarks;
+            SMS.Utils.$('#quizDeadlineInput').value = toDatetimeLocal(qz.deadline);
+            currentQuizQuestions = JSON.parse(JSON.stringify(qz.questions || []));
+            editingQuestionIdx = null;
+            if (newQBox) newQBox.style.display = 'none';
+            renderQuestionsBuilder();
+            openModal(quizModal);
+          });
+        });
+
+        // Delete handlers
+        SMS.Utils.$$('.btn-delete-asn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            SMS.Utils.showConfirmModal({
+              title: 'Delete Assignment',
+              message: 'Are you sure you want to delete this assignment?',
+              confirmText: 'Delete',
+              confirmType: 'danger',
+              onConfirm: () => {
+                SMS.AssessmentService.deleteAssignment(btn.dataset.id);
+                SMS.Utils.showToast('success', 'Deleted', 'Assignment deleted.');
+                renderAssessments();
+              }
+            });
+          });
+        });
+
+        SMS.Utils.$$('.btn-delete-quiz').forEach(btn => {
+          btn.addEventListener('click', () => {
+            SMS.Utils.showConfirmModal({
+              title: 'Delete Quiz',
+              message: 'Are you sure you want to delete this quiz?',
+              confirmText: 'Delete',
+              confirmType: 'danger',
+              onConfirm: () => {
+                SMS.AssessmentService.deleteQuiz(btn.dataset.id);
+                SMS.Utils.showToast('success', 'Deleted', 'Quiz deleted.');
+                renderAssessments();
+              }
+            });
+          });
+        });
+      };
+
+      // Take Quiz Modal Setup
+      const openTakeQuizModal = (quiz) => {
+        if (SMS.Auth.isStudent()) {
+          const myStudentId = (user && user.studentId) ? user.studentId : 'STU-2024-001';
+          const allAttempts = SMS.Storage.getCollection(SMS.Storage.KEYS.QUIZ_ATTEMPTS);
+          const already = allAttempts.find(a => a.quizId === quiz.id && a.studentId === myStudentId);
+          if (already) {
+            return SMS.Utils.showToast('warning', 'Attempt Limit Reached', 'You have already completed this quiz. Only 1 attempt is allowed per student.');
+          }
+        }
+
+        SMS.Utils.$('#takeQuizIdInput').value = quiz.id;
+        SMS.Utils.$('#takeQuizTitle').textContent = quiz.title;
+        SMS.Utils.$('#takeQuizMeta').textContent = `Duration: ${quiz.durationMinutes} Minutes | Total Marks: ${quiz.totalMarks}`;
+
+        const singleAttemptNotice = `
+          <div style="padding: 0.75rem 1rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-sm); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.65rem; font-size: 0.85rem; color: #1e40af;">
+            <i class="fa-solid fa-circle-info" style="font-size: 1.15rem; color: var(--primary);"></i>
+            <div><strong>Single Attempt Policy:</strong> Each student is allowed exactly 1 attempt. Once submitted, answers cannot be retaken or altered.</div>
+          </div>
+        `;
+
+        const container = SMS.Utils.$('#takeQuizQuestionsContainer');
+        container.innerHTML = singleAttemptNotice + (quiz.questions || []).map((q, idx) => {
+          return `
+            <div class="question-item-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span class="badge badge-secondary" style="font-size: 0.72rem;">Question ${idx + 1} (${q.marks} Marks)</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">4 OPTIONS</span>
+              </div>
+              <div class="question-text">${SMS.Utils.escapeHTML(q.text)}</div>
+              <div class="question-options-group">
+                ${(q.options || []).map((opt, optIdx) => `
+                  <label class="question-option-label">
+                    <input type="radio" name="question_${q.id}" value="${SMS.Utils.escapeHTML(opt)}" required>
+                    <span><strong>${String.fromCharCode(65 + optIdx)}.</strong> ${SMS.Utils.escapeHTML(opt)}</span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        openModal(SMS.Utils.$('#takeQuizModal'));
+      };
+
+      // Grade Review Modal Setup (Teachers & Admin)
+      const openGradeReviewModal = (type, assessment) => {
+        SMS.Utils.$('#gradeReviewTitle').textContent = `Evaluation: ${assessment.title}`;
+        const container = SMS.Utils.$('#gradeReviewContent');
+
+        const studentsInCourse = SMS.CourseService.getStudentsInCourse(currentActiveCourseId);
+
+        if (type === 'assignment') {
+          const allSubs = SMS.Storage.getCollection(SMS.Storage.KEYS.SUBMISSIONS).filter(s => s.assignmentId === assessment.id);
+
+          container.innerHTML = `
+            <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+              <i class="fa-solid fa-chalkboard-user" style="color: var(--primary);"></i> Review uploaded student homework images, assign marks (out of ${assessment.totalMarks}), and provide feedback.
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Status</th>
+                    <th>Uploaded Work &amp; Image</th>
+                    <th>Score / ${assessment.totalMarks}</th>
+                    <th>Teacher Feedback</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${studentsInCourse.map(item => {
+                    const sub = allSubs.find(s => s.studentId === item.student.id);
+                    return `
+                      <tr>
+                        <td>
+                          <strong>${SMS.Utils.escapeHTML(item.student.fullName)}</strong>
+                          <div style="font-size: 0.75rem; color: var(--text-muted);">${item.student.id}</div>
+                        </td>
+                        <td>
+                          ${sub ? `<span class="badge ${sub.status === 'Graded' ? 'badge-success' : 'badge-warning'}">${sub.status}</span>` : '<span class="badge badge-secondary">Pending Submission</span>'}
+                        </td>
+                        <td style="max-width: 280px;">
+                          ${sub ? `
+                            ${sub.submissionImage ? `
+                              <div style="margin-bottom: 0.4rem;">
+                                <a href="${sub.submissionImage}" target="_blank" title="Click to view full image">
+                                  <img src="${sub.submissionImage}" alt="Student work" style="height: 60px; max-width: 120px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                                </a>
+                                <div style="font-size: 0.72rem; color: var(--primary);"><i class="fa-solid fa-magnifying-glass-plus"></i> View Image</div>
+                              </div>
+                            ` : ''}
+                            ${sub.submissionText ? `<div style="font-size: 0.8rem; color: var(--text-secondary); background: #f8fafc; padding: 0.35rem; border-radius: 4px; border: 1px solid #e2e8f0; max-height: 60px; overflow-y: auto;">${SMS.Utils.escapeHTML(sub.submissionText)}</div>` : ''}
+                          ` : '<span class="text-muted" style="font-size: 0.8rem;">No submission</span>'}
+                        </td>
+                        <td>
+                          ${sub ? `<input type="number" class="form-control form-control-sm grade-score-input" data-sub-id="${sub.id}" value="${sub.marksAwarded !== null ? sub.marksAwarded : ''}" min="0" max="${assessment.totalMarks}" style="width: 75px;">` : '-'}
+                        </td>
+                        <td>
+                          ${sub ? `<input type="text" class="form-control form-control-sm grade-feedback-input" data-sub-id="${sub.id}" value="${SMS.Utils.escapeHTML(sub.feedback || '')}" placeholder="Feedback...">` : '-'}
+                        </td>
+                        <td>
+                          ${sub ? `<button type="button" class="btn btn-sm btn-primary btn-save-grade" data-sub-id="${sub.id}"><i class="fa-solid fa-check"></i> Save</button>` : '-'}
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+
+          SMS.Utils.$$('.btn-save-grade').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const subId = btn.dataset.subId;
+              const row = btn.closest('tr');
+              const score = row.querySelector('.grade-score-input').value;
+              const feedback = row.querySelector('.grade-feedback-input').value;
+              if (score === '') return SMS.Utils.showToast('error', 'Required', 'Please enter marks.');
+              SMS.AssessmentService.gradeAssignmentSubmission(subId, score, feedback);
+              SMS.Utils.showToast('success', 'Graded', 'Score and feedback saved!');
+              renderAssessments();
+            });
+          });
+        } else {
+          // QUIZ EVALUATION
+          const allAttempts = SMS.Storage.getCollection(SMS.Storage.KEYS.QUIZ_ATTEMPTS).filter(a => a.quizId === assessment.id);
+
+          container.innerHTML = `
+            <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+              MCQ and True/False questions are automatically scored. Evaluate manual short answers below.
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Auto Score (MCQ/TF)</th>
+                    <th>Manual Score</th>
+                    <th>Total / ${assessment.totalMarks}</th>
+                    <th>Feedback</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${studentsInCourse.map(item => {
+                    const att = allAttempts.find(a => a.studentId === item.student.id);
+                    return `
+                      <tr>
+                        <td>
+                          <strong>${SMS.Utils.escapeHTML(item.student.fullName)}</strong>
+                          <div style="font-size: 0.75rem; color: var(--text-muted);">${item.student.id}</div>
+                        </td>
+                        <td>${att ? `<span style="font-weight: 700; color: var(--success);">${att.autoScore}</span>` : '-'}</td>
+                        <td>
+                          ${att ? `<input type="number" class="form-control form-control-sm quiz-manual-score" data-att-id="${att.id}" value="${att.manualScore || 0}" min="0" max="${assessment.totalMarks}" style="width: 75px;">` : '-'}
+                        </td>
+                        <td>${att ? `<strong>${att.totalScore}</strong>` : '-'}</td>
+                        <td>
+                          ${att ? `<input type="text" class="form-control form-control-sm quiz-feedback-input" data-att-id="${att.id}" value="${SMS.Utils.escapeHTML(att.teacherFeedback || '')}" placeholder="Feedback...">` : '-'}
+                        </td>
+                        <td>
+                          ${att ? `<button type="button" class="btn btn-sm btn-primary btn-save-quiz-grade" data-att-id="${att.id}">Update</button>` : '-'}
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+
+          SMS.Utils.$$('.btn-save-quiz-grade').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const attId = btn.dataset.attId;
+              const row = btn.closest('tr');
+              const manual = row.querySelector('.quiz-manual-score').value;
+              const feedback = row.querySelector('.quiz-feedback-input').value;
+              SMS.AssessmentService.gradeQuizAttempt(attId, manual, feedback);
+              SMS.Utils.showToast('success', 'Graded', 'Quiz evaluated.');
+              renderAssessments();
+            });
+          });
+        }
+
+        openModal(SMS.Utils.$('#gradeReviewModal'));
+      };
+
+      // Submission Modal Handlers
+      const imgInput = SMS.Utils.$('#assignmentImageInput');
+      const imgPreviewContainer = SMS.Utils.$('#asnImagePreviewContainer');
+      const imgPreview = SMS.Utils.$('#asnImagePreview');
+      const btnRemoveImg = SMS.Utils.$('#btnRemoveAsnImage');
+      const hiddenImgBase64 = SMS.Utils.$('#submitAsnImageBase64');
+
+      if (imgInput) {
+        imgInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          // Check if file is image
+          if (!file.type.startsWith('image/')) {
+            SMS.Utils.showToast('error', 'Invalid File', 'Please upload an image file (PNG, JPG, JPEG, WEBP).');
+            imgInput.value = '';
+            return;
+          }
+
+          // Size check (max 5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            SMS.Utils.showToast('error', 'File Too Large', 'Image must be less than 5MB.');
+            imgInput.value = '';
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            hiddenImgBase64.value = event.target.result;
+            imgPreview.src = event.target.result;
+            imgPreviewContainer.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      if (btnRemoveImg) {
+        btnRemoveImg.addEventListener('click', () => {
+          imgInput.value = '';
+          hiddenImgBase64.value = '';
+          imgPreview.src = '';
+          imgPreviewContainer.style.display = 'none';
+        });
+      }
+
+      SMS.Utils.$('#submitAsnCloseBtn').addEventListener('click', () => closeModal(SMS.Utils.$('#submitAssignmentModal')));
+      SMS.Utils.$('#submitAsnCancelBtn').addEventListener('click', () => closeModal(SMS.Utils.$('#submitAssignmentModal')));
+
+      SMS.Utils.$('#submitAsnForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const assignmentId = SMS.Utils.$('#submitAsnIdInput').value;
+        const submissionText = SMS.Utils.$('#submissionTextInput').value.trim();
+        const submissionImage = hiddenImgBase64.value;
+
+        if (!submissionImage && !submissionText) {
+          return SMS.Utils.showToast('error', 'Required', 'Please upload your assignment image or enter comments.');
+        }
+
+        try {
+          const myStudentId = (user && user.studentId) ? user.studentId : 'STU-2024-001';
+          SMS.AssessmentService.submitAssignment({
+            assignmentId,
+            studentId: myStudentId,
+            submissionText,
+            submissionImage
+          });
+          SMS.Utils.showToast('success', 'Submitted', 'Assignment image and work submitted successfully.');
+          closeModal(SMS.Utils.$('#submitAssignmentModal'));
+          renderAssessments();
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      });
+
+      // Take Quiz Modal Handlers
+      SMS.Utils.$('#takeQuizCloseBtn').addEventListener('click', () => closeModal(SMS.Utils.$('#takeQuizModal')));
+      SMS.Utils.$('#takeQuizCancelBtn').addEventListener('click', () => closeModal(SMS.Utils.$('#takeQuizModal')));
+
+      SMS.Utils.$('#takeQuizForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const quizId = SMS.Utils.$('#takeQuizIdInput').value;
+        const quiz = SMS.AssessmentService.getQuizById(quizId);
+        if (!quiz) return;
+
+        const answers = {};
+        (quiz.questions || []).forEach(q => {
+          const checked = document.querySelector(`input[name="question_${q.id}"]:checked`);
+          answers[q.id] = checked ? checked.value : '';
+        });
+
+        try {
+          const myStudentId = (user && user.studentId) ? user.studentId : 'STU-2024-001';
+          const attempt = SMS.AssessmentService.submitQuizAttempt({
+            quizId,
+            studentId: myStudentId,
+            answers
+          });
+          SMS.Utils.showToast('success', 'Quiz Complete', `Automated score: ${attempt.autoScore} / ${quiz.totalMarks} marks.`);
+          closeModal(SMS.Utils.$('#takeQuizModal'));
+          renderAssessments();
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      });
+
+      // Grade review close buttons
+      SMS.Utils.$('#gradeReviewCloseBtn').addEventListener('click', () => closeModal(SMS.Utils.$('#gradeReviewModal')));
+      SMS.Utils.$('#gradeReviewDoneBtn').addEventListener('click', () => closeModal(SMS.Utils.$('#gradeReviewModal')));
+
+      // Date formatting helper for datetime-local
+      const toDatetimeLocal = (val) => {
+        if (!val) {
+          const d = new Date(Date.now() + 14 * 86400000);
+          return d.toISOString().slice(0, 16);
+        }
+        try {
+          const d = new Date(val);
+          if (isNaN(d.getTime())) {
+            const d2 = new Date(Date.now() + 14 * 86400000);
+            return d2.toISOString().slice(0, 16);
+          }
+          const pad = n => String(n).padStart(2, '0');
+          return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        } catch (e) {
+          return new Date().toISOString().slice(0, 16);
+        }
+      };
+
+      // Modal courses population helper
+      const populateModalCourses = () => {
+        const opts = allCourses.map(c => `
+          <option value="${c.id}">${SMS.Utils.escapeHTML(c.code)}: ${SMS.Utils.escapeHTML(c.name)}</option>
+        `).join('');
+        const asnSel = SMS.Utils.$('#asnCourseSelect');
+        const qzSel = SMS.Utils.$('#quizCourseSelect');
+        if (asnSel) asnSel.innerHTML = opts;
+        if (qzSel) qzSel.innerHTML = opts;
+      };
+
+      // Create Assignment Modal Handlers
+      const asnModal = SMS.Utils.$('#assignmentModal');
+      const btnCreateAsn = SMS.Utils.$('#btnCreateAssignment');
+      if (btnCreateAsn) {
+        btnCreateAsn.addEventListener('click', () => {
+          SMS.Utils.$('#assignmentForm').reset();
+          populateModalCourses();
+          SMS.Utils.$('#assignmentModalTitle').textContent = 'Create Assignment';
+          SMS.Utils.$('#assignmentIdInput').value = '';
+          SMS.Utils.$('#asnCourseSelect').value = currentActiveCourseId;
+          SMS.Utils.$('#asnPhaseSelect').value = '1';
+          SMS.Utils.$('#asnMarksInput').value = '25';
+          SMS.Utils.$('#asnDeadlineInput').value = toDatetimeLocal();
+          openModal(asnModal);
+        });
+      }
+      SMS.Utils.$('#assignmentModalCloseBtn').addEventListener('click', () => closeModal(asnModal));
+      SMS.Utils.$('#assignmentModalCancelBtn').addEventListener('click', () => closeModal(asnModal));
+
+      const saveAssignmentAction = (e) => {
+        if (e) e.preventDefault();
+        const asnId = SMS.Utils.$('#assignmentIdInput').value;
+        const courseId = SMS.Utils.$('#asnCourseSelect').value || currentActiveCourseId;
+        const phaseNumber = SMS.Utils.$('#asnPhaseSelect').value;
+        const title = SMS.Utils.$('#asnTitleInput').value.trim();
+        const description = SMS.Utils.$('#asnDescInput').value.trim();
+        const totalMarks = parseFloat(SMS.Utils.$('#asnMarksInput').value);
+        const deadlineVal = SMS.Utils.$('#asnDeadlineInput').value;
+
+        if (!courseId) {
+          return SMS.Utils.showToast('error', 'Course Required', 'Please select a course for this assignment.');
+        }
+        if (!title) {
+          return SMS.Utils.showToast('error', 'Title Required', 'Please enter an assignment title.');
+        }
+        if (isNaN(totalMarks) || totalMarks <= 0) {
+          return SMS.Utils.showToast('error', 'Invalid Marks', 'Total marks must be greater than 0.');
+        }
+        if (!deadlineVal) {
+          return SMS.Utils.showToast('error', 'Deadline Required', 'Please choose a submission deadline.');
+        }
+
+        const deadlineISO = new Date(deadlineVal).toISOString();
+
+        try {
+          if (asnId) {
+            SMS.AssessmentService.updateAssignment(asnId, {
+              courseId,
+              phaseNumber: parseInt(phaseNumber, 10),
+              phase: `Phase 0${phaseNumber}`,
+              title,
+              description,
+              totalMarks,
+              deadline: deadlineISO
+            });
+            SMS.Utils.showToast('success', 'Updated', 'Assignment updated successfully.');
+          } else {
+            SMS.AssessmentService.createAssignment({
+              courseId,
+              phaseNumber,
+              title,
+              description,
+              totalMarks,
+              deadline: deadlineISO
+            });
+            SMS.Utils.showToast('success', 'Created', 'Assignment created successfully.');
+          }
+
+          // Switch active view to the course where the assignment was saved
+          currentActiveCourseId = courseId;
+          selectCourse.value = courseId;
+          selectPhase.value = 'all';
+          closeModal(asnModal);
+          renderAssessments();
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      };
+
+      SMS.Utils.$('#assignmentForm').addEventListener('submit', saveAssignmentAction);
+      const btnSaveAsn = SMS.Utils.$('#btnSaveAssignment');
+      if (btnSaveAsn) btnSaveAsn.addEventListener('click', saveAssignmentAction);
+
+      // Create Quiz Modal Handlers
+      const quizModal = SMS.Utils.$('#quizModal');
+      const btnCreateQz = SMS.Utils.$('#btnCreateQuiz');
+      const questionsBuilder = SMS.Utils.$('#questionsBuilderContainer');
+      const btnToggleAddQ = SMS.Utils.$('#btnToggleAddQForm');
+      const newQBox = SMS.Utils.$('#newQuestionFormBox');
+      const btnCancelAddQ = SMS.Utils.$('#btnCancelAddQ');
+      const btnConfirmAddQ = SMS.Utils.$('#btnConfirmAddQ');
+      const btnConfirmAddAndNextQ = SMS.Utils.$('#btnConfirmAddAndNextQ');
+
+      let currentQuizQuestions = [];
+      let editingQuestionIdx = null;
+
+      const renderQuestionsBuilder = () => {
+        const countBadge = SMS.Utils.$('#quizQuestionCountBadge');
+        const marksBadge = SMS.Utils.$('#quizMarksSumBadge');
+        const calculatedMarks = currentQuizQuestions.reduce((sum, q) => sum + (parseFloat(q.marks) || 0), 0);
+        if (countBadge) countBadge.textContent = `${currentQuizQuestions.length} Questions`;
+        if (marksBadge) marksBadge.textContent = `${calculatedMarks} Marks`;
+        const marksInput = SMS.Utils.$('#quizMarksInput');
+        if (marksInput && calculatedMarks > 0) marksInput.value = calculatedMarks;
+
+        if (currentQuizQuestions.length === 0) {
+          questionsBuilder.innerHTML = `
+            <div style="text-align: center; padding: 1.5rem; color: var(--text-muted); font-size: 0.88rem; border: 1px dashed var(--border-color); border-radius: var(--radius-sm); background: #fff;">
+              <i class="fa-solid fa-list-check" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block; color: var(--primary);"></i>
+              No questions added yet.<br>Click <strong>&quot;+ Add Question&quot;</strong> above to create custom 4-option questions.
+            </div>
+          `;
+          return;
+        }
+
+        questionsBuilder.innerHTML = currentQuizQuestions.map((q, idx) => `
+          <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.85rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: var(--text-main);">Question ${idx + 1} (${q.marks} Marks)</span>
+              <div style="display: flex; gap: 0.35rem;">
+                <button type="button" class="btn btn-sm btn-icon btn-edit-q" data-idx="${idx}" style="color: var(--primary);" title="Edit this Question"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="btn btn-sm btn-icon btn-remove-q" data-idx="${idx}" style="color: var(--danger);" title="Remove Question"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </div>
+            <div style="font-size: 0.88rem; margin-bottom: 0.5rem;"><strong>Q:</strong> ${SMS.Utils.escapeHTML(q.text)}</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; font-size: 0.8rem; margin-bottom: 0.4rem;">
+              ${(q.options || []).map((opt, i) => `
+                <div style="padding: 0.25rem 0.5rem; background: ${opt === q.correctAnswer ? '#dcfce7' : '#fff'}; border: 1px solid ${opt === q.correctAnswer ? '#86efac' : '#e2e8f0'}; border-radius: 4px;">
+                  <strong>${String.fromCharCode(65 + i)}.</strong> ${SMS.Utils.escapeHTML(opt)} ${opt === q.correctAnswer ? '<i class="fa-solid fa-check" style="color: var(--success); margin-left: 0.25rem;"></i>' : ''}
+                </div>
+              `).join('')}
+            </div>
+            <div style="font-size: 0.8rem; color: var(--success); font-weight: 600;">Correct Answer: ${SMS.Utils.escapeHTML(q.correctAnswer)}</div>
+          </div>
+        `).join('');
+
+        SMS.Utils.$$('.btn-remove-q').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.idx, 10);
+            currentQuizQuestions.splice(idx, 1);
+            if (editingQuestionIdx === idx) {
+              editingQuestionIdx = null;
+              if (newQBox) newQBox.style.display = 'none';
+            }
+            renderQuestionsBuilder();
+          });
+        });
+
+        SMS.Utils.$$('.btn-edit-q').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.idx, 10);
+            const q = currentQuizQuestions[idx];
+            if (!q) return;
+            editingQuestionIdx = idx;
+            SMS.Utils.$('#qTextInput').value = q.text || '';
+            SMS.Utils.$('#qOptA').value = (q.options && q.options[0]) || '';
+            SMS.Utils.$('#qOptB').value = (q.options && q.options[1]) || '';
+            SMS.Utils.$('#qOptC').value = (q.options && q.options[2]) || '';
+            SMS.Utils.$('#qOptD').value = (q.options && q.options[3]) || '';
+            SMS.Utils.$('#qMarksInput').value = q.marks || 5;
+
+            // Determine key (A, B, C, D)
+            const optIndex = (q.options || []).indexOf(q.correctAnswer);
+            const key = optIndex >= 0 ? ['A', 'B', 'C', 'D'][optIndex] : 'A';
+            SMS.Utils.$('#qCorrectSelect').value = key;
+
+            SMS.Utils.$('#btnConfirmAddQ').innerHTML = '<i class="fa-solid fa-check"></i> Update Question';
+            if (newQBox) newQBox.style.display = 'block';
+            newQBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          });
+        });
+      };
+
+      if (btnToggleAddQ && newQBox) {
+        btnToggleAddQ.addEventListener('click', () => {
+          editingQuestionIdx = null;
+          SMS.Utils.$('#qTextInput').value = '';
+          SMS.Utils.$('#qOptA').value = '';
+          SMS.Utils.$('#qOptB').value = '';
+          SMS.Utils.$('#qOptC').value = '';
+          SMS.Utils.$('#qOptD').value = '';
+          SMS.Utils.$('#btnConfirmAddQ').innerHTML = '<i class="fa-solid fa-check"></i> Add to Quiz';
+          newQBox.style.display = newQBox.style.display === 'none' ? 'block' : 'none';
+          if (newQBox.style.display === 'block') {
+            const qInput = SMS.Utils.$('#qTextInput');
+            if (qInput) qInput.focus();
+          }
+        });
+      }
+
+      if (btnCancelAddQ && newQBox) {
+        btnCancelAddQ.addEventListener('click', () => {
+          editingQuestionIdx = null;
+          SMS.Utils.$('#btnConfirmAddQ').innerHTML = '<i class="fa-solid fa-check"></i> Add to Quiz';
+          newQBox.style.display = 'none';
+        });
+      }
+
+      const handleCommitQuestion = (andNext = false) => {
+        const qText = SMS.Utils.$('#qTextInput').value.trim();
+        const optA = SMS.Utils.$('#qOptA').value.trim();
+        const optB = SMS.Utils.$('#qOptB').value.trim();
+        const optC = SMS.Utils.$('#qOptC').value.trim();
+        const optD = SMS.Utils.$('#qOptD').value.trim();
+        const correctKey = SMS.Utils.$('#qCorrectSelect').value;
+        const marks = parseInt(SMS.Utils.$('#qMarksInput').value, 10) || 5;
+
+        if (!qText || !optA || !optB || !optC || !optD) {
+          SMS.Utils.showToast('error', 'Incomplete Question', 'Please enter question statement and all 4 options (A, B, C, D).');
+          return false;
+        }
+
+        const optionsMap = { 'A': optA, 'B': optB, 'C': optC, 'D': optD };
+        const correctAnswer = optionsMap[correctKey] || optA;
+
+        if (editingQuestionIdx !== null && editingQuestionIdx >= 0 && editingQuestionIdx < currentQuizQuestions.length) {
+          currentQuizQuestions[editingQuestionIdx] = {
+            ...currentQuizQuestions[editingQuestionIdx],
+            text: qText,
+            marks: marks,
+            options: [optA, optB, optC, optD],
+            correctAnswer: correctAnswer
+          };
+          editingQuestionIdx = null;
+          SMS.Utils.showToast('success', 'Question Updated', 'Question updated in the quiz.');
+        } else {
+          currentQuizQuestions.push({
+            id: 'Q-' + Date.now().toString().slice(-4) + '-' + (currentQuizQuestions.length + 1),
+            type: 'mcq',
+            text: qText,
+            marks: marks,
+            options: [optA, optB, optC, optD],
+            correctAnswer: correctAnswer
+          });
+          SMS.Utils.showToast('success', 'Question Added', `Question ${currentQuizQuestions.length} added successfully.`);
+        }
+
+        // Reset inputs
+        SMS.Utils.$('#qTextInput').value = '';
+        SMS.Utils.$('#qOptA').value = '';
+        SMS.Utils.$('#qOptB').value = '';
+        SMS.Utils.$('#qOptC').value = '';
+        SMS.Utils.$('#qOptD').value = '';
+        SMS.Utils.$('#btnConfirmAddQ').innerHTML = '<i class="fa-solid fa-check"></i> Add to Quiz';
+
+        renderQuestionsBuilder();
+
+        if (andNext) {
+          newQBox.style.display = 'block';
+          const qInput = SMS.Utils.$('#qTextInput');
+          if (qInput) qInput.focus();
+        } else {
+          newQBox.style.display = 'none';
+        }
+        return true;
+      };
+
+      if (btnConfirmAddQ) {
+        btnConfirmAddQ.addEventListener('click', () => handleCommitQuestion(false));
+      }
+
+      if (btnConfirmAddAndNextQ) {
+        btnConfirmAddAndNextQ.addEventListener('click', () => handleCommitQuestion(true));
+      }
+
+      if (btnCreateQz) {
+        btnCreateQz.addEventListener('click', () => {
+          SMS.Utils.$('#quizForm').reset();
+          populateModalCourses();
+          SMS.Utils.$('#quizModalTitle').textContent = 'Create Custom Quiz';
+          SMS.Utils.$('#quizIdInput').value = '';
+          SMS.Utils.$('#quizCourseSelect').value = currentActiveCourseId;
+          SMS.Utils.$('#quizPhaseSelect').value = '1';
+          SMS.Utils.$('#quizDurationInput').value = '20';
+          SMS.Utils.$('#quizMarksInput').value = '25';
+          SMS.Utils.$('#quizDeadlineInput').value = toDatetimeLocal();
+          editingQuestionIdx = null;
+          if (newQBox) newQBox.style.display = 'none';
+          currentQuizQuestions = [
+            {
+              id: 'Q1',
+              type: 'mcq',
+              text: 'Sample Question: What is the primary concept covered in this phase?',
+              marks: 5,
+              options: ['Option A (Recommended approach)', 'Option B (Alternative approach)', 'Option C (Deprecated method)', 'Option D (Inefficient approach)'],
+              correctAnswer: 'Option A (Recommended approach)'
+            }
+          ];
+          renderQuestionsBuilder();
+          openModal(quizModal);
+        });
+      }
+
+      SMS.Utils.$('#quizModalCloseBtn').addEventListener('click', () => closeModal(quizModal));
+      SMS.Utils.$('#quizModalCancelBtn').addEventListener('click', () => closeModal(quizModal));
+
+      const saveQuizAction = (e) => {
+        if (e) e.preventDefault();
+        const quizId = SMS.Utils.$('#quizIdInput').value;
+        const courseId = SMS.Utils.$('#quizCourseSelect').value || currentActiveCourseId;
+        const phaseNumber = SMS.Utils.$('#quizPhaseSelect').value;
+        const durationMinutes = parseInt(SMS.Utils.$('#quizDurationInput').value, 10) || 20;
+        const title = SMS.Utils.$('#quizTitleInput').value.trim();
+        const totalMarks = parseFloat(SMS.Utils.$('#quizMarksInput').value);
+        const deadlineVal = SMS.Utils.$('#quizDeadlineInput').value;
+
+        // Auto-commit pending question if teacher typed in box without clicking "Add to Quiz"
+        const qText = SMS.Utils.$('#qTextInput') ? SMS.Utils.$('#qTextInput').value.trim() : '';
+        if (qText) {
+          const optA = SMS.Utils.$('#qOptA').value.trim();
+          const optB = SMS.Utils.$('#qOptB').value.trim();
+          const optC = SMS.Utils.$('#qOptC').value.trim();
+          const optD = SMS.Utils.$('#qOptD').value.trim();
+          const correctKey = SMS.Utils.$('#qCorrectSelect').value;
+          const marks = parseInt(SMS.Utils.$('#qMarksInput').value, 10) || 5;
+
+          if (optA && optB && optC && optD) {
+            const optionsMap = { 'A': optA, 'B': optB, 'C': optC, 'D': optD };
+            const correctAnswer = optionsMap[correctKey] || optA;
+
+            if (editingQuestionIdx !== null && editingQuestionIdx >= 0 && editingQuestionIdx < currentQuizQuestions.length) {
+              currentQuizQuestions[editingQuestionIdx] = {
+                ...currentQuizQuestions[editingQuestionIdx],
+                text: qText,
+                marks: marks,
+                options: [optA, optB, optC, optD],
+                correctAnswer: correctAnswer
+              };
+            } else {
+              currentQuizQuestions.push({
+                id: 'Q-' + Date.now().toString().slice(-4),
+                type: 'mcq',
+                text: qText,
+                marks: marks,
+                options: [optA, optB, optC, optD],
+                correctAnswer: correctAnswer
+              });
+            }
+            editingQuestionIdx = null;
+            SMS.Utils.$('#qTextInput').value = '';
+            SMS.Utils.$('#qOptA').value = '';
+            SMS.Utils.$('#qOptB').value = '';
+            SMS.Utils.$('#qOptC').value = '';
+            SMS.Utils.$('#qOptD').value = '';
+            if (newQBox) newQBox.style.display = 'none';
+          }
+        }
+
+        if (!courseId) {
+          return SMS.Utils.showToast('error', 'Course Required', 'Please select a course for this quiz.');
+        }
+        if (!title) {
+          return SMS.Utils.showToast('error', 'Title Required', 'Please enter a quiz title.');
+        }
+        if (currentQuizQuestions.length === 0) {
+          return SMS.Utils.showToast('error', 'No Questions', 'Please add at least 1 question to the quiz before saving.');
+        }
+        if (isNaN(totalMarks) || totalMarks <= 0) {
+          return SMS.Utils.showToast('error', 'Invalid Marks', 'Total marks must be greater than 0.');
+        }
+        if (!deadlineVal) {
+          return SMS.Utils.showToast('error', 'Deadline Required', 'Please choose a submission deadline.');
+        }
+
+        const deadlineISO = new Date(deadlineVal).toISOString();
+
+        try {
+          if (quizId) {
+            SMS.AssessmentService.updateQuiz(quizId, {
+              courseId,
+              phaseNumber: parseInt(phaseNumber, 10),
+              phase: `Phase 0${phaseNumber}`,
+              title,
+              durationMinutes,
+              totalMarks,
+              deadline: deadlineISO,
+              questions: currentQuizQuestions
+            });
+            SMS.Utils.showToast('success', 'Updated', 'Quiz updated successfully.');
+          } else {
+            SMS.AssessmentService.createQuiz({
+              courseId,
+              phaseNumber,
+              title,
+              durationMinutes,
+              totalMarks,
+              deadline: deadlineISO,
+              questions: currentQuizQuestions
+            });
+            SMS.Utils.showToast('success', 'Created', 'Custom quiz created and published successfully.');
+          }
+
+          // Switch active view to the course where the quiz was saved
+          currentActiveCourseId = courseId;
+          selectCourse.value = courseId;
+          selectPhase.value = 'all';
+          closeModal(quizModal);
+          renderAssessments();
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      };
+
+      SMS.Utils.$('#quizForm').addEventListener('submit', saveQuizAction);
+      const btnSaveQz = SMS.Utils.$('#btnSaveQuiz');
+      if (btnSaveQz) btnSaveQz.addEventListener('click', saveQuizAction);
+
+      // Filter changes
+      selectCourse.addEventListener('change', () => {
+        currentActiveCourseId = selectCourse.value;
+        renderAssessments();
+      });
+
+      selectPhase.addEventListener('change', renderAssessments);
+
+      renderAssessments();
+    });
+  </script>
+</body>
+</html>

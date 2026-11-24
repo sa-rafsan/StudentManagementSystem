@@ -143,6 +143,16 @@ SMS.StudentDetails = (() => {
           }).join('');
         }
       }
+      // Add Course Academic Results link if student or admin
+      const actionRow = SMS.Utils.$('.student-profile-actions');
+      if (actionRow && !actionRow.querySelector('#viewResultsDossierBtn')) {
+        const resultsBtn = document.createElement('a');
+        resultsBtn.id = 'viewResultsDossierBtn';
+        resultsBtn.className = 'btn btn-secondary';
+        resultsBtn.href = `results.html`;
+        resultsBtn.innerHTML = '<i class="fa-solid fa-square-poll-vertical"></i> View Results';
+        actionRow.prepend(resultsBtn);
+      }
     }
 
     // Dynamic Edit Link
@@ -164,6 +174,114 @@ SMS.StudentDetails = (() => {
     if (editBtn && !isAdmin && !isSelf) {
       editBtn.style.display = 'none';
     }
+
+    // Render Security & Password Status
+    renderSecurityCard(student, isAdmin, isSelf);
+  };
+
+  /**
+   * Render Account Security and Password Details
+   */
+  const renderSecurityCard = (student, isAdmin, isSelf) => {
+    const secCard = SMS.Utils.$('#securityCard');
+    const btnChangePassModal = SMS.Utils.$('#btnOpenChangePasswordModal');
+    if (!secCard) return;
+
+    if (!isAdmin && !isSelf) {
+      secCard.style.display = 'none';
+      if (btnChangePassModal) btnChangePassModal.style.display = 'none';
+      return;
+    }
+
+    secCard.style.display = 'block';
+    if (btnChangePassModal) btnChangePassModal.style.display = 'inline-flex';
+
+    const secId = SMS.Utils.$('#securityStudentId');
+    const secEmail = SMS.Utils.$('#securityStudentEmail');
+    const secState = SMS.Utils.$('#securityPasswordState');
+    const passBadge = SMS.Utils.$('#passwordStatusBadge');
+
+    if (secId) secId.textContent = student.id;
+    if (secEmail) secEmail.textContent = student.email;
+
+    // Check user account in storage
+    const users = SMS.Storage.getItem(SMS.Storage.KEYS.USERS, []);
+    const cleanEmail = (student.email || '').trim().toLowerCase();
+    const user = users.find(u => (u.studentId && u.studentId === student.id) || (u.email && u.email.toLowerCase() === cleanEmail));
+
+    const defaultHash = 'fcbc8da2717f3c27afb9c77535c0f54daddd0395a736b1e17b9c8c51e64c576c';
+    const isDefault = !user || user.isDefaultPassword || user.passwordHash === defaultHash;
+
+    if (isDefault) {
+      if (secState) secState.innerHTML = '<span style="color: #d97706;"><i class="fa-solid fa-triangle-exclamation"></i> 12345 (Default)</span>';
+      if (passBadge) {
+        passBadge.className = 'badge badge-warning';
+        passBadge.style.background = '#fef3c7';
+        passBadge.style.color = '#92400e';
+        passBadge.innerHTML = '<i class="fa-solid fa-key"></i> Default Password: 12345';
+      }
+    } else {
+      if (secState) secState.innerHTML = '<span style="color: var(--success);"><i class="fa-solid fa-circle-check"></i> Custom Password Active</span>';
+      if (passBadge) {
+        passBadge.className = 'badge badge-success';
+        passBadge.style.background = '#dcfce7';
+        passBadge.style.color = '#166534';
+        passBadge.innerHTML = '<i class="fa-solid fa-check-double"></i> Custom Password Set';
+      }
+    }
+  };
+
+  /**
+   * Modal Open/Close Helpers
+   */
+  const openModal = (modalEl) => {
+    if (!modalEl) return;
+    modalEl.style.display = 'flex';
+    requestAnimationFrame(() => modalEl.classList.add('show'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = (modalEl) => {
+    if (!modalEl) return;
+    modalEl.classList.remove('show');
+    setTimeout(() => {
+      modalEl.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 200);
+  };
+
+  /**
+   * Handle Password Change Execution
+   */
+  const executePasswordChange = async (currentPass, newPass, confirmPass, modalToClose = null) => {
+    if (!newPass || newPass.length < 5) {
+      SMS.Utils.showToast('error', 'Password Too Short', 'New password must be at least 5 characters long.');
+      return false;
+    }
+    if (newPass !== confirmPass) {
+      SMS.Utils.showToast('error', 'Password Mismatch', 'New password and confirm password do not match.');
+      return false;
+    }
+
+    const isAdmin = SMS.Auth.isAdmin();
+    const currentUser = SMS.Auth.getCurrentUser();
+    const isSelf = currentUser && currentUser.studentId === currentStudent.id;
+
+    // Call Auth changePassword
+    const result = await SMS.Auth.changePassword(currentStudent.id, newPass, currentPass);
+    if (!result.success) {
+      SMS.Utils.showToast('error', 'Update Failed', result.message);
+      return false;
+    }
+
+    SMS.Utils.showToast('success', 'Password Updated', 'Password has been successfully updated and saved in LocalStorage!');
+    renderSecurityCard(currentStudent, isAdmin, isSelf);
+
+    if (modalToClose) {
+      closeModal(modalToClose);
+    }
+    return true;
+  };
   };
 
   /**
@@ -238,6 +356,59 @@ SMS.StudentDetails = (() => {
     if (printBtn) {
       printBtn.addEventListener('click', () => {
         window.print();
+      });
+    }
+
+    // Bind Password Modal
+    const changePassModal = SMS.Utils.$('#changePasswordModal');
+    const btnOpenChangePass = SMS.Utils.$('#btnOpenChangePasswordModal');
+    const btnCloseChangePass = SMS.Utils.$('#closeChangePassModalBtn');
+    const btnCancelChangePass = SMS.Utils.$('#cancelChangePassModalBtn');
+
+    if (btnOpenChangePass && changePassModal) {
+      btnOpenChangePass.addEventListener('click', () => {
+        const form = SMS.Utils.$('#modalChangePasswordForm');
+        if (form) form.reset();
+        openModal(changePassModal);
+      });
+    }
+
+    if (btnCloseChangePass && changePassModal) {
+      btnCloseChangePass.addEventListener('click', () => closeModal(changePassModal));
+    }
+    if (btnCancelChangePass && changePassModal) {
+      btnCancelChangePass.addEventListener('click', () => closeModal(changePassModal));
+    }
+    if (changePassModal) {
+      changePassModal.addEventListener('click', (e) => {
+        if (e.target === changePassModal) closeModal(changePassModal);
+      });
+    }
+
+    // Modal Form Submission
+    const modalForm = SMS.Utils.$('#modalChangePasswordForm');
+    if (modalForm) {
+      modalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const currentPass = SMS.Utils.$('#modalCurrentPass').value;
+        const newPass = SMS.Utils.$('#modalNewPass').value;
+        const confirmPass = SMS.Utils.$('#modalConfirmPass').value;
+        await executePasswordChange(currentPass, newPass, confirmPass, changePassModal);
+      });
+    }
+
+    // Inline Form Submission in Security Card
+    const inlineForm = SMS.Utils.$('#inlineChangePasswordForm');
+    if (inlineForm) {
+      inlineForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const currentPass = SMS.Utils.$('#inputCurrentPass').value;
+        const newPass = SMS.Utils.$('#inputNewPass').value;
+        const confirmPass = SMS.Utils.$('#inputConfirmPass').value;
+        const success = await executePasswordChange(currentPass, newPass, confirmPass);
+        if (success) {
+          inlineForm.reset();
+        }
       });
     }
   };

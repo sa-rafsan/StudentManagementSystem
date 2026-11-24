@@ -91,7 +91,14 @@ SMS.Auth = (() => {
     try {
       const sessStr = sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY);
       if (!sessStr) return null;
-      return JSON.parse(sessStr);
+      const user = JSON.parse(sessStr);
+      if (user && user.role === 'Teacher' && !user.teacherId) {
+        // Resolve teacherId from storage or fallback
+        const allUsers = SMS.Storage.getItem(SMS.Storage.KEYS.USERS, []);
+        const dbUser = allUsers.find(u => u.id === user.id || u.email === user.email);
+        user.teacherId = (dbUser && dbUser.teacherId) ? dbUser.teacherId : 'TCH-001';
+      }
+      return user;
     } catch (e) {
       return null;
     }
@@ -146,6 +153,7 @@ SMS.Auth = (() => {
       email: user.email,
       role: user.role,
       studentId: user.studentId || null,
+      teacherId: user.teacherId || (user.role === 'Teacher' ? 'TCH-001' : null),
       loginTime: new Date().toISOString()
     };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
@@ -162,21 +170,166 @@ SMS.Auth = (() => {
   };
 
   /**
-   * Authenticate User (Login)
+   * Pre-computed PBKDF2 hash & salt for default student password: '12345'
    */
-  const login = async (email, password) => {
+  const DEFAULT_STUDENT_PASSWORD_CREDENTIALS = {
+    salt: '1234567890abcdef1234567890abcdef',
+    passwordHash: 'fcbc8da2717f3c27afb9c77535c0f54daddd0395a736b1e17b9c8c51e64c576c'
+  };
+
+  /**
+   * Ensure student user account exists in LocalStorage with default password '12345'
+   */
+  const ensureStudentUser = (student) => {
+    if (!student || !student.id) return null;
     SMS.Storage.initStorage();
     const users = SMS.Storage.getItem(SMS.Storage.KEYS.USERS, []);
-    const cleanEmail = String(email).trim().toLowerCase();
+    const cleanEmail = (student.email || '').trim().toLowerCase();
+    const cleanId = student.id.trim();
 
-    const user = users.find(u => u.email.toLowerCase() === cleanEmail);
-    if (!user) {
-      return { success: false, message: 'Invalid email address or password.' };
+    let userIndex = users.findIndex(u => 
+      (u.studentId && u.studentId === cleanId) || 
+      (u.email && u.email.toLowerCase() === cleanEmail)
+    );
+
+    if (userIndex >= 0) {
+      users[userIndex].studentId = cleanId;
+      users[userIndex].name = student.fullName || users[userIndex].name;
+      users[userIndex].email = cleanEmail;
+      users[userIndex].role = 'Student';
+      SMS.Storage.setItem(SMS.Storage.KEYS.USERS, users);
+      return users[userIndex];
+    } else {
+      const newUser = {
+        id: `USR-${cleanId.replace(/[^a-zA-Z0-9]/g, '')}`,
+        name: student.fullName,
+        email: cleanEmail,
+        role: 'Student',
+        salt: DEFAULT_STUDENT_PASSWORD_CREDENTIALS.salt,
+        passwordHash: DEFAULT_STUDENT_PASSWORD_CREDENTIALS.passwordHash,
+        studentId: cleanId,
+        isDefaultPassword: true,
+        createdAt: student.createdAt || new Date().toISOString()
+      };
+      users.push(newUser);
+      SMS.Storage.setItem(SMS.Storage.KEYS.USERS, users);
+      return newUser;
+    }
+  };
+
+  /**
+   * Synchronize student details with user account
+   */
+  const syncStudentUser = (student) => {
+    if (!student || !student.id) return;
+    const users = SMS.Storage.getItem(SMS.Storage.KEYS.USERS, []);
+    const user = users.find(u => u.studentId === student.id);
+    if (user) {
+      user.name = student.fullName;
+      user.email = (student.email || '').trim().toLowerCase();
+      user.updatedAt = new Date().toISOString();
+      SMS.Storage.setItem(SMS.Storage.KEYS.USERS, users);
+    }
+  };
+
+  /**
+   * Change user/student password in LocalStorage
+   */
+  const changePassword = async (targetStudentOrUserId, newPassword, currentPassword = null) => {
+    if (!newPassword || newPassword.length < 5) {
+      return { success: false, message: 'New password must be at least 5 characters long.' };
     }
 
-    const isValid = await verifyPassword(password, user.passwordHash, user.salt);
+    SMS.Storage.initStorage();
+    const users = SMS.Storage.getItem(SMS.Storage.KEYS.USERS, []);
+    const cleanTarget = String(targetStudentOrUserId).trim();
+
+    const userIndex = users.findIndex(u => 
+      u.id === cleanTarget || 
+      (u.studentId && u.studentId.toLowerCase() === cleanTarget.toLowerCase()) ||
+      (u.email && u.email.toLowerCase() === cleanTarget.toLowerCase())
+    );
+
+    if (userIndex === -1) {
+      return { success: false, message: 'User account not found.' };
+    }
+
+    const user = users[userIndex];
+    const currentUser = getCurrentUser();
+    const isAdmin = currentUser && currentUser.role === 'Admin';
+
+    // Verify current password if not admin
+    if (!isAdmin && currentPassword !== null) {
+      let isValid = await verifyPassword(currentPassword, user.passwordHash, user.salt);
+      if (!isValid) {
+        // Fallback: check if current was default '12345'
+        if (currentPassword === '12345' && (user.isDefaultPassword || user.passwordHash === DEFAULT_STUDENT_PASSWORD_CREDENTIALS.passwordHash)) {
+          isValid = true;
+        }
+      }
+      if (!isValid) {
+        return { success: false, message: 'Current password does not match.' };
+      }
+    }
+
+    // Hash new password using PBKDF2 Web Crypto API
+    const { hash, salt } = await hashPassword(newPassword);
+    user.passwordHash = hash;
+    user.salt = salt;
+    user.isDefaultPassword = false;
+    user.updatedAt = new Date().toISOString();
+
+    users[userIndex] = user;
+    SMS.Storage.setItem(SMS.Storage.KEYS.USERS, users);
+
+    // Refresh active session if the logged in user changed their own password
+    if (currentUser && (currentUser.id === user.id || currentUser.studentId === user.studentId)) {
+      setSession(user);
+    }
+
+    return { success: true, message: 'Password updated successfully!' };
+  };
+
+  /**
+   * Authenticate User (Login via Email OR Student ID)
+   */
+  const login = async (emailOrId, password) => {
+    SMS.Storage.initStorage();
+    const users = SMS.Storage.getItem(SMS.Storage.KEYS.USERS, []);
+    const cleanIdentifier = String(emailOrId).trim().toLowerCase();
+
+    // Look for matching user by email or studentId
+    let user = users.find(u => 
+      (u.email && u.email.toLowerCase() === cleanIdentifier) ||
+      (u.studentId && u.studentId.toLowerCase() === cleanIdentifier)
+    );
+
+    // If user not in USERS but student exists in STUDENTS, auto-provision user with default password '12345'
+    if (!user) {
+      const students = SMS.Storage.getItem(SMS.Storage.KEYS.STUDENTS, []);
+      const stu = students.find(s => 
+        (s.id && s.id.toLowerCase() === cleanIdentifier) || 
+        (s.email && s.email.toLowerCase() === cleanIdentifier)
+      );
+      if (stu) {
+        user = ensureStudentUser(stu);
+      }
+    }
+
+    if (!user) {
+      return { success: false, message: 'Invalid email address, student ID, or password.' };
+    }
+
+    let isValid = await verifyPassword(password, user.passwordHash, user.salt);
+    // Allow '12345' fallback if default password flag is set or hash is default
+    if (!isValid && user.role === 'Student' && password === '12345') {
+      if (user.isDefaultPassword || user.passwordHash === DEFAULT_STUDENT_PASSWORD_CREDENTIALS.passwordHash) {
+        isValid = true;
+      }
+    }
+
     if (!isValid) {
-      return { success: false, message: 'Invalid email address or password.' };
+      return { success: false, message: 'Invalid email address, student ID, or password.' };
     }
 
     const session = setSession(user);
@@ -197,11 +350,14 @@ SMS.Auth = (() => {
     }
 
     // If student role, ensure valid studentId or check student existence
-    if (role === 'Student' && studentId) {
+    if (role === 'Student') {
       const students = SMS.Storage.getItem(SMS.Storage.KEYS.STUDENTS, []);
+      if (!studentId) {
+        return { success: false, message: 'Student accounts must be created by Admin first. Please provide your official Student ID.' };
+      }
       const stu = students.find(s => s.id === studentId || s.email.toLowerCase() === cleanEmail);
-      if (!stu && studentId) {
-        return { success: false, message: `No student record found with ID "${studentId}".` };
+      if (!stu) {
+        return { success: false, message: `No student record found with ID "${studentId}". Only Administrator can add students.` };
       }
     }
 
@@ -270,6 +426,10 @@ SMS.Auth = (() => {
     login,
     register,
     logout,
-    requireAuth
+    requireAuth,
+    DEFAULT_STUDENT_PASSWORD_CREDENTIALS,
+    ensureStudentUser,
+    syncStudentUser,
+    changePassword
   };
 })();

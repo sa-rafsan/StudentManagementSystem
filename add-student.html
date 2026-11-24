@@ -42,6 +42,30 @@
               </a>
             </li>
             <li>
+              <a href="semesters.html" class="sidebar-link" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
               <a href="students.html" class="sidebar-link">
                 <i class="fa-solid fa-users"></i>
                 <span>Student Directory</span>
@@ -123,6 +147,14 @@
                   <i class="fa-solid fa-id-card"></i> Student Identification &amp; Status
                 </h2>
                 <p class="form-section-desc">Unique university registration ID, department assignment, and active status.</p>
+              </div>
+            </div>
+
+            <!-- Default Password Notice -->
+            <div style="margin-bottom: 1.25rem; padding: 0.85rem 1rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.75rem;">
+              <i class="fa-solid fa-key" style="font-size: 1.25rem; color: var(--primary);"></i>
+              <div style="font-size: 0.85rem; color: #1e40af; line-height: 1.45;">
+                <strong>Automatic Account &amp; Password:</strong> An account will be automatically generated with default password <strong><code>12345</code></strong>. The student can sign in with their Student ID or Email and change their password anytime from their Profile.
               </div>
             </div>
 
@@ -564,7 +596,7 @@
             SMS.Utils.showToast('success', 'Student Updated', `Student record ${formData.id} has been updated successfully.`);
           } else {
             SMS.StudentService.create(formData);
-            SMS.Utils.showToast('success', 'Student Registered', `New student ${formData.fullName} (${formData.id}) registered.`);
+            SMS.Utils.showToast('success', 'Student Registered', `New student ${formData.fullName} (${formData.id}) registered with default password 12345.`);
           }
 
           setTimeout(() => {

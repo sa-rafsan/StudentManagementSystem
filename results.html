@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results &amp; Performance - EduMetrics SMS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/courses.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="semesters.html" class="sidebar-link" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link active" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="attendance.html" class="sidebar-link" id="navLinkAttendance">
+                <i class="fa-solid fa-clipboard-user"></i>
+                <span>Attendance</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title">Academic Results &amp; Performance</h1>
+            <span class="breadcrumb-sub">Phase-Wise Marks Breakdown, Attendance %, Total Score &amp; Grades</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Transcript
+          </button>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="page-container">
+        <!-- Filter Controls (Visible to Admin and Teachers) -->
+        <div id="resultsFilterCard" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <label for="selectResultCourse" style="font-weight: 700; font-size: 0.9rem; color: var(--text-secondary);">Course:</label>
+            <select id="selectResultCourse" class="form-control" style="width: auto; min-width: 250px;">
+              <!-- Courses -->
+            </select>
+
+            <label for="selectResultSemester" style="font-weight: 700; font-size: 0.9rem; color: var(--text-secondary); margin-left: 0.5rem;">Semester:</label>
+            <select id="selectResultSemester" class="form-control" style="width: auto; min-width: 170px;">
+              <option value="all">All Semesters</option>
+            </select>
+          </div>
+
+          <div id="teacherResultActions">
+            <span class="badge badge-primary" id="enrolledCountBadge">Enrolled Roster</span>
+          </div>
+        </div>
+
+        <!-- Student Summary Cards (When logged in as Student) -->
+        <div id="studentResultsSummary" style="display: none; margin-bottom: 1.5rem;">
+          <!-- Dynamically populated KPI cards -->
+        </div>
+
+        <!-- Results Table Card -->
+        <div class="card">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h3 class="card-title" id="resultsTableTitle">
+                <i class="fa-solid fa-table-list" style="color: var(--primary);"></i> Course Results &amp; Marks Breakdown
+              </h3>
+              <p class="card-subtitle" id="resultsTableSubtitle">Calculated automatically from Assignment 1–4 and Quiz 1–4</p>
+            </div>
+            <div id="teacherUpdateMarksNotice" style="font-size: 0.8rem; color: var(--text-muted);">
+              <!-- Teacher hint -->
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="resultsTable">
+              <thead>
+                <tr>
+                  <th id="colStudentName">Student</th>
+                  <th>Attendance %</th>
+                  <th>Exam Status</th>
+                  <th>A1 (25)</th>
+                  <th>Q1 (25)</th>
+                  <th>A2 (25)</th>
+                  <th>Q2 (25)</th>
+                  <th>A3 (25)</th>
+                  <th>Q3 (25)</th>
+                  <th>A4 (25)</th>
+                  <th>Q4 (25)</th>
+                  <th>Total (200)</th>
+                  <th>Pct %</th>
+                  <th>Grade</th>
+                  <th id="colActions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTbody">
+                <!-- Data populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Teacher Manual Marks Update Modal -->
+  <div class="modal-backdrop" id="editMarksModal" style="display: none;">
+    <div class="modal" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="editMarksModalTitle">Update Student Marks</h3>
+        <button type="button" class="modal-close-btn" id="editMarksCloseBtn">&times;</button>
+      </div>
+      <form id="editMarksForm">
+        <input type="hidden" id="editMarksCourseId">
+        <input type="hidden" id="editMarksStudentId">
+        <div class="modal-body">
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            Directly modify or update marks for all 4 assessment phases.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="inputA1">Assignment 01 (Max 25)</label>
+              <input type="number" id="inputA1" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputQ1">Quiz 01 (Max 25)</label>
+              <input type="number" id="inputQ1" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="inputA2">Assignment 02 (Max 25)</label>
+              <input type="number" id="inputA2" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputQ2">Quiz 02 (Max 25)</label>
+              <input type="number" id="inputQ2" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="inputA3">Assignment 03 (Max 25)</label>
+              <input type="number" id="inputA3" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputQ3">Quiz 03 (Max 25)</label>
+              <input type="number" id="inputQ3" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="inputA4">Assignment 04 (Max 25)</label>
+              <input type="number" id="inputA4" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputQ4">Quiz 04 (Max 25)</label>
+              <input type="number" id="inputQ4" class="form-control" min="0" max="25" step="0.5" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="editMarksCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Results</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/course-service.js"></script>
+  <script src="js/assessment-service.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = SMS.Auth.getCurrentUser();
+      const selectCourse = SMS.Utils.$('#selectResultCourse');
+      const selectSem = SMS.Utils.$('#selectResultSemester');
+      const resultsTbody = SMS.Utils.$('#resultsTbody');
+      const filterCard = SMS.Utils.$('#resultsFilterCard');
+      const studentSummary = SMS.Utils.$('#studentResultsSummary');
+      const colActions = SMS.Utils.$('#colActions');
+      const colStudentName = SMS.Utils.$('#colStudentName');
+
+      // Populate semesters
+      const semesters = SMS.CourseService.getAllSemesters();
+      semesters.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.name;
+        selectSem.appendChild(opt);
+      });
+
+      // Populate courses
+      let allCourses = SMS.CourseService.getAllCourses();
+      if (SMS.Auth.isTeacher() && user.teacherId) {
+        allCourses = allCourses.filter(c => c.teacherId === user.teacherId);
+      }
+
+      selectCourse.innerHTML = allCourses.map(c => `
+        <option value="${c.id}">${SMS.Utils.escapeHTML(c.code)}: ${SMS.Utils.escapeHTML(c.name)}</option>
+      `).join('');
+
+      let activeCourseId = allCourses[0] ? allCourses[0].id : null;
+
+      const getGradeClass = (grade) => {
+        if (!grade) return '';
+        const clean = grade.toLowerCase().replace('+', '-plus');
+        return `grade-badge ${clean}`;
+      };
+
+      const renderResults = () => {
+        if (SMS.Auth.isStudent() && user.studentId) {
+          // --- STUDENT VIEW: Only their own academic records across all courses ---
+          if (filterCard) filterCard.style.display = 'none';
+          if (colActions) colActions.style.display = 'none';
+          if (colStudentName) colStudentName.textContent = 'Course';
+
+          const studentResults = SMS.AssessmentService.getAllResultsForStudent(user.studentId);
+
+          if (studentResults.length === 0) {
+            resultsTbody.innerHTML = `<tr><td colspan="15" style="text-align: center; padding: 2.5rem;" class="text-muted">You are not currently enrolled in any academic courses.</td></tr>`;
+            return;
+          }
+
+          // Calculate GPA & Summary
+          let totalScoreSum = 0;
+          let totalPossibleSum = 0;
+          studentResults.forEach(item => {
+            totalScoreSum += item.result.totalObtained;
+            totalPossibleSum += item.result.totalMarks;
+          });
+          const overallPct = totalPossibleSum > 0 ? Math.round((totalScoreSum / totalPossibleSum) * 100) : 0;
+
+          if (studentSummary) {
+            studentSummary.style.display = 'grid';
+            studentSummary.className = 'stats-grid';
+            studentSummary.innerHTML = `
+              <div class="stat-card">
+                <div class="stat-info">
+                  <span class="stat-label">Enrolled Courses</span>
+                  <span class="stat-value">${studentResults.length}</span>
+                </div>
+                <div class="stat-icon blue"><i class="fa-solid fa-book"></i></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-info">
+                  <span class="stat-label">Overall Marks</span>
+                  <span class="stat-value">${totalScoreSum} / ${totalPossibleSum}</span>
+                </div>
+                <div class="stat-icon purple"><i class="fa-solid fa-square-poll-vertical"></i></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-info">
+                  <span class="stat-label">Overall Percentage</span>
+                  <span class="stat-value">${overallPct}%</span>
+                </div>
+                <div class="stat-icon green"><i class="fa-solid fa-chart-line"></i></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-info">
+                  <span class="stat-label">Academic Standing</span>
+                  <span class="stat-value">${SMS.AssessmentService.calculateGrade(overallPct)}</span>
+                </div>
+                <div class="stat-icon amber"><i class="fa-solid fa-award"></i></div>
+              </div>
+            `;
+          }
+
+          resultsTbody.innerHTML = studentResults.map(item => {
+            const r = item.result;
+            const att = item.attendanceStats;
+            const isRestricted = att.isRestricted;
+
+            return `
+              <tr>
+                <td>
+                  <strong>${SMS.Utils.escapeHTML(item.course.name)}</strong>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">${item.course.code}</div>
+                </td>
+                <td>
+                  <span style="font-weight: 700; color: ${isRestricted ? 'var(--danger)' : 'var(--success)'};">${att.percentage}%</span>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">${att.presentClasses}/${att.totalClasses} classes</div>
+                </td>
+                <td>
+                  <span class="badge ${isRestricted ? 'badge-danger' : 'badge-success'}">
+                    ${isRestricted ? '<i class="fa-solid fa-ban"></i> Restricted' : '<i class="fa-solid fa-circle-check"></i> Eligible'}
+                  </span>
+                </td>
+                <td>${r.assignment1}</td>
+                <td>${r.quiz1}</td>
+                <td>${r.assignment2}</td>
+                <td>${r.quiz2}</td>
+                <td>${r.assignment3}</td>
+                <td>${r.quiz3}</td>
+                <td>${r.assignment4}</td>
+                <td>${r.quiz4}</td>
+                <td><strong>${r.totalObtained}</strong> / ${r.totalMarks}</td>
+                <td><strong>${r.percentage}%</strong></td>
+                <td><span class="${getGradeClass(r.grade)}">${r.grade}</span></td>
+                <td style="display: none;"></td>
+              </tr>
+            `;
+          }).join('');
+
+        } else {
+          // --- TEACHER / ADMIN VIEW: Roster breakdown with editing permissions ---
+          if (!activeCourseId) {
+            resultsTbody.innerHTML = `<tr><td colspan="15" style="text-align: center; padding: 2.5rem;" class="text-muted">No courses assigned to your account.</td></tr>`;
+            return;
+          }
+
+          const course = SMS.CourseService.getCourseById(activeCourseId);
+          const courseResults = SMS.AssessmentService.getResultsByCourse(activeCourseId);
+          const enrolledBadge = SMS.Utils.$('#enrolledCountBadge');
+          if (enrolledBadge) enrolledBadge.textContent = `${courseResults.length} Enrolled Students`;
+
+          if (courseResults.length === 0) {
+            resultsTbody.innerHTML = `<tr><td colspan="15" style="text-align: center; padding: 2.5rem;" class="text-muted">No students currently enrolled in this course.</td></tr>`;
+            return;
+          }
+
+          const canEdit = SMS.Auth.isAdmin() || (SMS.Auth.isTeacher() && course && course.teacherId === user.teacherId);
+
+          resultsTbody.innerHTML = courseResults.map(item => {
+            const r = item.result;
+            const att = SMS.AssessmentService.getCourseAttendanceStats(activeCourseId, item.student.id);
+            const isRestricted = att.isRestricted;
+
+            return `
+              <tr>
+                <td>
+                  <strong>${SMS.Utils.escapeHTML(item.student.fullName)}</strong>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">${item.student.id}</div>
+                </td>
+                <td>
+                  <span style="font-weight: 700; color: ${isRestricted ? 'var(--danger)' : 'var(--success)'};">${att.percentage}%</span>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">${att.presentClasses}/${att.totalClasses} classes</div>
+                </td>
+                <td>
+                  <span class="badge ${isRestricted ? 'badge-danger' : 'badge-success'}">
+                    ${isRestricted ? '<i class="fa-solid fa-ban"></i> Restricted' : '<i class="fa-solid fa-circle-check"></i> Eligible'}
+                  </span>
+                </td>
+                <td>${r.assignment1}</td>
+                <td>${r.quiz1}</td>
+                <td>${r.assignment2}</td>
+                <td>${r.quiz2}</td>
+                <td>${r.assignment3}</td>
+                <td>${r.quiz3}</td>
+                <td>${r.assignment4}</td>
+                <td>${r.quiz4}</td>
+                <td><strong>${r.totalObtained}</strong></td>
+                <td><strong>${r.percentage}%</strong></td>
+                <td><span class="${getGradeClass(r.grade)}">${r.grade}</span></td>
+                <td>
+                  ${canEdit ? `
+                    <button type="button" class="btn btn-sm btn-secondary btn-edit-student-marks" data-student-id="${item.student.id}" title="Enter / Update Marks">
+                      <i class="fa-solid fa-pen-to-square"></i> Update Marks
+                    </button>
+                  ` : '-'}
+                </td>
+              </tr>
+            `;
+          }).join('');
+
+          // Attach manual mark edit handlers
+          SMS.Utils.$$('.btn-edit-student-marks').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const stuId = btn.dataset.studentId;
+              const res = SMS.AssessmentService.getStudentCourseResult(activeCourseId, stuId);
+              const student = SMS.StudentService ? SMS.StudentService.getById(stuId) : null;
+
+              SMS.Utils.$('#editMarksCourseId').value = activeCourseId;
+              SMS.Utils.$('#editMarksStudentId').value = stuId;
+              SMS.Utils.$('#editMarksModalTitle').textContent = `Update Marks: ${student ? student.fullName : stuId}`;
+
+              SMS.Utils.$('#inputA1').value = res.assignment1 || 0;
+              SMS.Utils.$('#inputQ1').value = res.quiz1 || 0;
+              SMS.Utils.$('#inputA2').value = res.assignment2 || 0;
+              SMS.Utils.$('#inputQ2').value = res.quiz2 || 0;
+              SMS.Utils.$('#inputA3').value = res.assignment3 || 0;
+              SMS.Utils.$('#inputQ3').value = res.quiz3 || 0;
+              SMS.Utils.$('#inputA4').value = res.assignment4 || 0;
+              SMS.Utils.$('#inputQ4').value = res.quiz4 || 0;
+
+              SMS.Utils.$('#editMarksModal').style.display = 'flex';
+            });
+          });
+        }
+      };
+
+      // Modal Handlers
+      const editMarksModal = SMS.Utils.$('#editMarksModal');
+      const editMarksForm = SMS.Utils.$('#editMarksForm');
+
+      SMS.Utils.$('#editMarksCloseBtn').addEventListener('click', () => editMarksModal.style.display = 'none');
+      SMS.Utils.$('#editMarksCancelBtn').addEventListener('click', () => editMarksModal.style.display = 'none');
+
+      editMarksForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const courseId = SMS.Utils.$('#editMarksCourseId').value;
+        const studentId = SMS.Utils.$('#editMarksStudentId').value;
+
+        const a1 = parseFloat(SMS.Utils.$('#inputA1').value) || 0;
+        const q1 = parseFloat(SMS.Utils.$('#inputQ1').value) || 0;
+        const a2 = parseFloat(SMS.Utils.$('#inputA2').value) || 0;
+        const q2 = parseFloat(SMS.Utils.$('#inputQ2').value) || 0;
+        const a3 = parseFloat(SMS.Utils.$('#inputA3').value) || 0;
+        const q3 = parseFloat(SMS.Utils.$('#inputQ3').value) || 0;
+        const a4 = parseFloat(SMS.Utils.$('#inputA4').value) || 0;
+        const q4 = parseFloat(SMS.Utils.$('#inputQ4').value) || 0;
+
+        const totalObtained = a1 + q1 + a2 + q2 + a3 + q3 + a4 + q4;
+        const totalMarks = 200;
+        const percentage = Math.round((totalObtained / totalMarks) * 100);
+        const grade = SMS.AssessmentService.calculateGrade(percentage);
+        const attStats = SMS.AssessmentService.getCourseAttendanceStats(courseId, studentId);
+
+        // Save into RESULTS collection
+        const allResults = SMS.Storage.getCollection(SMS.Storage.KEYS.RESULTS);
+        const existingIdx = allResults.findIndex(r => r.courseId === courseId && r.studentId === studentId);
+
+        const updatedResult = {
+          id: existingIdx !== -1 ? allResults[existingIdx].id : `RES-${courseId}-${studentId}`,
+          courseId,
+          studentId,
+          assignment1: a1,
+          quiz1: q1,
+          assignment2: a2,
+          quiz2: q2,
+          assignment3: a3,
+          quiz3: q3,
+          assignment4: a4,
+          quiz4: q4,
+          totalObtained,
+          totalMarks,
+          percentage,
+          grade,
+          attendancePercentage: attStats.percentage,
+          examEligible: !attStats.isRestricted,
+          updatedAt: new Date().toISOString()
+        };
+
+        if (existingIdx !== -1) {
+          allResults[existingIdx] = updatedResult;
+        } else {
+          allResults.unshift(updatedResult);
+        }
+        SMS.Storage.saveCollection(SMS.Storage.KEYS.RESULTS, allResults);
+
+        SMS.Utils.showToast('success', 'Updated', 'Marks and course results successfully recalculated.');
+        editMarksModal.style.display = 'none';
+        renderResults();
+      });
+
+      selectCourse.addEventListener('change', () => {
+        activeCourseId = selectCourse.value;
+        renderResults();
+      });
+
+      renderResults();
+    });
+  </script>
+</body>
+</html>

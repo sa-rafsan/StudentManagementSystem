@@ -317,8 +317,75 @@ SMS.Dashboard = (() => {
     renderRecentStudents(stats);
     initCharts(stats);
 
-    // Display student notice if user is logged in as Student
+    // Display personalized role banner & quick stats
     const currentUser = SMS.Auth.getCurrentUser();
+    const rolePanel = SMS.Utils.$('#rolePersonalizedPanel');
+
+    if (currentUser && rolePanel) {
+      if (currentUser.role === 'Student' && currentUser.studentId) {
+        const studentResults = window.SMS.AssessmentService ? SMS.AssessmentService.getAllResultsForStudent(currentUser.studentId) : [];
+        const enrolledCourses = window.SMS.CourseService ? SMS.CourseService.getStudentEnrolledCourses(currentUser.studentId) : [];
+
+        let totalObt = 0;
+        let totalMax = 0;
+        studentResults.forEach(r => {
+          totalObt += r.result.totalObtained;
+          totalMax += r.result.totalMarks;
+        });
+        const avgPct = totalMax > 0 ? Math.round((totalObt / totalMax) * 100) : 0;
+
+        rolePanel.innerHTML = `
+          <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span class="badge badge-primary" style="margin-bottom: 0.35rem;">Student Academic Portal</span>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: #1e3a8a; margin: 0;">Welcome, ${SMS.Utils.escapeHTML(currentUser.name)} (${currentUser.studentId})</h3>
+              <p style="font-size: 0.88rem; color: #3b82f6; margin-top: 0.25rem;">Enrolled in ${enrolledCourses.length} courses this semester &bull; Cumulative Score: ${totalObt}/${totalMax} (${avgPct}%)</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem;">
+              <a href="results.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-square-poll-vertical"></i> View My Results</a>
+              <a href="courses.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-book-open"></i> My Courses</a>
+              <a href="assessments.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-pen-ruler"></i> My Assessments</a>
+            </div>
+          </div>
+        `;
+      } else if (currentUser.role === 'Teacher' && currentUser.teacherId) {
+        const myCourses = window.SMS.CourseService ? SMS.CourseService.getCoursesByTeacher(currentUser.teacherId) : [];
+        rolePanel.innerHTML = `
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0; border-radius: var(--radius-md); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span class="badge badge-success" style="margin-bottom: 0.35rem;">Faculty Instructor Portal</span>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: #14532d; margin: 0;">Welcome back, ${SMS.Utils.escapeHTML(currentUser.name)}</h3>
+              <p style="font-size: 0.88rem; color: #16a34a; margin-top: 0.25rem;">You are currently assigned to instruct <strong>${myCourses.length} courses</strong> with active 12-week curricula.</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem;">
+              <a href="courses.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-book-open"></i> Manage My Courses</a>
+              <a href="assessments.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-pen-ruler"></i> Grade Assessments</a>
+              <a href="results.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-square-poll-vertical"></i> Enter Marks</a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Admin
+        const allSemesters = window.SMS.CourseService ? SMS.CourseService.getAllSemesters() : [];
+        const allCourses = window.SMS.CourseService ? SMS.CourseService.getAllCourses() : [];
+        rolePanel.innerHTML = `
+          <div style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border: 1px solid #e9d5ff; border-radius: var(--radius-md); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span class="badge badge-info" style="margin-bottom: 0.35rem;">Academic Administrator Master View</span>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: #581c87; margin: 0;">University Administration Console</h3>
+              <p style="font-size: 0.88rem; color: #7e22ce; margin-top: 0.25rem;">Total Semesters: <strong>${allSemesters.length}</strong> &bull; Total Courses: <strong>${allCourses.length}</strong> (12 Weeks each)</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem;">
+              <a href="semesters.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-calendar-week"></i> Manage Semesters</a>
+              <a href="courses.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-book-open"></i> Manage Courses</a>
+              <a href="results.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-square-poll-vertical"></i> Results Console</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Display student notice if user is logged in as Student
     if (currentUser && currentUser.role === 'Student') {
       const banner = SMS.Utils.$('#studentWelcomeNotice');
       if (banner) {

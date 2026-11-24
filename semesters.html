@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semesters Management - EduMetrics SMS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/courses.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Fixed Left Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="semesters.html" class="sidebar-link active" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="attendance.html" class="sidebar-link" id="navLinkAttendance">
+                <i class="fa-solid fa-clipboard-user"></i>
+                <span>Attendance</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar User Profile Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title">Semester Management</h1>
+            <span class="breadcrumb-sub">Each semester contains exactly 4 assigned academic courses</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-meta-pill">
+            <i class="fa-regular fa-calendar-check"></i>
+            <span>Academic Year 2026-2027</span>
+          </div>
+          <div class="header-meta-pill" style="background:#f1f5f9;color:var(--text-secondary);">
+            <i class="fa-solid fa-shield-halved" style="color:var(--primary);"></i>
+            <span id="headerUserRole">Admin</span>
+          </div>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="page-container">
+        <!-- Action Toolbar -->
+        <div class="page-header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--text-main);">Academic Semesters</h2>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">Manage semesters, view course loads, and configure schedules.</p>
+          </div>
+          <div id="adminSemesterActions">
+            <button type="button" class="btn btn-primary" id="btnCreateSemester">
+              <i class="fa-solid fa-plus"></i> Create Semester
+            </button>
+          </div>
+        </div>
+
+        <!-- Semesters Grid Container -->
+        <div id="semestersContainer" class="course-grid">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create / Edit Semester Modal -->
+  <div class="modal-backdrop" id="semesterModal" style="display: none;">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="semesterModalTitle">Create Semester</h3>
+        <button type="button" class="modal-close-btn" id="semesterModalCloseBtn">&times;</button>
+      </div>
+      <form id="semesterForm">
+        <input type="hidden" id="semesterIdInput">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="semesterNameInput">Semester Name <span class="required">*</span></label>
+            <input type="text" id="semesterNameInput" class="form-control" placeholder="e.g. Fall 2026" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="academicYearInput">Academic Year <span class="required">*</span></label>
+            <input type="text" id="academicYearInput" class="form-control" placeholder="e.g. 2026-2027" required>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="startDateInput">Start Date</label>
+              <input type="date" id="startDateInput" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="endDateInput">End Date</label>
+              <input type="date" id="endDateInput" class="form-control">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="semesterStatusInput">Status</label>
+            <select id="semesterStatusInput" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Upcoming">Upcoming</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div class="alert alert-info" style="font-size: 0.85rem; padding: 0.75rem; border-radius: var(--radius-sm); background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">
+            <i class="fa-solid fa-circle-info"></i> Each semester will contain exactly 4 courses. You can manage or assign courses right after creating or from the Courses menu.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="semesterModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="semesterModalSubmitBtn">Save Semester</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/course-service.js"></script>
+  <script src="js/assessment-service.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const semestersContainer = SMS.Utils.$('#semestersContainer');
+      const semesterModal = SMS.Utils.$('#semesterModal');
+      const semesterForm = SMS.Utils.$('#semesterForm');
+      const btnCreate = SMS.Utils.$('#btnCreateSemester');
+      const adminActions = SMS.Utils.$('#adminSemesterActions');
+
+      // Restrict modification to Admin
+      if (!SMS.Auth.isAdmin() && adminActions) {
+        adminActions.style.display = 'none';
+      }
+
+      const openModal = (semester = null) => {
+        SMS.Utils.$('#semesterModalTitle').textContent = semester ? 'Edit Semester' : 'Create Semester';
+        SMS.Utils.$('#semesterIdInput').value = semester ? semester.id : '';
+        SMS.Utils.$('#semesterNameInput').value = semester ? semester.name : '';
+        SMS.Utils.$('#academicYearInput').value = semester ? semester.academicYear : '2026-2027';
+        SMS.Utils.$('#startDateInput').value = semester ? semester.startDate || '' : '';
+        SMS.Utils.$('#endDateInput').value = semester ? semester.endDate || '' : '';
+        SMS.Utils.$('#semesterStatusInput').value = semester ? semester.status : 'Active';
+        semesterModal.style.display = 'flex';
+      };
+
+      const closeModal = () => {
+        semesterModal.style.display = 'none';
+        semesterForm.reset();
+      };
+
+      if (btnCreate) {
+        btnCreate.addEventListener('click', () => openModal());
+      }
+      SMS.Utils.$('#semesterModalCloseBtn').addEventListener('click', closeModal);
+      SMS.Utils.$('#semesterModalCancelBtn').addEventListener('click', closeModal);
+
+      semesterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = SMS.Utils.$('#semesterIdInput').value;
+        const name = SMS.Utils.$('#semesterNameInput').value.trim();
+        const academicYear = SMS.Utils.$('#academicYearInput').value.trim();
+        const startDate = SMS.Utils.$('#startDateInput').value;
+        const endDate = SMS.Utils.$('#endDateInput').value;
+        const status = SMS.Utils.$('#semesterStatusInput').value;
+
+        try {
+          if (id) {
+            SMS.CourseService.updateSemester(id, { name, academicYear, startDate, endDate, status });
+            SMS.Utils.showToast('success', 'Updated', 'Semester updated successfully.');
+          } else {
+            SMS.CourseService.createSemester({ name, academicYear, startDate, endDate, status });
+            SMS.Utils.showToast('success', 'Created', 'Semester created successfully.');
+          }
+          closeModal();
+          renderSemesters();
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      });
+
+      const renderSemesters = () => {
+        const semesters = SMS.CourseService.getAllSemesters();
+        const allCourses = SMS.CourseService.getAllCourses();
+        const teachers = SMS.CourseService.getAllTeachers();
+
+        if (semesters.length === 0) {
+          semestersContainer.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: #fff; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+              <i class="fa-solid fa-calendar-xmark" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+              <h3>No Semesters Created Yet</h3>
+              <p class="text-muted">Use the button above to create your first academic semester.</p>
+            </div>
+          `;
+          return;
+        }
+
+        semestersContainer.innerHTML = semesters.map(sem => {
+          const semCourses = allCourses.filter(c => c.semesterId === sem.id);
+          const courseCount = semCourses.length;
+          const statusBadge = sem.status === 'Active' ? 'badge-active' : 'badge-inactive';
+
+          const courseItemsHtml = semCourses.map(c => {
+            const t = teachers.find(teacher => teacher.id === c.teacherId);
+            return `
+              <li style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; background: #f8fafc; border-radius: var(--radius-sm); font-size: 0.85rem; border: 1px solid #e2e8f0;">
+                <div>
+                  <span style="font-weight: 700; color: var(--primary);">${SMS.Utils.escapeHTML(c.code)}:</span>
+                  <span style="color: var(--text-main);">${SMS.Utils.escapeHTML(c.name)}</span>
+                </div>
+                <span style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-chalkboard-user"></i> ${t ? SMS.Utils.escapeHTML(t.name) : 'Unassigned'}</span>
+              </li>
+            `;
+          }).join('');
+
+          return `
+            <div class="course-card">
+              <div class="course-card-header">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                    <span class="badge ${statusBadge}">${sem.status}</span>
+                    <span style="font-size: 0.78rem; color: var(--text-muted);">${SMS.Utils.escapeHTML(sem.academicYear)}</span>
+                  </div>
+                  <h3 class="course-card-title">${SMS.Utils.escapeHTML(sem.name)}</h3>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-weight: 700; font-size: 1.1rem; color: ${courseCount === 4 ? 'var(--success)' : 'var(--warning)'};">${courseCount} / 4</span>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">Courses Required</div>
+                </div>
+              </div>
+              <div class="course-card-body">
+                <div class="course-meta-row" style="margin: 0; padding: 0.4rem 0;">
+                  <div class="course-meta-item">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>${sem.startDate ? SMS.Utils.formatDate(sem.startDate) : 'TBD'} &rarr; ${sem.endDate ? SMS.Utils.formatDate(sem.endDate) : 'TBD'}</span>
+                  </div>
+                </div>
+
+                <div style="margin-top: 0.5rem;">
+                  <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
+                    <span>Courses Under Semester</span>
+                    <a href="courses.html?semester=${sem.id}" style="color: var(--primary); text-decoration: none; font-size: 0.78rem;">View All</a>
+                  </div>
+                  <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.4rem;">
+                    ${courseItemsHtml || '<li class="text-muted" style="font-size: 0.82rem; font-style: italic;">No courses assigned yet. Add up to 4 courses.</li>'}
+                  </ul>
+                </div>
+              </div>
+              <div class="course-card-footer">
+                <a href="courses.html?semester=${sem.id}" class="btn btn-secondary btn-sm">
+                  <i class="fa-solid fa-book-open"></i> Manage Courses
+                </a>
+                ${SMS.Auth.isAdmin() ? `
+                  <div style="display: flex; gap: 0.4rem;">
+                    <button type="button" class="btn btn-icon btn-sm btn-edit-sem" data-id="${sem.id}" title="Edit Semester">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-sm btn-delete-sem" data-id="${sem.id}" title="Delete Semester" style="color: var(--danger);">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Attach action handlers
+        SMS.Utils.$$('.btn-edit-sem').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const sem = SMS.CourseService.getSemesterById(btn.dataset.id);
+            if (sem) openModal(sem);
+          });
+        });
+
+        SMS.Utils.$$('.btn-delete-sem').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const semId = btn.dataset.id;
+            SMS.Utils.showConfirmModal({
+              title: 'Delete Semester',
+              message: 'Are you sure you want to delete this semester? Courses linked to it will be unassigned.',
+              confirmText: 'Delete',
+              confirmType: 'danger',
+              onConfirm: () => {
+                SMS.CourseService.deleteSemester(semId);
+                SMS.Utils.showToast('success', 'Deleted', 'Semester deleted.');
+                renderSemesters();
+              }
+            });
+          });
+        });
+      };
+
+      renderSemesters();
+    });
+  </script>
+</body>
+</html>

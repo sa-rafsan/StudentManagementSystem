@@ -100,7 +100,7 @@
             <div class="radio-pill-item">
               <input type="radio" name="regRole" id="roleStudent" value="Student" class="radio-pill-input" checked>
               <label for="roleStudent" class="radio-pill-label">
-                <i class="fa-solid fa-user-graduate"></i> Student
+                <i class="fa-solid fa-user-graduate"></i> Student (Existing ID)
               </label>
             </div>
           </div>
@@ -109,12 +109,15 @@
         <!-- Student ID Link (Visible for student role) -->
         <div class="form-group" id="studentIdFieldGroup" style="margin-bottom: 1.1rem;">
           <label for="regStudentId" class="form-label">
-            Associated Student ID
-            <span class="form-label-hint">e.g. STU-2024-001 (optional)</span>
+            Admin-Assigned Student ID <span class="required">*</span>
+            <span class="form-label-hint">Students can only be created by Admin</span>
           </label>
           <div class="input-with-icon">
             <i class="fa-solid fa-id-card"></i>
-            <input type="text" id="regStudentId" class="form-control" placeholder="STU-2024-001">
+            <input type="text" id="regStudentId" class="form-control" placeholder="e.g. STU-2024-001">
+          </div>
+          <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 0.35rem;">
+            <i class="fa-solid fa-circle-info"></i> Official student records must be added by the Administrator first.
           </div>
           <div class="invalid-feedback"></div>
         </div>

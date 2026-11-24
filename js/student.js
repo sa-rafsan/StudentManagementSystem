@@ -81,6 +81,12 @@ SMS.StudentService = (() => {
 
     students.unshift(newStudent); // add to top
     SMS.Storage.setItem(STORAGE_KEY(), students);
+
+    // Automatically create or link student user account with default password '12345'
+    if (window.SMS && window.SMS.Auth && window.SMS.Auth.ensureStudentUser) {
+      window.SMS.Auth.ensureStudentUser(newStudent);
+    }
+
     return newStudent;
   };
 
@@ -119,6 +125,12 @@ SMS.StudentService = (() => {
 
     students[index] = updatedStudent;
     SMS.Storage.setItem(STORAGE_KEY(), students);
+
+    // Sync student user account name/email
+    if (window.SMS && window.SMS.Auth && window.SMS.Auth.syncStudentUser) {
+      window.SMS.Auth.syncStudentUser(updatedStudent);
+    }
+
     return updatedStudent;
   };
 

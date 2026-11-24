@@ -42,6 +42,30 @@
               </a>
             </li>
             <li>
+              <a href="semesters.html" class="sidebar-link" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
               <a href="students.html" class="sidebar-link">
                 <i class="fa-solid fa-users"></i>
                 <span>Student Directory</span>
@@ -139,18 +163,21 @@
         <!-- Top Welcome & Quick Actions Banner -->
         <div class="dashboard-welcome">
           <div class="welcome-text">
-            <h1>Student Management System</h1>
-            <p>Monitor enrollment dynamics, manage department allocations, and maintain referential student records in real time.</p>
+            <h1 id="dashboardWelcomeHeading">Student Management System</h1>
+            <p id="dashboardWelcomeSub">Monitor enrollment dynamics, manage semesters, 12-week courses, attendance, assignments, quizzes, and academic results.</p>
           </div>
-          <div class="welcome-actions">
-            <a href="add-student.html" class="btn btn-white">
-              <i class="fa-solid fa-user-plus"></i> Add New Student
+          <div class="welcome-actions" id="dashboardTopActions">
+            <a href="courses.html" class="btn btn-white">
+              <i class="fa-solid fa-book-open"></i> Course Catalog
             </a>
-            <a href="students.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff;">
-              <i class="fa-solid fa-table-list"></i> View All Records
+            <a href="assessments.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff;">
+              <i class="fa-solid fa-pen-ruler"></i> Assessments &amp; Quizzes
             </a>
           </div>
         </div>
+
+        <!-- Role Personalized Quick Banner -->
+        <div id="rolePersonalizedPanel" style="margin-bottom: 1.5rem;"></div>
 
         <!-- Statistics Cards Grid (4 Dynamic Metrics) -->
         <div class="stats-grid">
@@ -362,6 +389,8 @@
   <script src="js/auth.js"></script>
   <script src="js/validation.js"></script>
   <script src="js/student.js"></script>
+  <script src="js/course-service.js"></script>
+  <script src="js/assessment-service.js"></script>
   <script src="js/attendance.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/app.js"></script>

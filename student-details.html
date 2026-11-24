@@ -189,6 +189,30 @@
               </a>
             </li>
             <li>
+              <a href="semesters.html" class="sidebar-link" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
               <a href="students.html" class="sidebar-link active">
                 <i class="fa-solid fa-users"></i>
                 <span>Student Directory</span>
@@ -297,6 +321,9 @@
               <button type="button" class="btn btn-secondary btn-sm" id="printStudentBtn" title="Print Profile Dossier">
                 <i class="fa-solid fa-print"></i> Print
               </button>
+              <button type="button" class="btn btn-warning btn-sm" id="btnOpenChangePasswordModal" style="background: #f59e0b; color: #fff; border: none;" title="Change Password">
+                <i class="fa-solid fa-key"></i> Change Password
+              </button>
               <a href="#" class="btn btn-primary btn-sm" id="editStudentBtn">
                 <i class="fa-solid fa-user-pen"></i> Edit Profile
               </a>
@@ -399,6 +426,64 @@
             </div>
           </div>
 
+          <!-- Account Security & Password Card -->
+          <div class="card" id="securityCard" style="margin-bottom: 2rem;">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h3 class="card-title">
+                <i class="fa-solid fa-shield-halved" style="color: var(--warning);"></i>
+                Account Security &amp; Login Password
+              </h3>
+              <span class="badge" id="passwordStatusBadge">Default Password: 12345</span>
+            </div>
+            <div class="card-body">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+                <div style="padding: 0.85rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                  <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Student Login ID</div>
+                  <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;" id="securityStudentId">-</div>
+                  <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.25rem;">Use directly to sign in</div>
+                </div>
+                <div style="padding: 0.85rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                  <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Registered Email</div>
+                  <div style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;" id="securityStudentEmail">-</div>
+                  <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.25rem;">Can also be used to sign in</div>
+                </div>
+                <div style="padding: 0.85rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                  <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Password Status</div>
+                  <div style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-top: 0.25rem;" id="securityPasswordState">12345 (Default)</div>
+                  <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.25rem;">Change anytime below</div>
+                </div>
+              </div>
+
+              <div id="changePasswordSection" style="padding: 1.25rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <h4 style="font-size: 0.95rem; font-weight: 700; margin: 0; color: var(--text-main);">
+                    <i class="fa-solid fa-lock" style="color: var(--primary); margin-right: 0.35rem;"></i> Change Your Password
+                  </h4>
+                  <span style="font-size: 0.78rem; color: var(--text-muted);">Minimum 5 characters</span>
+                </div>
+                <form id="inlineChangePasswordForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; align-items: flex-end;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" style="font-size: 0.8rem;">Current Password <span class="required">*</span></label>
+                    <input type="password" id="inputCurrentPass" class="form-control form-control-sm" placeholder="Current (default: 12345)" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" style="font-size: 0.8rem;">New Password <span class="required">*</span></label>
+                    <input type="password" id="inputNewPass" class="form-control form-control-sm" placeholder="New password" required minlength="5">
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" style="font-size: 0.8rem;">Confirm Password <span class="required">*</span></label>
+                    <input type="password" id="inputConfirmPass" class="form-control form-control-sm" placeholder="Confirm new password" required minlength="5">
+                  </div>
+                  <div>
+                    <button type="submit" class="btn btn-primary btn-sm" id="btnSubmitChangePass" style="width: 100%; height: 38px;">
+                      <i class="fa-solid fa-check"></i> Update Password
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
           <!-- Classroom Attendance & Exam Eligibility Card -->
           <div class="card" style="margin-bottom: 2rem;">
             <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
@@ -474,12 +559,49 @@
     </div>
   </div>
 
+  <!-- Change Password Modal -->
+  <div class="modal-backdrop" id="changePasswordModal">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fa-solid fa-key" style="color: var(--warning); margin-right: 0.35rem;"></i> Change Student Password
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeChangePassModalBtn">&times;</button>
+      </div>
+      <form id="modalChangePasswordForm">
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.45;">
+            By default, new student accounts use password <strong><code>12345</code></strong>. You can choose a new secure password anytime.
+          </p>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="modalCurrentPass">Current Password <span class="required">*</span></label>
+            <input type="password" id="modalCurrentPass" class="form-control" placeholder="Enter current password (default: 12345)" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="modalNewPass">New Password <span class="required">*</span></label>
+            <input type="password" id="modalNewPass" class="form-control" placeholder="Enter new password (min. 5 characters)" required minlength="5">
+          </div>
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label class="form-label" for="modalConfirmPass">Confirm New Password <span class="required">*</span></label>
+            <input type="password" id="modalConfirmPass" class="form-control" placeholder="Re-type new password" required minlength="5">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelChangePassModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnConfirmModalChangePass">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Application Scripts -->
   <script src="js/utils.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/validation.js"></script>
   <script src="js/student.js"></script>
+  <script src="js/course-service.js"></script>
+  <script src="js/assessment-service.js"></script>
   <script src="js/attendance.js"></script>
   <script src="js/student-details.js"></script>
   <script src="js/app.js"></script>

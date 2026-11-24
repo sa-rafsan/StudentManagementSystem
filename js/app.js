@@ -80,12 +80,47 @@ SMS.App = (() => {
     if (user.role === 'Student') {
       const addStudentLink = SMS.Utils.$('#navLinkAddStudent');
       const settingsLink = SMS.Utils.$('#navLinkSettings');
+      const semestersLink = SMS.Utils.$('#navLinkSemesters');
 
       if (addStudentLink) {
         addStudentLink.parentElement.style.display = 'none';
       }
       if (settingsLink) {
         settingsLink.parentElement.style.display = 'none';
+      }
+      if (semestersLink) {
+        semestersLink.parentElement.style.display = 'none';
+      }
+
+      // Add or link "My Profile & Password" in sidebar navigation
+      if (user.studentId) {
+        const navList = SMS.Utils.$('.sidebar-nav');
+        if (navList && !SMS.Utils.$('#navLinkMyProfile')) {
+          const profileLi = document.createElement('li');
+          profileLi.innerHTML = `
+            <a href="student-details.html?id=${encodeURIComponent(user.studentId)}" class="sidebar-link" id="navLinkMyProfile">
+              <i class="fa-solid fa-id-badge"></i>
+              <span>My Profile &amp; Security</span>
+            </a>
+          `;
+          const studentsLink = SMS.Utils.$('.sidebar-link[href="students.html"]');
+          if (studentsLink && studentsLink.parentElement) {
+            studentsLink.parentElement.after(profileLi);
+          } else {
+            navList.appendChild(profileLi);
+          }
+        }
+
+        // Make user profile footer clickable
+        const userMiniProfile = SMS.Utils.$('.user-mini-profile');
+        if (userMiniProfile) {
+          userMiniProfile.style.cursor = 'pointer';
+          userMiniProfile.title = 'Click to open My Profile and change password';
+          userMiniProfile.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-logout')) return;
+            window.location.href = `student-details.html?id=${encodeURIComponent(user.studentId)}`;
+          });
+        }
       }
     } else if (user.role === 'Teacher') {
       const addStudentLink = SMS.Utils.$('#navLinkAddStudent');

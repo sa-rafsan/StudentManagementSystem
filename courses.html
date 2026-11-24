@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses Management - EduMetrics SMS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/courses.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Fixed Left Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="semesters.html" class="sidebar-link" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link active" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="attendance.html" class="sidebar-link" id="navLinkAttendance">
+                <i class="fa-solid fa-clipboard-user"></i>
+                <span>Attendance</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sidebar User Profile Footer -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title">Course Management</h1>
+            <span class="breadcrumb-sub">12-week comprehensive modular learning curriculum</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-meta-pill">
+            <i class="fa-solid fa-layer-group"></i>
+            <span id="activeRoleLabel">Course Catalog</span>
+          </div>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="page-container">
+        <!-- Top Filter & Action Bar -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <label for="filterSemester" style="font-weight: 600; font-size: 0.88rem; color: var(--text-secondary);">Semester:</label>
+            <select id="filterSemester" class="form-control" style="width: auto; min-width: 180px;">
+              <option value="all">All Semesters</option>
+            </select>
+
+            <label for="searchCourse" style="font-weight: 600; font-size: 0.88rem; color: var(--text-secondary); margin-left: 0.5rem;">Search:</label>
+            <input type="text" id="searchCourse" class="form-control" placeholder="Search by name or code..." style="width: auto; min-width: 220px;">
+          </div>
+
+          <div id="courseActionContainer">
+            <button type="button" class="btn btn-primary" id="btnCreateCourse">
+              <i class="fa-solid fa-plus"></i> Add Course
+            </button>
+          </div>
+        </div>
+
+        <!-- Role Filter Banner for Teachers -->
+        <div id="teacherBanner" style="display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: var(--radius-md); padding: 0.85rem 1.25rem; margin-bottom: 1.5rem;">
+          <i class="fa-solid fa-circle-info"></i> <strong>Instructor Mode:</strong> Displaying courses specifically assigned to you. You can manage weekly contents, take course attendance, grade assignments and quizzes.
+        </div>
+
+        <!-- Courses Grid -->
+        <div id="coursesGrid" class="course-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create / Edit Course Modal -->
+  <div class="modal-backdrop" id="courseModal" style="display: none;">
+    <div class="modal" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="courseModalTitle">Add Course</h3>
+        <button type="button" class="modal-close-btn" id="courseModalCloseBtn">&times;</button>
+      </div>
+      <form id="courseForm">
+        <input type="hidden" id="courseIdInput">
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="courseCodeInput">Course Code <span class="required">*</span></label>
+              <input type="text" id="courseCodeInput" class="form-control" placeholder="e.g. CSE-301" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="courseNameInput">Course Name <span class="required">*</span></label>
+              <input type="text" id="courseNameInput" class="form-control" placeholder="e.g. Data Structures and Algorithms" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="courseDescInput">Course Description</label>
+            <textarea id="courseDescInput" class="form-control" rows="3" placeholder="Enter syllabus summary, topics, and objectives..."></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="courseSemesterInput">Semester <span class="required">*</span></label>
+              <select id="courseSemesterInput" class="form-control" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="courseTeacherInput">Assigned Teacher</label>
+              <select id="courseTeacherInput" class="form-control">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="courseStartDateInput">Start Date</label>
+              <input type="date" id="courseStartDateInput" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="courseEndDateInput">End Date</label>
+              <input type="date" id="courseEndDateInput" class="form-control">
+            </div>
+          </div>
+
+          <div class="alert alert-info" style="font-size: 0.85rem; padding: 0.75rem; border-radius: var(--radius-sm); background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">
+            <i class="fa-solid fa-calendar-days"></i> <strong>Automatic 12-Week Structure:</strong> Creating this course will automatically initialize 12 weekly topic modules with assessment phases (Phase 1 to Phase 4).
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="courseModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="courseModalSubmitBtn">Save Course</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/course-service.js"></script>
+  <script src="js/assessment-service.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = SMS.Auth.getCurrentUser();
+      const coursesGrid = SMS.Utils.$('#coursesGrid');
+      const filterSemester = SMS.Utils.$('#filterSemester');
+      const searchCourse = SMS.Utils.$('#searchCourse');
+      const btnCreate = SMS.Utils.$('#btnCreateCourse');
+      const courseModal = SMS.Utils.$('#courseModal');
+      const courseForm = SMS.Utils.$('#courseForm');
+      const teacherBanner = SMS.Utils.$('#teacherBanner');
+
+      // Setup initial query param filter (e.g. ?semester=SEM-001)
+      const urlSemesterParam = SMS.Utils.getUrlParam('semester');
+
+      // Populate Semesters filter and modal select
+      const semesters = SMS.CourseService.getAllSemesters();
+      const teachers = SMS.CourseService.getAllTeachers();
+
+      const semSelect = SMS.Utils.$('#courseSemesterInput');
+      const teacherSelect = SMS.Utils.$('#courseTeacherInput');
+
+      semesters.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = `${s.name} (${s.academicYear})`;
+        if (filterSemester) filterSemester.appendChild(opt.cloneNode(true));
+        if (semSelect) semSelect.appendChild(opt);
+      });
+
+      if (urlSemesterParam && filterSemester) {
+        filterSemester.value = urlSemesterParam;
+      }
+
+      teacherSelect.innerHTML = '<option value="">-- Select Teacher --</option>' + teachers.map(t => `
+        <option value="${t.id}">${SMS.Utils.escapeHTML(t.name)} (${SMS.Utils.escapeHTML(t.department || 'Faculty')})</option>
+      `).join('');
+
+      // Role check for course creation: Admin or Teachers can create courses
+      if (SMS.Auth.isStudent()) {
+        const actionBox = SMS.Utils.$('#courseActionContainer');
+        if (actionBox) actionBox.style.display = 'none';
+      }
+
+      if (SMS.Auth.isTeacher() && teacherBanner) {
+        teacherBanner.style.display = 'block';
+      }
+
+      const openModal = (course = null) => {
+        SMS.Utils.$('#courseModalTitle').textContent = course ? 'Edit Course' : 'Add Course';
+        SMS.Utils.$('#courseIdInput').value = course ? course.id : '';
+        SMS.Utils.$('#courseCodeInput').value = course ? course.code : '';
+        SMS.Utils.$('#courseNameInput').value = course ? course.name : '';
+        SMS.Utils.$('#courseDescInput').value = course ? course.description || '' : '';
+        SMS.Utils.$('#courseSemesterInput').value = course ? course.semesterId : (semesters[0] ? semesters[0].id : '');
+        SMS.Utils.$('#courseTeacherInput').value = course ? course.teacherId || '' : (user && user.teacherId ? user.teacherId : '');
+        SMS.Utils.$('#courseStartDateInput').value = course ? course.startDate || '' : '';
+        SMS.Utils.$('#courseEndDateInput').value = course ? course.endDate || '' : '';
+        courseModal.style.display = 'flex';
+      };
+
+      const closeModal = () => {
+        courseModal.style.display = 'none';
+        courseForm.reset();
+      };
+
+      if (btnCreate) {
+        btnCreate.addEventListener('click', () => openModal());
+      }
+      SMS.Utils.$('#courseModalCloseBtn').addEventListener('click', closeModal);
+      SMS.Utils.$('#courseModalCancelBtn').addEventListener('click', closeModal);
+
+      courseForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = SMS.Utils.$('#courseIdInput').value;
+        const code = SMS.Utils.$('#courseCodeInput').value.trim();
+        const name = SMS.Utils.$('#courseNameInput').value.trim();
+        const description = SMS.Utils.$('#courseDescInput').value.trim();
+        const semesterId = SMS.Utils.$('#courseSemesterInput').value;
+        const teacherId = SMS.Utils.$('#courseTeacherInput').value || null;
+        const startDate = SMS.Utils.$('#courseStartDateInput').value;
+        const endDate = SMS.Utils.$('#courseEndDateInput').value;
+
+        try {
+          if (id) {
+            SMS.CourseService.updateCourse(id, { code, name, description, semesterId, teacherId, startDate, endDate });
+            SMS.Utils.showToast('success', 'Updated', 'Course updated successfully.');
+          } else {
+            SMS.CourseService.createCourse({ code, name, description, semesterId, teacherId, startDate, endDate });
+            SMS.Utils.showToast('success', 'Created', 'Course created with 12-week modular schedule.');
+          }
+          closeModal();
+          renderCourses();
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      });
+
+      const renderCourses = () => {
+        let allCourses = SMS.CourseService.getAllCourses();
+        const currentSemFilter = filterSemester ? filterSemester.value : 'all';
+        const query = (searchCourse ? searchCourse.value : '').toLowerCase().trim();
+
+        // If Teacher role, filter to their assigned courses unless Admin
+        if (SMS.Auth.isTeacher() && user.teacherId) {
+          allCourses = allCourses.filter(c => c.teacherId === user.teacherId);
+        } else if (SMS.Auth.isStudent() && user.studentId) {
+          const enrolled = SMS.CourseService.getStudentEnrolledCourses(user.studentId).map(e => e.course.id);
+          allCourses = allCourses.filter(c => enrolled.includes(c.id));
+        }
+
+        if (currentSemFilter !== 'all') {
+          allCourses = allCourses.filter(c => c.semesterId === currentSemFilter);
+        }
+
+        if (query) {
+          allCourses = allCourses.filter(c => c.name.toLowerCase().includes(query) || c.code.toLowerCase().includes(query));
+        }
+
+        if (allCourses.length === 0) {
+          coursesGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: #fff; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+              <i class="fa-solid fa-book" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+              <h3>No Courses Found</h3>
+              <p class="text-muted">No course matching your active filters or assigned role.</p>
+            </div>
+          `;
+          return;
+        }
+
+        coursesGrid.innerHTML = allCourses.map(course => {
+          const teacher = teachers.find(t => t.id === course.teacherId);
+          const semester = semesters.find(s => s.id === course.semesterId);
+          const enrolledStudents = SMS.CourseService.getStudentsInCourse(course.id);
+
+          return `
+            <div class="course-card">
+              <div class="course-card-header">
+                <div>
+                  <span class="course-code-badge">${SMS.Utils.escapeHTML(course.code)}</span>
+                  <h3 class="course-card-title">${SMS.Utils.escapeHTML(course.name)}</h3>
+                </div>
+                <div style="text-align: right;">
+                  <span class="badge badge-primary" style="font-size: 0.75rem;">12 Weeks</span>
+                </div>
+              </div>
+              <div class="course-card-body">
+                <p class="course-desc-text">${SMS.Utils.escapeHTML(course.description || 'No description provided.')}</p>
+
+                <div class="course-meta-row">
+                  <div class="course-meta-item">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span><strong>Teacher:</strong> ${teacher ? SMS.Utils.escapeHTML(teacher.name) : 'Unassigned'}</span>
+                  </div>
+                  <div class="course-meta-item">
+                    <i class="fa-solid fa-calendar-week"></i>
+                    <span><strong>Semester:</strong> ${semester ? SMS.Utils.escapeHTML(semester.name) : 'None'}</span>
+                  </div>
+                  <div class="course-meta-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span><strong>Enrolled:</strong> ${enrolledStudents.length} Students</span>
+                  </div>
+                </div>
+              </div>
+              <div class="course-card-footer">
+                <a href="course-detail.html?id=${course.id}" class="btn btn-primary btn-sm">
+                  <i class="fa-solid fa-folder-open"></i> View Weeks &amp; Content
+                </a>
+                <div>
+                  ${(SMS.Auth.isAdmin() || (SMS.Auth.isTeacher() && course.teacherId === user.teacherId)) ? `
+                    <button type="button" class="btn btn-icon btn-sm btn-edit-course" data-id="${course.id}" title="Edit Course">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                  ` : ''}
+                  ${SMS.Auth.isAdmin() ? `
+                    <button type="button" class="btn btn-icon btn-sm btn-delete-course" data-id="${course.id}" title="Delete Course" style="color: var(--danger);">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        SMS.Utils.$$('.btn-edit-course').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const crs = SMS.CourseService.getCourseById(btn.dataset.id);
+            if (crs) openModal(crs);
+          });
+        });
+
+        SMS.Utils.$$('.btn-delete-course').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const courseId = btn.dataset.id;
+            SMS.Utils.showConfirmModal({
+              title: 'Delete Course',
+              message: 'Are you sure you want to delete this course and its 12-week syllabus?',
+              confirmText: 'Delete',
+              confirmType: 'danger',
+              onConfirm: () => {
+                SMS.CourseService.deleteCourse(courseId);
+                SMS.Utils.showToast('success', 'Deleted', 'Course removed.');
+                renderCourses();
+              }
+            });
+          });
+        });
+      };
+
+      if (filterSemester) filterSemester.addEventListener('change', renderCourses);
+      if (searchCourse) searchCourse.addEventListener('input', SMS.Utils.debounce(renderCourses, 250));
+
+      renderCourses();
+    });
+  </script>
+</body>
+</html>

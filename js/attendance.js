@@ -615,6 +615,29 @@ SMS.Attendance = (() => {
     const saved = saveSession(sessionPayload);
     editingSessionId = null;
 
+    // Sync into Course Attendance for matching course if applicable
+    if (window.SMS && SMS.CourseService && SMS.AssessmentService) {
+      const allCourses = SMS.CourseService.getAllCourses();
+      // Try to find course matching subject code or name
+      const matchedCourse = allCourses.find(c => 
+        subject.toLowerCase().includes(c.code.toLowerCase()) || 
+        c.name.toLowerCase().includes(subject.toLowerCase()) ||
+        subject.toLowerCase().includes(c.name.toLowerCase())
+      ) || allCourses[0];
+
+      if (matchedCourse) {
+        records.forEach(r => {
+          SMS.AssessmentService.markAttendance({
+            courseId: matchedCourse.id,
+            studentId: r.studentId,
+            date: date,
+            status: r.status,
+            notes: r.notes || ''
+          });
+        });
+      }
+    }
+
     const saveBtn = SMS.Utils.$('#saveAttendanceBtn');
     if (saveBtn) {
       saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Attendance Session';

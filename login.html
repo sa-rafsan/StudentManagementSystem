@@ -89,11 +89,11 @@
       <form id="loginForm" novalidate>
         <div class="form-group" style="margin-bottom: 1.25rem;">
           <label for="loginEmail" class="form-label">
-            Email Address <span class="required">*</span>
+            Email Address or Student ID <span class="required">*</span>
           </label>
           <div class="input-with-icon">
             <i class="fa-regular fa-envelope"></i>
-            <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" required autocomplete="email">
+            <input type="text" id="loginEmail" class="form-control" placeholder="e.g. student@example.com or STU-2024-001" required autocomplete="username">
           </div>
           <div class="invalid-feedback"></div>
         </div>
@@ -170,7 +170,7 @@
 
       document.getElementById('fillStudentBtn').addEventListener('click', () => {
         emailInput.value = 'student@example.com';
-        passInput.value = 'Student@123';
+        passInput.value = '12345';
         SMS.Validation.clearFieldState(emailInput);
         SMS.Validation.clearFieldState(passInput);
       });
@@ -192,10 +192,7 @@
         let hasError = false;
 
         if (!email) {
-          SMS.Validation.setFieldState(emailInput, false, 'Email is required.');
-          hasError = true;
-        } else if (!SMS.Validation.isValidEmail(email)) {
-          SMS.Validation.setFieldState(emailInput, false, 'Invalid email format.');
+          SMS.Validation.setFieldState(emailInput, false, 'Email address or Student ID is required.');
           hasError = true;
         } else {
           SMS.Validation.clearFieldState(emailInput);

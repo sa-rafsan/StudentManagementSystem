@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Details &amp; 12 Weeks - EduMetrics SMS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/courses.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduMetrics</span>
+        </a>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-title">Main Menu</div>
+          <ul class="sidebar-nav">
+            <li>
+              <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="semesters.html" class="sidebar-link" id="navLinkSemesters">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span>Semesters</span>
+              </a>
+            </li>
+            <li>
+              <a href="courses.html" class="sidebar-link active" id="navLinkCourses">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Courses</span>
+              </a>
+            </li>
+            <li>
+              <a href="assessments.html" class="sidebar-link" id="navLinkAssessments">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Assignments &amp; Quizzes</span>
+              </a>
+            </li>
+            <li>
+              <a href="results.html" class="sidebar-link" id="navLinkResults">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+              </a>
+            </li>
+            <li>
+              <a href="students.html" class="sidebar-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="add-student.html" class="sidebar-link" id="navLinkAddStudent">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+              </a>
+            </li>
+            <li>
+              <a href="attendance.html" class="sidebar-link" id="navLinkAttendance">
+                <i class="fa-solid fa-clipboard-user"></i>
+                <span>Attendance</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="sidebar-link" id="navLinkSettings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings &amp; Data</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUserName">Administrator</div>
+            <div class="user-role-badge" id="sidebarUserRole">Admin Account</div>
+          </div>
+          <button class="logout-icon-btn btn-logout" title="Sign Out" aria-label="Sign Out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="breadcrumb-title" id="courseBreadcrumbTitle">Course Details</h1>
+            <span class="breadcrumb-sub">12-Week Curriculum, Assessment Phases &amp; Materials</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="courses.html" class="btn btn-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left"></i> Back to Courses
+          </a>
+          <button class="btn btn-secondary btn-sm btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="page-container">
+        <!-- Course Profile Hero -->
+        <div class="card" style="margin-bottom: 1.5rem; border-left: 5px solid var(--primary);">
+          <div class="card-body" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span class="course-code-badge" id="courseDetailCode">CSE-301</span>
+                <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-top: 0.25rem;" id="courseDetailName">Data Structures and Algorithms</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem; max-width: 800px;" id="courseDetailDesc">Course description loading...</p>
+              </div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <a href="#" id="viewCourseAssessmentsBtn" class="btn btn-primary">
+                  <i class="fa-solid fa-pen-ruler"></i> View Assessments &amp; Quizzes
+                </a>
+                <button type="button" class="btn btn-secondary" id="btnManageEnrollment" style="display: none;">
+                  <i class="fa-solid fa-user-plus"></i> Enroll Students
+                </button>
+              </div>
+            </div>
+
+            <div class="course-meta-row" style="margin-top: 1.25rem; padding-top: 1rem;">
+              <div class="course-meta-item">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <span><strong>Instructor:</strong> <span id="courseDetailTeacher">Prof. Alan Turing</span></span>
+              </div>
+              <div class="course-meta-item">
+                <i class="fa-solid fa-calendar-week"></i>
+                <span><strong>Semester:</strong> <span id="courseDetailSemester">Fall 2026</span></span>
+              </div>
+              <div class="course-meta-item">
+                <i class="fa-solid fa-clock"></i>
+                <span><strong>Schedule:</strong> 12 Weeks (4 Assessment Phases)</span>
+              </div>
+              <div class="course-meta-item">
+                <i class="fa-solid fa-users"></i>
+                <span><strong>Enrolled:</strong> <span id="courseDetailEnrolled">0</span> Students</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Attendance Status Check (Shown for students) -->
+        <div id="studentCourseEligibilityBanner" style="display: none;">
+          <!-- Dynamically inserted eligibility alert -->
+        </div>
+
+        <!-- 4 Assessment Phases Overview Grid -->
+        <div class="assessment-phase-banner">
+          <div class="phase-summary-card phase-1">
+            <span class="phase-title">Phase 01 &bull; Weeks 1–3</span>
+            <span class="phase-sub">Assignment 01 + Quiz 01</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Foundational theories &amp; principles</span>
+          </div>
+          <div class="phase-summary-card phase-2">
+            <span class="phase-title">Phase 02 &bull; Weeks 4–6</span>
+            <span class="phase-sub">Assignment 02 + Quiz 02</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Core architectures &amp; design patterns</span>
+          </div>
+          <div class="phase-summary-card phase-3">
+            <span class="phase-title">Phase 03 &bull; Weeks 7–9</span>
+            <span class="phase-sub">Assignment 03 + Quiz 03</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Advanced implementations &amp; analysis</span>
+          </div>
+          <div class="phase-summary-card phase-4">
+            <span class="phase-title">Phase 04 &bull; Weeks 10–12</span>
+            <span class="phase-sub">Assignment 04 + Quiz 04</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Final evaluations &amp; synthesis</span>
+          </div>
+        </div>
+
+        <!-- 12-Week Syllabus Modules Container -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; margin-bottom: 0.5rem;">
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">
+            <i class="fa-solid fa-list-ol" style="color: var(--primary);"></i> 12-Week Learning Modules
+          </h3>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Click on any week to view topics, slides, and learning resources</span>
+        </div>
+
+        <div id="weeksAccordion" class="weeks-container">
+          <!-- 12 Weeks rendered dynamically -->
+        </div>
+
+        <!-- Enrolled Students Section for Admin & Teacher -->
+        <div id="enrolledStudentsSection" class="card" style="margin-top: 2rem;">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h3 class="card-title"><i class="fa-solid fa-user-graduate" style="color: var(--primary);"></i> Enrolled Students in this Course</h3>
+              <p class="card-subtitle">Admin controls student enrollment; teachers can monitor student rosters.</p>
+            </div>
+            <div id="adminEnrollHeaderBtnContainer"></div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Student ID</th>
+                  <th>Email</th>
+                  <th>Enrolled Date</th>
+                  <th>Attendance %</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="enrolledStudentsTbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Edit Week Topic & Materials Modal (Teacher & Admin) -->
+  <div class="modal-backdrop" id="editWeekModal" style="display: none;">
+    <div class="modal" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="weekModalTitle">Edit Week Content</h3>
+        <button type="button" class="modal-close-btn" id="weekModalCloseBtn">&times;</button>
+      </div>
+      <form id="weekForm">
+        <input type="hidden" id="editWeekIdInput">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="weekTitleInput">Weekly Topic Title <span class="required">*</span></label>
+            <input type="text" id="weekTitleInput" class="form-control" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="weekDescInput">Description &amp; Syllabus Notes</label>
+            <textarea id="weekDescInput" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="weekMaterialsInput">Learning Materials (one per line)</label>
+            <textarea id="weekMaterialsInput" class="form-control" rows="3" placeholder="Lecture 01 Slides.pdf&#10;Lab Manual Chapter 1"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="weekResourcesInput">External Resources / Links (one per line)</label>
+            <textarea id="weekResourcesInput" class="form-control" rows="2" placeholder="https://example.com/docs"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="weekModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Week</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Enroll Student Modal (Admin) -->
+  <div class="modal-backdrop" id="enrollModal" style="display: none;">
+    <div class="modal" style="max-width: 550px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Enroll Student in Course</h3>
+        <button type="button" class="modal-close-btn" id="enrollModalCloseBtn">&times;</button>
+      </div>
+      <form id="enrollForm">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label class="form-label" for="selectStudentEnroll">Select Student <span class="required">*</span></label>
+            <select id="selectStudentEnroll" class="form-control" required>
+              <!-- Students -->
+            </select>
+          </div>
+          <p class="text-muted" style="font-size: 0.85rem;">Enrolling a student links them to this course and allows taking attendance and recording assessment grades.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="enrollModalCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Enroll Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/course-service.js"></script>
+  <script src="js/assessment-service.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = SMS.Auth.getCurrentUser();
+      const courseId = SMS.Utils.getUrlParam('id') || 'CRS-001';
+      const course = SMS.CourseService.getCourseById(courseId);
+
+      if (!course) {
+        SMS.Utils.showToast('error', 'Course Not Found', 'The requested course does not exist.');
+        setTimeout(() => window.location.href = 'courses.html', 1500);
+        return;
+      }
+
+      // Populate Hero Profile
+      const semester = SMS.CourseService.getSemesterById(course.semesterId);
+      const teacher = SMS.CourseService.getTeacherById(course.teacherId);
+      const enrolledStudents = SMS.CourseService.getStudentsInCourse(course.id);
+
+      SMS.Utils.$('#courseDetailCode').textContent = course.code;
+      SMS.Utils.$('#courseDetailName').textContent = course.name;
+      SMS.Utils.$('#courseBreadcrumbTitle').textContent = `${course.code}: ${course.name}`;
+      SMS.Utils.$('#courseDetailDesc').textContent = course.description || 'No description provided.';
+      SMS.Utils.$('#courseDetailTeacher').textContent = teacher ? teacher.name : 'Unassigned';
+      SMS.Utils.$('#courseDetailSemester').textContent = semester ? semester.name : 'Unassigned';
+      SMS.Utils.$('#courseDetailEnrolled').textContent = enrolledStudents.length;
+
+      const assessBtn = SMS.Utils.$('#viewCourseAssessmentsBtn');
+      if (assessBtn) {
+        assessBtn.href = `assessments.html?course=${course.id}`;
+      }
+
+      // Admin Enroll button
+      const enrollBtn = SMS.Utils.$('#btnManageEnrollment');
+      const enrollModal = SMS.Utils.$('#enrollModal');
+      const enrollForm = SMS.Utils.$('#enrollForm');
+      const selectStudent = SMS.Utils.$('#selectStudentEnroll');
+
+      if (SMS.Auth.isAdmin() && enrollBtn) {
+        enrollBtn.style.display = 'inline-flex';
+        enrollBtn.addEventListener('click', () => {
+          const allStudents = SMS.StudentService ? SMS.StudentService.getAll() : SMS.Storage.getCollection(SMS.Storage.KEYS.STUDENTS);
+          const enrolledIds = enrolledStudents.map(e => e.student.id);
+          const available = allStudents.filter(s => !enrolledIds.includes(s.id));
+
+          if (available.length === 0) {
+            selectStudent.innerHTML = '<option value="">All students already enrolled</option>';
+          } else {
+            selectStudent.innerHTML = available.map(s => `
+              <option value="${s.id}">${SMS.Utils.escapeHTML(s.fullName)} (${s.id})</option>
+            `).join('');
+          }
+          enrollModal.style.display = 'flex';
+        });
+      }
+
+      SMS.Utils.$('#enrollModalCloseBtn').addEventListener('click', () => enrollModal.style.display = 'none');
+      SMS.Utils.$('#enrollModalCancelBtn').addEventListener('click', () => enrollModal.style.display = 'none');
+
+      enrollForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const studentId = selectStudent.value;
+        if (!studentId) return;
+        try {
+          SMS.CourseService.enrollStudent(studentId, course.id);
+          SMS.Utils.showToast('success', 'Enrolled', 'Student successfully enrolled in course.');
+          enrollModal.style.display = 'none';
+          setTimeout(() => window.location.reload(), 1000);
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      });
+
+      // Attendance check for Students
+      const eligibilityBanner = SMS.Utils.$('#studentCourseEligibilityBanner');
+      if (SMS.Auth.isStudent() && user.studentId && eligibilityBanner) {
+        eligibilityBanner.style.display = 'block';
+        const attStats = SMS.AssessmentService.getCourseAttendanceStats(course.id, user.studentId);
+        if (attStats.isRestricted) {
+          eligibilityBanner.innerHTML = `
+            <div class="eligibility-callout restricted">
+              <i class="fa-solid fa-triangle-exclamation eligibility-icon"></i>
+              <div>
+                <strong>Assessment Participation Restricted:</strong> Attendance is currently ${attStats.percentage}%, which is below the mandatory 70% threshold (${attStats.presentClasses} of ${attStats.totalClasses} classes attended). You cannot submit assignments or attempt quizzes until attendance requirements are satisfied.
+              </div>
+            </div>
+          `;
+        } else {
+          eligibilityBanner.innerHTML = `
+            <div class="eligibility-callout eligible">
+              <i class="fa-solid fa-circle-check eligibility-icon"></i>
+              <div>
+                <strong>Assessment Eligible:</strong> Your attendance is ${attStats.percentage}% (${attStats.presentClasses} of ${attStats.totalClasses} classes attended). You meet the minimum 70% attendance threshold to participate in assignments and quizzes.
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // Render 12 Weeks
+      const weeksAccordion = SMS.Utils.$('#weeksAccordion');
+      const editWeekModal = SMS.Utils.$('#editWeekModal');
+      const weekForm = SMS.Utils.$('#weekForm');
+
+      const renderWeeks = () => {
+        const weeks = SMS.CourseService.getWeeksByCourse(course.id);
+        const canEdit = SMS.Auth.isAdmin() || (SMS.Auth.isTeacher() && course.teacherId === user.teacherId);
+
+        weeksAccordion.innerHTML = weeks.map((w, idx) => {
+          const isPhaseReview = (w.weekNumber % 3 === 0);
+          const phaseNum = Math.ceil(w.weekNumber / 3);
+
+          const materials = Array.isArray(w.learningMaterials) ? w.learningMaterials : [];
+          const resources = Array.isArray(w.resources) ? w.resources : [];
+
+          return `
+            <div class="week-card ${isPhaseReview ? 'phase-review' : ''}" data-week-id="${w.id}">
+              <div class="week-header">
+                <div class="week-title-wrap">
+                  <span class="week-badge phase-${phaseNum}">Week ${String(w.weekNumber).padStart(2, '0')}</span>
+                  <span style="font-weight: 700; color: var(--text-main); font-size: 0.98rem;">${SMS.Utils.escapeHTML(w.title)}</span>
+                  ${isPhaseReview ? `<span class="badge badge-warning" style="font-size: 0.72rem;"><i class="fa-solid fa-bell"></i> Phase 0${phaseNum} Assessment Due</span>` : ''}
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  ${canEdit ? `
+                    <button type="button" class="btn btn-icon btn-sm btn-edit-week" data-id="${w.id}" title="Edit Week Topic &amp; Materials">
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
+                  ` : ''}
+                  <i class="fa-solid fa-chevron-down week-toggle-icon" style="color: var(--text-muted); transition: transform 0.2s;"></i>
+                </div>
+              </div>
+              <div class="week-body">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.85rem;">
+                  ${SMS.Utils.escapeHTML(w.description || 'No detailed weekly notes provided.')}
+                </p>
+
+                <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 1rem;">
+                  <i class="fa-regular fa-file-pdf" style="color: var(--danger);"></i> Learning Materials &amp; Lecture Slides:
+                </h4>
+                <ul class="week-materials-list">
+                  ${materials.length > 0 ? materials.map(m => `
+                    <li class="week-materials-item">
+                      <i class="fa-solid fa-file-lines" style="color: var(--primary);"></i>
+                      <span>${SMS.Utils.escapeHTML(m)}</span>
+                    </li>
+                  `).join('') : '<li class="text-muted" style="font-size: 0.82rem;">No materials uploaded yet.</li>'}
+                </ul>
+
+                <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 1rem;">
+                  <i class="fa-solid fa-link" style="color: var(--info);"></i> External References:
+                </h4>
+                <ul class="week-materials-list">
+                  ${resources.length > 0 ? resources.map(r => `
+                    <li class="week-materials-item">
+                      <i class="fa-solid fa-arrow-up-right-from-square" style="color: var(--secondary);"></i>
+                      <a href="${SMS.Utils.escapeHTML(r)}" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">
+                        ${SMS.Utils.escapeHTML(r)}
+                      </a>
+                    </li>
+                  `).join('') : '<li class="text-muted" style="font-size: 0.82rem;">No references listed.</li>'}
+                </ul>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Expand/Collapse toggle
+        SMS.Utils.$$('.week-header').forEach(header => {
+          header.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-edit-week')) return;
+            const card = header.closest('.week-card');
+            card.classList.toggle('expanded');
+            const icon = header.querySelector('.week-toggle-icon');
+            if (icon) {
+              icon.style.transform = card.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+          });
+        });
+
+        // Edit week handler
+        SMS.Utils.$$('.btn-edit-week').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const weekId = btn.dataset.id;
+            const weeks = SMS.CourseService.getWeeksByCourse(course.id);
+            const w = weeks.find(item => item.id === weekId);
+            if (!w) return;
+
+            SMS.Utils.$('#editWeekIdInput').value = w.id;
+            SMS.Utils.$('#weekModalTitle').textContent = `Edit Week ${String(w.weekNumber).padStart(2, '0')}`;
+            SMS.Utils.$('#weekTitleInput').value = w.title;
+            SMS.Utils.$('#weekDescInput').value = w.description || '';
+            SMS.Utils.$('#weekMaterialsInput').value = Array.isArray(w.learningMaterials) ? w.learningMaterials.join('\n') : '';
+            SMS.Utils.$('#weekResourcesInput').value = Array.isArray(w.resources) ? w.resources.join('\n') : '';
+            editWeekModal.style.display = 'flex';
+          });
+        });
+      };
+
+      SMS.Utils.$('#weekModalCloseBtn').addEventListener('click', () => editWeekModal.style.display = 'none');
+      SMS.Utils.$('#weekModalCancelBtn').addEventListener('click', () => editWeekModal.style.display = 'none');
+
+      weekForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const weekId = SMS.Utils.$('#editWeekIdInput').value;
+        const title = SMS.Utils.$('#weekTitleInput').value.trim();
+        const description = SMS.Utils.$('#weekDescInput').value.trim();
+        const materialsText = SMS.Utils.$('#weekMaterialsInput').value.trim();
+        const resourcesText = SMS.Utils.$('#weekResourcesInput').value.trim();
+
+        const learningMaterials = materialsText ? materialsText.split('\n').map(s => s.trim()).filter(Boolean) : [];
+        const resources = resourcesText ? resourcesText.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+        try {
+          SMS.CourseService.updateWeekContent(weekId, { title, description, learningMaterials, resources });
+          SMS.Utils.showToast('success', 'Updated', 'Week materials and syllabus updated.');
+          editWeekModal.style.display = 'none';
+          renderWeeks();
+        } catch (err) {
+          SMS.Utils.showToast('error', 'Error', err.message);
+        }
+      });
+
+      renderWeeks();
+
+      // Render enrolled students table
+      const renderEnrolledTable = () => {
+        const enrolledStudents = SMS.CourseService.getStudentsInCourse(course.id);
+        const tbody = SMS.Utils.$('#enrolledStudentsTbody');
+        if (!tbody) return;
+
+        if (enrolledStudents.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;" class="text-muted">No students currently enrolled in this course.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = enrolledStudents.map(item => {
+          const s = item.student;
+          const att = SMS.AssessmentService.getCourseAttendanceStats(course.id, s.id);
+          return `
+            <tr>
+              <td>
+                <strong>${SMS.Utils.escapeHTML(s.fullName)}</strong>
+              </td>
+              <td><code>${s.id}</code></td>
+              <td>${SMS.Utils.escapeHTML(s.email)}</td>
+              <td>${SMS.Utils.formatDate(item.enrolledAt)}</td>
+              <td>
+                <span style="font-weight: 700; color: ${att.isRestricted ? 'var(--danger)' : 'var(--success)'};">${att.percentage}%</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">(${att.presentClasses}/${att.totalClasses})</span>
+              </td>
+              <td>
+                ${SMS.Auth.isAdmin() ? `
+                  <button type="button" class="btn btn-sm btn-icon btn-unenroll" data-id="${item.enrollmentId}" style="color: var(--danger);" title="Unenroll Student">
+                    <i class="fa-solid fa-user-minus"></i>
+                  </button>
+                ` : '-'}
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        SMS.Utils.$$('.btn-unenroll').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const enrId = btn.dataset.id;
+            SMS.Utils.showConfirmModal({
+              title: 'Unenroll Student',
+              message: 'Are you sure you want to remove this student from this course?',
+              confirmText: 'Unenroll',
+              confirmType: 'danger',
+              onConfirm: () => {
+                SMS.CourseService.unenrollStudent(enrId);
+                SMS.Utils.showToast('success', 'Unenrolled', 'Student removed from course.');
+                renderEnrolledTable();
+                SMS.Utils.$('#courseDetailEnrolled').textContent = SMS.CourseService.getStudentsInCourse(course.id).length;
+              }
+            });
+          });
+        });
+      };
+
+      renderEnrolledTable();
+    });
+  </script>
+</body>
+</html>
